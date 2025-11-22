@@ -283,27 +283,34 @@
     <!-- Custom Cursor Element -->
 
 <!-- Responsive Navbar -->
-   <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative">
-        <div class="navo-logo pl-2">
-            <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
-                <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-            </a>
-        </div>
-        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px]">
-            <a href="projects.html" class="hover:text-orange-400 transition-colors">Work</a>
-            <a href="about.html" class="hover:text-orange-400 transition-colors">About</a>
-            <a href="#" class="hover:text-orange-400 transition-colors">Resume</a>
-            <a href="contact.html" class="text-orange-400">Contact</a>
-        </div>
-        <div class="hamburger md:hidden pr-3" id="hamburger"><i class="ri-menu-line text-2xl"></i></div>
-        <div class="mobile-menu md:hidden w-full" id="mobileMenu">
-            <a href="projects.html" class="block py-3 px-5 lato-bold">Work</a>
-            <a href="about.html" class="block py-3 px-5 lato-bold">About</a>
-            <a href="#" class="block py-3 px-5 lato-bold">Resume</a>
-            <a href="contact.html" class="block py-3 px-5 lato-bold text-orange-400">Contact</a>
-        </div>
-    </nav>
+<nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative">
+    <div class="navo-logo pl-2">
+        <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
+            <i class="ri-gemini-fill text-orange-400"></i> Pstarz
+        </a>
+    </div>
 
+    <!-- Desktop Navigation -->
+    <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px] font-regular">
+        <a href="projects.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing">Resume</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <div class="hamburger md:hidden pr-3" id="hamburger">
+        <i class="ri-menu-line text-2xl"></i>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu md:hidden w-full" id="mobileMenu">
+        <a href="projects.html" class="block py-3 px-5">Work</a>
+        <a href="about.html" class="block py-3 px-5">About</a>
+        <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" class="block py-3 px-5">Resume</a>
+        <a href="contact.html" class="block py-3 px-5">Contact</a>
+    </div>
+</nav>
     <!-- Projects Header Section -->
     <div class="container mx-auto px-4 py-16 md:py-24">
         <div class="max-w-3xl mx-auto text-center mb-16">
@@ -849,6 +856,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
