@@ -32,24 +32,29 @@
 
 <body class="overflow-x-hidden bg-white">
     
-    <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative">
+<nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white">
         <div class="navo-logo pl-2">
             <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
                 <i class="ri-gemini-fill text-orange-400"></i> Pstarz
             </a>
         </div>
+
         <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px]">
             <a href="projects.html" class="hover:text-orange-400 transition-colors">Work</a>
             <a href="about.html" class="hover:text-orange-400 transition-colors">About</a>
             <a href="#" class="hover:text-orange-400 transition-colors">Resume</a>
             <a href="contact.html" class="text-orange-400">Contact</a>
         </div>
-        <div class="hamburger md:hidden pr-3" id="hamburger"><i class="ri-menu-line text-2xl"></i></div>
-        <div class="mobile-menu md:hidden w-full" id="mobileMenu">
-            <a href="projects.html" class="block py-3 px-5 lato-bold">Work</a>
-            <a href="about.html" class="block py-3 px-5 lato-bold">About</a>
-            <a href="#" class="block py-3 px-5 lato-bold">Resume</a>
-            <a href="contact.html" class="block py-3 px-5 lato-bold text-orange-400">Contact</a>
+
+        <div class="hamburger md:hidden pr-3 cursor-pointer" id="hamburger">
+            <i class="ri-menu-line text-2xl"></i>
+        </div>
+
+        <div class="mobile-menu md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-100 z-40" id="mobileMenu">
+            <a href="projects.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">Work</a>
+            <a href="about.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">About</a>
+            <a href="#" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">Resume</a>
+            <a href="contact.html" class="block py-4 px-5 lato-bold text-orange-400 hover:bg-gray-50 transition-colors">Contact</a>
         </div>
     </nav>
 
@@ -206,4 +211,5 @@
         });
     </script>
 </body>
+
 </html>
