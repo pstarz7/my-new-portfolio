@@ -16,7 +16,8 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
         html, body { height: 100%; font-family: 'Segoe UI', sans-serif; }
@@ -27,12 +28,16 @@
         .lato-regular { font-family: "Lato", sans-serif; font-weight: 400; }
         .lato-bold { font-family: "Lato", sans-serif; font-weight: 700; }
         .lato-black { font-family: "Lato", sans-serif; font-weight: 900; }
+        
+        /* Serif font for the quote */
+        .quote-font { font-family: "Playfair Display", serif; }
 
         /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #ffffff; z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            gap: 24px;
         }
         #loader-icon {
             font-size: 3rem; color: #fb923c;
@@ -48,7 +53,6 @@
             background-image: url('/images/bnr4.jpg');
             background-position: bottom;
             background-size: cover;
-            /* Parallax effect managed by GSAP later, simplified CSS here */
         }
 
         /* --- NAVBAR --- */
@@ -65,7 +69,6 @@
             border-radius: 12px;
             overflow: hidden;
             background: white;
-            /* Smoother transforms */
             will-change: transform;
             transform: translateZ(0); 
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
@@ -75,7 +78,7 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
         
-        /* New Service Card Styles */
+        /* Service Card Styles */
         .service-card {
             transition: all 0.3s ease;
             border: 1px solid #f3f4f6;
@@ -99,7 +102,7 @@
         .horizontal-scroll-container {
             display: flex;
             gap: 2rem;
-            width: max-content; /* Important for horizontal GSAP scroll */
+            width: max-content; 
         }
     </style>
 </head>
@@ -108,6 +111,14 @@
 
     <div id="preloader">
         <i id="loader-icon" class="ri-gemini-fill"></i>
+        <div class="text-center px-6 max-w-lg">
+            <p class="quote-font text-2xl md:text-3xl text-gray-900 leading-snug italic opacity-0 translate-y-4" id="quote-text">
+                "I have no special talent. I am only passionately curious."
+            </p>
+            <span class="text-sm font-bold text-orange-500 mt-4 block uppercase tracking-widest opacity-0 translate-y-4" id="quote-author">
+                — Albert Einstein
+            </span>
+        </div>
     </div>
 
     <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white">
@@ -249,12 +260,12 @@
 
     <div class="bg-gray-50 py-20 px-4">
         <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 gap-6 lg:gap-0">
                 <h2 class="text-4xl md:text-5xl font-bold lato-black leading-tight anim-reveal">Beyond Just<br>Coding.</h2>
-                <p class="text-gray-500 max-w-sm mt-4 md:mt-0 text-right md:text-left anim-reveal">I bring a blend of technical expertise and creative design to every project.</p>
+                <p class="text-gray-500 max-w-sm text-left lg:text-right anim-reveal">I bring a blend of technical expertise and creative design to every project.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="service-card p-8 rounded-2xl bg-white anim-card">
                     <i class="ri-layout-masonry-fill text-4xl text-black mb-6"></i>
                     <h3 class="text-2xl font-bold mb-3 lato-bold">UI Development</h3>
@@ -268,7 +279,7 @@
                 <div class="service-card p-8 rounded-2xl bg-white anim-card">
                     <i class="ri-rocket-2-fill text-4xl text-black mb-6"></i>
                     <h3 class="text-2xl font-bold mb-3 lato-bold">Full-Stack Integration</h3>
-                    <p class="text-gray-500 leading-relaxed text-sm">Connecting frontends to backends (Node.js, Firebase) for fully functional applications.</p>
+                    <p class="text-gray-500 leading-relaxed text-sm">Connecting frontend applications with backend services (Node.js, Firebase), with foundational knowledge in backend development.</p>
                 </div>
             </div>
         </div>
@@ -300,7 +311,6 @@
         <div class="container mx-auto px-4 mb-10">
             <h2 class="text-4xl font-bold lato-bold">More Projects</h2>
         </div>
-        
         <div class="relative w-full overflow-hidden">
             <div class="horizontal-scroll-container pl-4" id="project-scroll-track">
                 
@@ -333,7 +343,7 @@
                         <img src="/images/sanimx-gsap.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
                         <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                     </div>
-                    <h3 class="text-xl font-bold lato-bold">GSAP Animation Lib</h3>
+                    <h3 class="text-xl font-bold lato-bold">GSAP Animation Library</h3>
                 </a>
 
                 <a href="https://my-portfolio-pb7.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
@@ -424,11 +434,29 @@
     </footer>
 
     <script>
-        // 1. Preloader
+        // 1. Preloader Logic (4 Seconds Total)
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            gsap.to(preloader, {
-                duration: 1, opacity: 0, ease: 'power2.inOut',
+            const quoteText = document.getElementById('quote-text');
+            const quoteAuthor = document.getElementById('quote-author');
+
+            // Timeline for precise control
+            const tl = gsap.timeline();
+
+            // Animate Quote IN
+            tl.to([quoteText, quoteAuthor], { 
+                opacity: 1, 
+                y: 0, 
+                duration: 1, 
+                ease: 'power2.out', 
+                stagger: 0.3 
+            })
+            // Wait (Delay) -> Change '3.5' below to adjust time (3.5s wait + 0.5s anim = 4s)
+            .to(preloader, {
+                y: '-100%', // Slide Up "Curtain" Effect
+                duration: 1,
+                ease: 'power4.inOut',
+                delay: 2.5, 
                 onComplete: () => preloader.style.display = 'none'
             });
         });
@@ -439,8 +467,8 @@
         // 3. Register ScrollTrigger
         gsap.registerPlugin(ScrollTrigger);
 
-        // 4. Hero Animation
-        gsap.from(".anim-hero", { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", delay: 0.5 });
+        // 4. Hero Animation (Delayed to start after Preloader)
+        gsap.from(".anim-hero", { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", delay: 4.5 }); 
         gsap.from(".anim-reveal", { 
             scrollTrigger: { trigger: ".anim-reveal", start: "top 85%" },
             y: 50, opacity: 0, duration: 1, ease: "power2.out", stagger: 0.2
@@ -455,47 +483,32 @@
         });
         gsap.set(".anim-card", { y: 60, opacity: 0 });
 
-        // 6. Marquee Animation (Tech Stack)
+        // 6. Marquee Animation
         const track = document.getElementById('marquee-track');
         gsap.to(track, {
             xPercent: -50, repeat: -1, duration: 20, ease: "none"
         });
 
-        // 7. Horizontal Scroll Project Section (The smooth replacement for the old Marquee)
+        // 7. Horizontal Scroll
         const scrollContainer = document.getElementById("project-scroll-track");
-        
-        // This calculates how far to scroll left based on content width
         function getScrollAmount() {
             let containerWidth = scrollContainer.scrollWidth;
             return -(containerWidth - window.innerWidth);
         }
-
-        const tween = gsap.to(scrollContainer, {
+        gsap.to(scrollContainer, {
             x: () => getScrollAmount(),
             duration: 3,
             ease: "none",
             scrollTrigger: {
                 trigger: ".horizontal-scroll-container",
-                start: "top 80%", // Start animating when section hits bottom of screen
-                end: () => `+=${getScrollAmount() * -1}`, // Scroll distance
-                scrub: 1, // Smooth scrubbing effect linked to scrollbar
+                start: "top 80%", 
+                end: () => `+=${getScrollAmount() * -1}`, 
+                scrub: 1, 
                 invalidateOnRefresh: true,
             }
         });
-        
-        // AUTO SCROLL if user is not scrolling (Optional Aesthetic touch)
-        gsap.to(scrollContainer, {
-            x: "-=100", // Slowly move left automatically
-            repeat: -1,
-            duration: 5,
-            ease: "none",
-            // We disable this if we want pure scroll control, 
-            // but for now, let's stick to the scrollTrigger scrub above for best UX.
-            overwrite: true 
-        });
 
-
-        // 8. Mobile Menu Logic (Fixed)
+        // 8. Mobile Menu Logic
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById('hamburger');
             const mobileMenu = document.getElementById('mobileMenu');
