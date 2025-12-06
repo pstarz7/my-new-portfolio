@@ -5,306 +5,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Papu Badatya</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Bebas+Neue&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
     <style>
-        html,
-        body {
-            height: 100%;
-        }
+        html, body { height: 100%; font-family: 'Segoe UI', sans-serif; }
 
-        /* --- PRELOADER CSS --- */
+        /* Typography Classes */
+        .lobster-regular { font-family: "Lobster", sans-serif; font-weight: 400; }
+        .bebas-neue-regular { font-family: "Bebas Neue", sans-serif; font-weight: 400; }
+        .lato-regular { font-family: "Lato", sans-serif; font-weight: 400; }
+        .lato-bold { font-family: "Lato", sans-serif; font-weight: 700; }
+        .lato-black { font-family: "Lato", sans-serif; font-weight: 900; }
+
+        /* --- PRELOADER --- */
         #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #1a1a1a;
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #ffffff; z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
         }
-
         #loader-icon {
-            font-size: 3rem;
-            /* 48px */
-            color: #fb923c;
-            /* orange-400 */
-            animation: pulse 2s infinite ease-in-out;
+            font-size: 3rem; color: #fb923c;
+            animation: pulse 1.5s infinite ease-in-out;
         }
-
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.6; }
         }
 
-        /* --- END PRELOADER CSS --- */
-
-
+        /* --- HERO BANNER --- */
         .hero-banner-img {
-            background-image: url(/images/bnr4.jpg);
+            background-image: url('/images/bnr4.jpg');
             background-position: bottom;
             background-size: cover;
+            /* Parallax effect managed by GSAP later, simplified CSS here */
         }
 
-
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .lobster-regular {
-            font-family: "Lobster", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .bebas-neue-regular {
-            font-family: "Bebas Neue", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .lato-regular {
-            font-family: "Lato", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .lato-bold {
-            font-family: "Lato", sans-serif;
-            font-weight: 700;
-            font-style: normal;
-        }
-
-        .lato-black {
-            font-family: "Lato", sans-serif;
-            font-weight: 900;
-            font-style: normal;
-        }
-
-        /* Navbar styles */
-        .nav-links {
-            transition: all 0.3s ease;
-        }
-
+        /* --- NAVBAR --- */
         .mobile-menu {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
+            max-height: 0; overflow: hidden; opacity: 0;
+            transition: all 0.4s ease-in-out; visibility: hidden;
         }
-
         .mobile-menu.open {
-            max-height: 300px;
+            max-height: 400px; opacity: 1; visibility: visible;
         }
 
-        .hamburger {
-            display: none;
-            cursor: pointer;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 1024px) {
-            .hero-banner-img h1 {
-                font-size: 80px;
-                line-height: 1.2;
-            }
-
-            .intro-text {
-                width: 80% !important;
-                font-size: 32px !important;
-            }
-
-            .project-card {
-                width: 45% !important;
-                margin-bottom: 30px;
-            }
-
-            .large-card {
-                width: 90% !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-banner-img h1 {
-                font-size: 60px;
-            }
-
-            .intro-text {
-                width: 90% !important;
-                font-size: 28px !important;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            .project-section {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .project-card {
-                width: 90% !important;
-            }
-
-            .projects-title {
-                font-size: 32px !important;
-                padding-left: 20px !important;
-            }
-
-            .mobile-menu {
-                position: absolute;
-                top: 55px;
-                left: 0;
-                right: 0;
-                background-color: white;
-                z-index: 100;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-
-            .mobile-menu a {
-                display: block;
-                padding: 15px 20px;
-                text-align: center;
-                border-bottom: 1px solid #f3f4f6;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-banner-img h1 {
-                font-size: 48px;
-                line-height: 1.1;
-            }
-
-            .intro-text {
-                width: 95% !important;
-                font-size: 24px !important;
-            }
-
-            .projects-title {
-                font-size: 28px !important;
-            }
-
-            .project-card h4 {
-                font-size: 18px !important;
-            }
-
-            .project-card p {
-                font-size: 14px !important;
-            }
-        }
-
-        .marquee-container {
-            height: 50px;
-            position: relative;
+        /* --- PROJECT CARDS --- */
+        .project-card {
+            border-radius: 12px;
             overflow: hidden;
-        }
-
-        .marquee-container::before,
-        .marquee-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 700px;
-            height: 100%;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .marquee-container::before {
-            left: 0;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        .marquee-container::after {
-            right: 0;
-            background: linear-gradient(270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        .marquee-track {
-            display: flex;
-            position: absolute;
-            height: 100%;
-            align-items: center;
+            background: white;
+            /* Smoother transforms */
             will-change: transform;
+            transform: translateZ(0); 
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
         }
-
-        .marquee-item {
-            display: flex;
-            align-items: center;
-            margin: 0 2rem;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 768px) {
-            .marquee-item {
-                margin: 0 1rem;
-            }
-
-            .marquee-container::before,
-            .marquee-container::after {
-                width: 80px;
-            }
-        }
-
-        .projects-marquee::before,
-        .projects-marquee::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 100px;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .projects-marquee::before {
-            left: 0;
-            background: linear-gradient(90deg, rgba(243, 244, 246, 1) 0%, rgba(243, 244, 246, 0) 100%);
-        }
-
-        .projects-marquee::after {
-            right: 0;
-            background: linear-gradient(270deg, rgba(243, 244, 246, 1) 0%, rgba(243, 244, 246, 0) 100%);
-        }
-
         .project-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
+        
+        /* New Service Card Styles */
+        .service-card {
+            transition: all 0.3s ease;
+            border: 1px solid #f3f4f6;
+        }
+        .service-card:hover {
+            border-color: #000;
+            background-color: #000;
+            color: white;
+        }
+        .service-card:hover p { color: #d1d5db; }
+        .service-card:hover i { color: #fb923c; }
 
-        @media (max-width: 768px) {
-
-            .projects-marquee::before,
-            .projects-marquee::after {
-                width: 50px;
-            }
+        /* Marquee Styles */
+        .marquee-container {
+            position: relative; overflow: hidden; height: 60px;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .marquee-track { display: flex; gap: 4rem; width: max-content; }
+        
+        /* Project Horizontal Scroll Section */
+        .horizontal-scroll-container {
+            display: flex;
+            gap: 2rem;
+            width: max-content; /* Important for horizontal GSAP scroll */
         }
     </style>
 </head>
@@ -315,406 +110,292 @@
         <i id="loader-icon" class="ri-gemini-fill"></i>
     </div>
 
-  
-    <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative">
+    <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white">
         <div class="navo-logo pl-2">
             <a href="#" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
                 <i class="ri-gemini-fill text-orange-400"></i> Pstarz
             </a>
         </div>
 
-        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px] font-regular">
-            <a href="/Pages/projects.html">Work</a>
-            <a href="/Pages/about.html">About</a>
-            <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing">Resume</a>
-            <a href="/Pages/contact.html">Contact</a>
+        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px]">
+            <a href="/Pages/projects.html" class="hover:text-orange-400 transition-colors">Work</a>
+            <a href="/Pages/about.html" class="hover:text-orange-400 transition-colors">About</a>
+            <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" class="hover:text-orange-400 transition-colors">Resume</a>
+            <a href="/Pages/contact.html" class="hover:text-orange-400 transition-colors">Contact</a>
         </div>
 
-        <div class="hamburger md:hidden pr-3" id="hamburger">
+        <div class="hamburger md:hidden pr-3 cursor-pointer" id="hamburger">
             <i class="ri-menu-line text-2xl"></i>
         </div>
 
-        <div class="mobile-menu md:hidden w-full" id="mobileMenu">
-            <a href="/Pages/projects.html" class="block py-3 px-5">Work</a>
-            <a href="/Pages/about.html" class="block py-3 px-5">About</a>
-            <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing"
-                class="block py-3 px-5">Resume</a>
-            <a href="/Pages/contact.html" class="block py-3 px-5">Contact</a>
+        <div class="mobile-menu md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 z-40" id="mobileMenu">
+            <a href="/Pages/projects.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800 border-b border-gray-100">Work</a>
+            <a href="/Pages/about.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800 border-b border-gray-100">About</a>
+            <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800 border-b border-gray-100">Resume</a>
+            <a href="/Pages/contact.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-orange-400">Contact</a>
         </div>
     </nav>
 
-    <div class="bg-white min-h-screen">
-        <div class="h-[66vh] flex items-center justify-center">
-            <div class="w-[95%] h-full pt-0 hero-banner-img flex items-start justify-center">
-                <h1 class="text-[110px] leading-[154px] text-white lobster-regular">Papu Badatya</h1>
+    <div class="bg-white">
+        <div class="h-[60vh] md:h-[75vh] flex items-center justify-center overflow-hidden">
+            <div class="w-[95%] h-full pt-0 hero-banner-img flex items-end md:items-start justify-center pb-10 md:pb-0 rounded-b-3xl">
+                <h1 class="text-[clamp(60px,10vw,130px)] leading-none text-white lobster-regular text-center drop-shadow-lg anim-hero">
+                    Papu Badatya
+                </h1>
             </div>
         </div>
 
-        <div class="h-[50px] bg-gray-100">
-            <div class="marquee-container bg-white">
+        <div class="py-6 bg-gray-50">
+            <div class="marquee-container">
                 <div class="marquee-track" id="marquee-track">
-                    <div class="marquee-item">
-                        <i class="fab fa-html5 text-orange-500 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">HTML5</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fab fa-css3-alt text-blue-500 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">CSS3</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fab fa-js-square text-yellow-400 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">JavaScript</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="ri-tailwind-css-fill text-cyan-400 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">Tailwind CSS</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fab fa-react text-blue-400 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">React.js</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fas fa-bolt text-green-500 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">GSAP</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fas fa-scroll text-purple-500 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">ScrollTrigger</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fas fa-sliders-h text-blue-300 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">Swiper.js</span>
-                    </div>
-
-                    <div class="marquee-item">
-                        <i class="fab fa-html5 text-orange-500 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">HTML5</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fab fa-css3-alt text-blue-500 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">CSS3</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fab fa-js-square text-yellow-400 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">JavaScript</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="ri-tailwind-css-fill text-cyan-400 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">Tailwind CSS</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fab fa-react text-blue-400 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">React.js</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fas fa-bolt text-green-500 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">GSAP</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fas fa-scroll text-purple-500 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">ScrollTrigger</span>
-                    </div>
-                    <div class="marquee-item">
-                        <i class="fas fa-sliders-h text-blue-300 text-2xl mr-3"></i>
-                        <span class="text-gray-800 font-medium">Swiper.js</span>
-                    </div>
+                    <div class="flex items-center gap-3"><i class="fab fa-html5 text-orange-500 text-2xl"></i><span class="font-bold text-gray-700">HTML5</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-css3-alt text-blue-500 text-2xl"></i><span class="font-bold text-gray-700">CSS3</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-js-square text-yellow-400 text-2xl"></i><span class="font-bold text-gray-700">JavaScript</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-react text-blue-400 text-2xl"></i><span class="font-bold text-gray-700">React</span></div>
+                    <div class="flex items-center gap-3"><i class="ri-tailwind-css-fill text-cyan-400 text-2xl"></i><span class="font-bold text-gray-700">Tailwind</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-bolt text-green-500 text-2xl"></i><span class="font-bold text-gray-700">GSAP</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-node-js text-green-600 text-2xl"></i><span class="font-bold text-gray-700">Node.js</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-html5 text-orange-500 text-2xl"></i><span class="font-bold text-gray-700">HTML5</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-css3-alt text-blue-500 text-2xl"></i><span class="font-bold text-gray-700">CSS3</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-js-square text-yellow-400 text-2xl"></i><span class="font-bold text-gray-700">JavaScript</span></div>
+                    <div class="flex items-center gap-3"><i class="fab fa-react text-blue-400 text-2xl"></i><span class="font-bold text-gray-700">React</span></div>
+                    <div class="flex items-center gap-3"><i class="ri-tailwind-css-fill text-cyan-400 text-2xl"></i><span class="font-bold text-gray-700">Tailwind</span></div>
                 </div>
             </div>
         </div>
 
-        <div class="h-[40vh] flex justify-center items-center text-black pb-10">
-            <h1 class="lato-bold text-4xl text-center intro-text w-1/2 leading-snug">
-                Hey! I'm a frontend UI developer based in India. I'm currently working on personal projects and looking
-                for a full-time role
+        <div class="py-20 flex justify-center items-center text-black px-4">
+            <h1 class="lato-bold text-2xl md:text-3xl lg:text-4xl text-center w-full md:w-3/4 lg:w-1/2 leading-relaxed anim-reveal">
+                Hey! I'm a frontend UI developer based in India. I craft responsive, high-performance interfaces that blend <span class="text-orange-500">Design</span> with <span class="text-orange-500">Functionality</span>.
             </h1>
         </div>
     </div>
 
-    <div class="min-h-[145vh] mb-5">
-        <div class="flex flex-wrap justify-center gap-5 pt-[120px] project-section">
-            <a href="https://diary-web-app-nine.vercel.app/stories" target="_blank"
-                class="project-card w-[90%] md:w-[45%] lg:w-[30%] h-[481px]">
-                <div class="h-[388px]">
-                    <img src="/images/diary.gif" alt="Diary App GIF" class="h-full w-full object-cover" loading="lazy">
+    <div class="container mx-auto px-4 pb-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-20">
+            
+            <a href="https://diary-web-app-nine.vercel.app/stories" target="_blank" class="project-card group h-full flex flex-col anim-card">
+                <div class="h-[280px] overflow-hidden">
+                    <img src="/images/diary.gif" alt="Diary App" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async">
                 </div>
-                <div class="h-[93px] flex flex-col pt-3 gap-3">
-                    <h4 class="text-[20px] leading-[24px] font-medium lato-regular">Diary-a story writing web app</h4>
-                    <p class="text-gray-500 lato-regular leading-[22.4px] text-[16px]">
-                        A full-stack diary application where users can write and save their stories.
-                    </p>
-                </div>
-            </a>
-
-            <a href="https://resume-craft-three.vercel.app/"
-                class="project-card w-[90%] md:w-[45%] lg:w-[30%] h-[481px]">
-                <div class="h-[388px]">
-                    <img src="/images/resume.gif" alt="ResumeCraft App GIF" class="h-full w-full object-cover"
-                        loading="lazy">
-                </div>
-                <div class="h-[93px] flex flex-col pt-3 gap-3">
-                    <h4 class="text-[20px] leading-[24px] lato-regular">ResumeCraft-resume builder web app</h4>
-                    <p class="text-gray-500 lato-regular leading-[22.4px] text-[16px]">
-                        Create professional resumes with this easy-to-use web application.
-                    </p>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-xl font-bold lato-bold mb-2">Diary & Stories</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed lato-regular">A full-stack diary application where users can write and save their stories safely.</p>
+                    </div>
+                    <span class="text-sm font-bold text-orange-500 mt-4 inline-block">View Project <i class="ri-arrow-right-line"></i></span>
                 </div>
             </a>
 
-            <a href="https://cureit-web-app-ao71.onrender.com/ai"
-                class="project-card w-[90%] md:w-[45%] lg:w-[30%] h-[481px]">
-                <div class="h-[388px]">
-                    <img src="/images/cureit.gif" alt="CureIt App GIF" class="h-full w-full object-cover"
-                        loading="lazy">
+            <a href="https://resume-craft-three.vercel.app/" target="_blank" class="project-card group h-full flex flex-col anim-card">
+                <div class="h-[280px] overflow-hidden">
+                    <img src="/images/resume.gif" alt="ResumeCraft" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async">
                 </div>
-                <div class="h-[93px] flex flex-col pt-3 gap-3">
-                    <h4 class="text-[20px] leading-[24px] font-medium lato-regular">CureIt-a medicine guide web app</h4>
-                    <p class="lato-regular text-gray-500 leading-[22.4px] text-[16px]">
-                        Medicine information platform designed to help users understand their medications.
-                    </p>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-xl font-bold lato-bold mb-2">ResumeCraft</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed lato-regular">Create professional resumes instantly with this easy-to-use free web application.</p>
+                    </div>
+                    <span class="text-sm font-bold text-orange-500 mt-4 inline-block">View Project <i class="ri-arrow-right-line"></i></span>
                 </div>
+            </a>
+
+            <a href="https://cureit-web-app-ao71.onrender.com/ai" target="_blank" class="project-card group h-full flex flex-col anim-card">
+                <div class="h-[280px] overflow-hidden">
+                    <img src="/images/cureit.gif" alt="CureIt" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async">
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-xl font-bold lato-bold mb-2">CureIt AI Guide</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed lato-regular">Medicine information platform designed to help users understand their medications using AI.</p>
+                    </div>
+                    <span class="text-sm font-bold text-orange-500 mt-4 inline-block">View Project <i class="ri-arrow-right-line"></i></span>
+                </div>
+            </a>
         </div>
-        </a>
 
-        <div class="flex flex-wrap justify-center gap-5 pt-[140px] project-section">
-              <a  href="https://imagify-landing-page.netlify.app/" class="large-card h-[627px] w-[90%] lg:w-[894px]">
-                <div class="h-[556px]">
-                    <img src="/images/imagify-banner.gif" alt="Music Player Mobile View"
-                        class="w-full h-full object-cover object-top" loading="lazy">
-                </div>
-                <div class="h-[71px] flex flex-col pt-2 gap-2">
-                    <h4 class="text-[20px] leading-[24px] font-medium lato-regular">Imagify – A Prompt APP</h4>
-                    <p class="lato-regular text-gray-500 leading-[22.4px] text-[16px]">This is a basic React Native app I built while starting to learn mobile development. It's a simple project where I'm exploring and experimenting concepts of React Native</p>
+        <div class="space-y-16">
+            <a href="https://imagify-landing-page.netlify.app/" class="block w-full max-w-5xl mx-auto project-card group anim-card">
+                <div class="flex flex-col md:flex-row h-auto md:h-[450px]">
+                    <div class="w-full md:w-2/3 h-[300px] md:h-full overflow-hidden">
+                        <img src="/images/imagify-banner.gif" alt="Imagify App" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                    </div>
+                    <div class="w-full md:w-1/3 p-8 md:p-10 flex flex-col justify-center bg-gray-50">
+                        <h4 class="text-2xl font-bold lato-black mb-3">Imagify – Prompt APP</h4>
+                        <p class="text-gray-600 leading-relaxed text-sm md:text-base lato-regular">
+                            A React Native app built to explore mobile development concepts. It helps users generate and manage creative prompts efficiently.
+                        </p>
+                        <span class="mt-6 px-4 py-2 border border-black rounded-full w-max text-sm font-bold hover:bg-black hover:text-white transition-colors">React Native Experiment</span>
+                    </div>
                 </div>
             </a>
 
-             <a  href="https://myshiro.netlify.app/" class="large-card h-[476px] w-[90%]  lg:w-[894px]">
-                <div class="h-[405px]">
-                    <img src="/images/myshiro.gif" alt="Music Player Desktop View"
-                        class="w-full h-full object-cover object-top" loading="lazy">
-                </div>
-                <div class="h-[71px] flex flex-col pt-3 gap-3">
-                    <h4 class="text-[20px] leading-[24px] font-medium lato-regular">Shiro – Interactive ESP32 Desk Robot</h4>
-                    <p class="lato-regular text-gray-500 leading-[22.4px] text-[16px]">A smart robot companion powered by a custom C++ emotion engine. Syncs live phone data via Bluetooth and reacts to touch with dynamic, evolving moods.</p>
+            <a href="https://myshiro.netlify.app/" class="block w-full max-w-5xl mx-auto project-card group anim-card">
+                <div class="flex flex-col md:flex-row h-auto md:h-[450px]">
+                    <div class="w-full md:w-2/3 h-[300px] md:h-full overflow-hidden order-1 md:order-2">
+                        <img src="/images/myshiro.gif" alt="Shiro Robot" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                    </div>
+                    <div class="w-full md:w-1/3 p-8 md:p-10 flex flex-col justify-center bg-gray-50 order-2 md:order-1">
+                        <h4 class="text-2xl font-bold lato-black mb-3">Shiro – ESP32 Robot</h4>
+                        <p class="text-gray-600 leading-relaxed text-sm md:text-base lato-regular">
+                            A smart robot companion powered by C++. Syncs live phone data via Bluetooth and reacts to touch with dynamic, evolving moods.
+                        </p>
+                        <span class="mt-6 px-4 py-2 border border-black rounded-full w-max text-sm font-bold hover:bg-black hover:text-white transition-colors">Hardware & Software</span>
+                    </div>
                 </div>
             </a>
+        </div>
     </div>
 
+    <div class="bg-gray-50 py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold lato-black leading-tight anim-reveal">Beyond Just<br>Coding.</h2>
+                <p class="text-gray-500 max-w-sm mt-4 md:mt-0 text-right md:text-left anim-reveal">I bring a blend of technical expertise and creative design to every project.</p>
+            </div>
 
-    <div class="min-h-[70vh] flex flex-col mt-10 py-10">
-        <div class="h-[10%] pl-5 md:pl-11 sm:mt-8 mb-5">
-            <h1 class="lato-regular font-semibold text-[40px] leading-[48px] tracking-[-0.8px] projects-title">My
-                projects</h1>
-        </div>
-        <div class="h-[90%]  overflow-hidden">
-            <div class="projects-marquee h-full w-full  relative">
-                <div class="marquee-inner flex h-full items-center gap-8" id="projects-marquee">
-
-                    <a href="https://trackyo.netlify.app/"
-                        class="project-card flex-shrink-0 w-[300px] sm:w-[400px] md:w-[630px] h-[236px] sm:h-[354px] md:h-[472px] bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                        <div class="h-[80%] w-full overflow-hidden">
-                            <img src="/images/banner.png" alt="Trackyo job tracker" class="w-full h-full object-cover"
-                                loading="lazy">
-                        </div>
-                        <div class="h-[20%] p-4 flex items-center justify-center">
-                            <h3 class="text-lg sm:text-xl md:text-2xl text-center lato-regular">Trackyo-job tracker</h3>
-                        </div>
-                    </a>
-
-                    <a href="https://playlist-for-you.netlify.app/"
-                        class="project-card flex-shrink-0 w-[300px] sm:w-[400px] md:w-[630px] h-[236px] sm:h-[354px] md:h-[472px] bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                        <div class="h-[80%] w-full overflow-hidden">
-                            <img src="/images/dashbordui.png" alt="playlist" class="w-full h-full object-cover"
-                                loading="lazy">
-                        </div>
-                        <div class="h-[20%] p-4 flex items-center justify-center">
-                            <h3 class="text-lg sm:text-xl md:text-2xl text-center lato-regular">Playlist Ui</h3>
-                        </div>
-                    </a>
-
-
-
-                    <a href="https://cozy-sprinkles-67caf9.netlify.app/"
-                        class="project-card flex-shrink-0 w-[300px] sm:w-[400px] md:w-[630px] h-[236px] sm:h-[354px] md:h-[472px] bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                        <div class="h-[80%] w-full overflow-hidden">
-                            <img src="/images/pstarz.png" alt="PSTARZ Landing Page" class="w-full h-full object-cover"
-                                loading="lazy">
-                        </div>
-                        <div class="h-[20%] p-4 flex items-center justify-center">
-                            <h3 class="text-lg sm:text-xl md:text-2xl text-center lato-regular">PSTARZ Landing Page</h3>
-                        </div>
-                    </a>
-
-                    <a href="https://sanimx-gsap-animations.netlify.app/"
-                        class="project-card flex-shrink-0 w-[300px] sm:w-[400px] md:w-[630px] h-[236px] sm:h-[354px] md:h-[472px] bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                        <div class="h-[80%] w-full overflow-hidden">
-                            <img src="/images/sanimx-gsap.png" alt="SANimX" class="w-full h-full object-cover"
-                                loading="lazy">
-                        </div>
-                        <div class="h-[20%] p-4 flex items-center justify-center">
-                            <h3 class="text-lg sm:text-xl md:text-2xl text-center lato-regular">SANimX</h3>
-                        </div>
-                    </a>
-
-                    <a href="https://my-portfolio-pb7.netlify.app/"
-                        class="project-card flex-shrink-0 w-[300px] sm:w-[400px] md:w-[630px] h-[236px] sm:h-[354px] md:h-[472px] bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                        <div class="h-[80%] w-full overflow-hidden">
-                            <img src="/images/react.png" alt="React Portfolio" class="w-full h-full object-cover"
-                                loading="lazy">
-                        </div>
-                        <div class="h-[20%] p-4 flex items-center justify-center">
-                            <h3 class="text-lg sm:text-xl md:text-2xl text-center lato-regular">React Portfolio</h3>
-                        </div>
-                    </a>
-
-
-
-
-                    <a href="https://chimerical-tanuki-6fc385.netlify.app/"
-                        class="project-card flex-shrink-0 w-[300px] sm:w-[400px] md:w-[630px] h-[236px] sm:h-[354px] md:h-[472px] bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                        <div class="h-[80%] w-full overflow-hidden">
-                            <img src="/images/antlacticui.png" alt="ATLANTIS UI" class="w-full h-full object-cover"
-                                loading="lazy">
-                        </div>
-                        <div class="h-[20%] p-4 flex items-center justify-center">
-                            <h3 class="text-lg sm:text-xl md:text-2xl text-center lato-regular">ATLANTIS Ui</h3>
-                        </div>
-                    </a>
-
-                    <a href="https://the-batman12.netlify.app/"
-                        class="project-card flex-shrink-0 w-[300px] sm:w-[400px] md:w-[630px] h-[236px] sm:h-[354px] md:h-[472px] bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                        <div class="h-[80%] w-full overflow-hidden">
-                            <img src="/images/bataman2.png" alt="Batman Fan Page" class="w-full h-full object-cover"
-                                loading="lazy">
-                        </div>
-                        <div class="h-[20%] p-4 flex items-center justify-center">
-                            <h3 class="text-lg sm:text-xl md:text-2xl text-center lato-regular">BatMan-FanPage</h3>
-                        </div>
-                    </a>
-
-                    <a href="https://aniwave7.netlify.app/"
-                        class="project-card flex-shrink-0 w-[300px] sm:w-[400px] md:w-[630px] h-[236px] sm:h-[354px] md:h-[472px] bg-white shadow-sm hover:shadow-md transition-all duration-300">
-                        <div class="h-[80%] w-full overflow-hidden">
-                            <img src="/images/aniwave7.png" alt="Aniwave UI" class="w-full h-full object-cover"
-                                loading="lazy">
-                        </div>
-                        <div class="h-[20%] p-4 flex items-center justify-center">
-                            <h3 class="text-lg sm:text-xl md:text-2xl text-center lato-regular">Aniwave Ui</h3>
-                        </div>
-                    </a>
-
-
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="service-card p-8 rounded-2xl bg-white anim-card">
+                    <i class="ri-layout-masonry-fill text-4xl text-black mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-3 lato-bold">UI Development</h3>
+                    <p class="text-gray-500 leading-relaxed text-sm">Translating complex designs into pixel-perfect, responsive code using Tailwind and React.</p>
+                </div>
+                <div class="service-card p-8 rounded-2xl bg-white anim-card">
+                    <i class="ri-magic-line text-4xl text-black mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-3 lato-bold">Interaction Design</h3>
+                    <p class="text-gray-500 leading-relaxed text-sm">Adding life to websites with GSAP animations, smooth scrolling, and micro-interactions.</p>
+                </div>
+                <div class="service-card p-8 rounded-2xl bg-white anim-card">
+                    <i class="ri-rocket-2-fill text-4xl text-black mb-6"></i>
+                    <h3 class="text-2xl font-bold mb-3 lato-bold">Full-Stack Integration</h3>
+                    <p class="text-gray-500 leading-relaxed text-sm">Connecting frontends to backends (Node.js, Firebase) for fully functional applications.</p>
                 </div>
             </div>
         </div>
-
     </div>
 
-   <div class="w-full bg-white mt-5 mb-5 flex flex-col items-center justify-center px-4 sm:px-6 md:px-10 py-10">
-  <!-- Container -->
-  <div class="max-w-6xl w-full flex flex-col md:flex-row items-center md:items-start gap-10">
-    
-    <!-- Video Section -->
-    <div class="relative w-full md:w-2/3 group order-1 md:order-none">
-      <video
-        class="w-full h-auto rounded-2xl shadow-lg border border-gray-100 transition-transform duration-500 group-hover:scale-[1.02]"
-        src="/images/sanvee-jewellry.mp4"
-        autoplay
-        loop
-        muted
-        playsinline>
-      </video>
-
-      <!-- Overlay Text -->
-      <div class="absolute bottom-3 right-3 bg-black/50 text-white text-[10px] sm:text-xs md:text-sm px-3 py-1 rounded-lg backdrop-blur-sm">
-        Demo Preview
-      </div>
+    <div class="w-full bg-white flex flex-col items-center justify-center px-4 py-20">
+        <div class="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12">
+            <div class="relative w-full md:w-2/3 group anim-reveal">
+                <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-100">
+                    <video class="w-full h-auto transform transition-transform duration-700 group-hover:scale-105" src="/images/sanvee-jewellry.mp4" autoplay loop muted playsinline></video>
+                </div>
+                <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                    Live Preview
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 space-y-6 anim-reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 lato-black">UI Showcase</h2>
+                <p class="text-gray-600 text-lg leading-relaxed lato-regular">
+                    A creative frontend made with <span class="font-bold text-black">React</span> and <span class="font-bold text-black">TailwindCSS</span>. Focusing on smooth transitions and elegant layout.
+                </p>
+                <a href="/Pages/projects.html" class="inline-block px-8 py-3 bg-black text-white rounded-full font-bold hover:bg-orange-500 transition-colors duration-300">
+                    See All Projects
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- Text Section -->
-    <div class="w-full md:w-1/3 text-center md:text-left space-y-4">
-      <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 leading-tight">
-        UI Showcase
-      </h1>
-      <p class="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed">
-        A creative frontend made with 
-        <span class="font-medium text-[#fb923c]">HTML</span>, 
-        <span class="font-medium text-[#fb923c]">React</span>, 
-        <span class="font-medium text-[#fb923c]">TailwindCSS</span> and 
-        <span class="font-medium text-[#fb923c]">Fully Responsive UI</span>.
-      </p>
-      <div class="flex justify-center md:justify-start">
-        <a href="/Pages/projects.html"
-          class="mt-4 px-6 py-2 bg-gray-900 text-white rounded-xl text-sm sm:text-base hover:bg-gray-800 transition-colors duration-300">
-          View All My Projects
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+    <div class="py-20 overflow-hidden bg-white">
+        <div class="container mx-auto px-4 mb-10">
+            <h2 class="text-4xl font-bold lato-bold">More Projects</h2>
+        </div>
+        
+        <div class="relative w-full overflow-hidden">
+            <div class="horizontal-scroll-container pl-4" id="project-scroll-track">
+                
+                <a href="https://trackyo.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
+                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
+                        <img src="/images/banner.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <h3 class="text-xl font-bold lato-bold">Trackyo Job Tracker</h3>
+                </a>
 
-    <section class="w-full bg-white py-16 px-6 md:px-12">
-        <div class="max-w-6xl mx-auto text-center mb-14">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3">My Frontend Process</h2>
-            <p class="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-                Every interface starts with an idea, shaped by design thinking and built into a seamless user
-                experience.
+                <a href="https://playlist-for-you.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
+                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
+                        <img src="/images/dashbordui.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <h3 class="text-xl font-bold lato-bold">Music Dashboard UI</h3>
+                </a>
+
+                <a href="https://cozy-sprinkles-67caf9.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
+                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
+                        <img src="/images/pstarz.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <h3 class="text-xl font-bold lato-bold">T-Shirt Brand Landing</h3>
+                </a>
+
+                <a href="https://sanimx-gsap-animations.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
+                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
+                        <img src="/images/sanimx-gsap.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <h3 class="text-xl font-bold lato-bold">GSAP Animation Lib</h3>
+                </a>
+
+                <a href="https://my-portfolio-pb7.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
+                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
+                        <img src="/images/react.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <h3 class="text-xl font-bold lato-bold">React Portfolio V1</h3>
+                </a>
+
+                 <a href="https://the-batman12.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
+                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
+                        <img src="/images/bataman2.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <h3 class="text-xl font-bold lato-bold">Batman Fan Page</h3>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="w-full bg-gray-50 py-20 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto text-center mb-14 anim-reveal">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3 lato-black">My Frontend Process</h2>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto lato-regular">
+                Every interface starts with an idea, shaped by design thinking and built into a seamless user experience.
             </p>
         </div>
 
-        <!-- Hierarchical Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(250px,_auto)]">
-
-            <!-- Moodboarding & Research (Big Tile) -->
-            <div
-                class="sm:col-span-2 relative rounded-2xl overflow-hidden group shadow-md hover:shadow-lg transition-all duration-300">
-                <img src="https://i.pinimg.com/1200x/3a/d4/03/3ad403dfe64e97314b3c55df129dc4c4.jpg" alt="Moodboard"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-6 text-left text-white">
-                    <h3 class="text-2xl font-semibold mb-2">Moodboarding & Research</h3>
-                    <p class="text-sm text-gray-200">
-                        Exploring inspirations, layout concepts, and user expectations before design begins.
-                    </p>
+            <div class="sm:col-span-2 relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-card">
+                <img src="https://i.pinimg.com/1200x/3a/d4/03/3ad403dfe64e97314b3c55df129dc4c4.jpg" alt="Moodboard" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Research & Ideation</h3>
+                    <p class="text-sm text-gray-200">Exploring inspirations, layout concepts, and user expectations.</p>
                 </div>
             </div>
 
-            <!-- Color Selection -->
-            <div
-                class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-lg transition-all duration-300">
-                <img src="https://i.pinimg.com/736x/6d/1c/45/6d1c450f96ae68e8aca4aceffa72d4a7.jpg" alt="Color Palette"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-6 text-left text-white">
-                    <h3 class="text-2xl font-semibold mb-2">Color Selection</h3>
-                    <p class="text-sm text-gray-200">
-                        Defining the brand tone with cohesive and meaningful colors that set the visual mood.
-                    </p>
+            <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-card">
+                <img src="https://i.pinimg.com/736x/6d/1c/45/6d1c450f96ae68e8aca4aceffa72d4a7.jpg" alt="Palette" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Visual Identity</h3>
+                    <p class="text-sm text-gray-200">Defining brand tone with cohesive colors.</p>
                 </div>
             </div>
 
-            <!-- Typography & Font Pairing -->
-            <div
-                class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-lg transition-all duration-300">
-                <img src="https://i.pinimg.com/1200x/29/45/06/294506e397c6060f08d431cdb24b7a56.jpg" alt="Typography"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-6 text-left text-white">
-                    <h3 class="text-2xl font-semibold mb-2">Typography & Font Pairing</h3>
-                    <p class="text-sm text-gray-200">
-                        Selecting fonts that balance personality, readability, and structure for the interface.
-                    </p>
+            <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-card">
+                <img src="https://i.pinimg.com/1200x/29/45/06/294506e397c6060f08d431cdb24b7a56.jpg" alt="Type" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Typography</h3>
+                    <p class="text-sm text-gray-200">Selecting fonts that balance personality and readability.</p>
                 </div>
             </div>
 
-            <!-- Development & Refinement (Wide Tile) -->
-            <div
-                class="sm:col-span-2 relative rounded-2xl overflow-hidden group shadow-md hover:shadow-lg transition-all duration-300">
-                <img src="https://i.pinimg.com/1200x/ff/26/55/ff265557d59bcd1d8de129b2674e7676.jpg" alt="Frontend Development"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-6 text-left text-white">
-                    <h3 class="text-2xl font-semibold mb-2">Development & Refinement</h3>
-                    <p class="text-sm text-gray-200">
-                        Transforming the design into responsive, pixel-perfect interfaces with clean, scalable code.
-                    </p>
+            <div class="sm:col-span-2 relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-card">
+                <img src="https://i.pinimg.com/1200x/ff/26/55/ff265557d59bcd1d8de129b2674e7676.jpg" alt="Code" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Development</h3>
+                    <p class="text-sm text-gray-200">Transforming design into pixel-perfect, responsive interfaces.</p>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -723,91 +404,106 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="space-y-4">
                     <h3 class="text-lg lato-bold mb-6">Get in touch</h3>
-                    <div class="flex items-start space-x-4">
-                        <i class="ri-mail-line mt-1"></i>
-                        <a href="mailto:papubadatya355@gmail.com" class="hover:text-orange-400 transition-colors">
-                            papubadatya355@gmail.com
-                        </a>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <i class="ri-phone-line mt-1"></i>
-                        <a href="tel:+916370134774" class="hover:text-orange-400 transition-colors">
-                            +91 6370134774
-                        </a>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <i class="ri-map-pin-line mt-1"></i>
-                        <span>Berhampur, Ganjam, Odisha, India - 760010</span>
-                    </div>
+                    <div class="flex items-start space-x-4"><i class="ri-mail-line mt-1"></i><a href="mailto:papubadatya355@gmail.com" class="hover:text-orange-400 transition-colors">papubadatya355@gmail.com</a></div>
+                    <div class="flex items-start space-x-4"><i class="ri-phone-line mt-1"></i><a href="tel:+916370134774" class="hover:text-orange-400 transition-colors">+91 6370134774</a></div>
+                    <div class="flex items-start space-x-4"><i class="ri-map-pin-line mt-1"></i><span>Berhampur, Ganjam, Odisha, India</span></div>
                 </div>
-
                 <div class="space-y-4">
                     <h3 class="text-lg lato-bold mb-6">Connect</h3>
                     <div class="flex space-x-6">
-                        <a href="https://www.linkedin.com/in/papu-badatya-759767254/"
-                            class="text-2xl hover:text-orange-400 transition-colors">
-                            <i class="ri-linkedin-fill"></i>
-                        </a>
-                        <a href="https://github.com/pstarz7" class="text-2xl hover:text-orange-400 transition-colors">
-                            <i class="ri-github-fill"></i>
-                        </a>
-                        <a href="https://www.instagram.com/_pstarz/"
-                            class="text-2xl hover:text-orange-400 transition-colors">
-                            <i class="ri-instagram-line"></i>
-                        </a>
+                        <a href="https://www.linkedin.com/in/papu-badatya-759767254/" class="text-2xl hover:text-orange-400 transition-colors"><i class="ri-linkedin-fill"></i></a>
+                        <a href="https://github.com/pstarz7" class="text-2xl hover:text-orange-400 transition-colors"><i class="ri-github-fill"></i></a>
+                        <a href="https://www.instagram.com/_pstarz/" class="text-2xl hover:text-orange-400 transition-colors"><i class="ri-instagram-line"></i></a>
                     </div>
                 </div>
-
                 <div class="space-y-4 md:text-right">
-
-                    <div class="mt-8 pt-6 border-t border-gray-700">
-                        © 2024 Papu Badatya. All rights reserved.
-                    </div>
+                    <div class="mt-8 pt-6 border-t border-gray-700">© 2024 Papu Badatya. All rights reserved.</div>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // --- PRELOADER SCRIPT ---
-        // Wait for the entire page to load
+        // 1. Preloader
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-
-            // Use GSAP for a smooth fade-out animation
             gsap.to(preloader, {
-                duration: 1.2,
-                opacity: 0,
-                ease: 'power2.inOut',
-                onComplete: () => {
-                    // Hide the preloader completely after the animation
-                    preloader.style.display = 'none';
-                }
+                duration: 1, opacity: 0, ease: 'power2.inOut',
+                onComplete: () => preloader.style.display = 'none'
             });
         });
 
-        // --- ORIGINAL SCRIPTS ---
+        // 2. Initialize Lenis
+        const lenis = new Lenis({ autoRaf: true, smooth: true });
 
-        // Initialize Lenis
-        const lenis = new Lenis({
-            autoRaf: true,
+        // 3. Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 4. Hero Animation
+        gsap.from(".anim-hero", { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", delay: 0.5 });
+        gsap.from(".anim-reveal", { 
+            scrollTrigger: { trigger: ".anim-reveal", start: "top 85%" },
+            y: 50, opacity: 0, duration: 1, ease: "power2.out", stagger: 0.2
         });
 
-        // Listen for scroll events
-        lenis.on('scroll', (e) => {
-            // console.log(e); // You can keep this for debugging
+        // 5. Batch Animation for Cards
+        ScrollTrigger.batch(".anim-card", {
+            interval: 0.1, batchMax: 3,
+            onEnter: batch => {
+                gsap.to(batch, { opacity: 1, y: 0, stagger: 0.15, overwrite: true, duration: 0.8, ease: "power3.out" });
+            }
+        });
+        gsap.set(".anim-card", { y: 60, opacity: 0 });
+
+        // 6. Marquee Animation (Tech Stack)
+        const track = document.getElementById('marquee-track');
+        gsap.to(track, {
+            xPercent: -50, repeat: -1, duration: 20, ease: "none"
         });
 
-        // Mobile menu toggle
+        // 7. Horizontal Scroll Project Section (The smooth replacement for the old Marquee)
+        const scrollContainer = document.getElementById("project-scroll-track");
+        
+        // This calculates how far to scroll left based on content width
+        function getScrollAmount() {
+            let containerWidth = scrollContainer.scrollWidth;
+            return -(containerWidth - window.innerWidth);
+        }
+
+        const tween = gsap.to(scrollContainer, {
+            x: () => getScrollAmount(),
+            duration: 3,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".horizontal-scroll-container",
+                start: "top 80%", // Start animating when section hits bottom of screen
+                end: () => `+=${getScrollAmount() * -1}`, // Scroll distance
+                scrub: 1, // Smooth scrubbing effect linked to scrollbar
+                invalidateOnRefresh: true,
+            }
+        });
+        
+        // AUTO SCROLL if user is not scrolling (Optional Aesthetic touch)
+        gsap.to(scrollContainer, {
+            x: "-=100", // Slowly move left automatically
+            repeat: -1,
+            duration: 5,
+            ease: "none",
+            // We disable this if we want pure scroll control, 
+            // but for now, let's stick to the scrollTrigger scrub above for best UX.
+            overwrite: true 
+        });
+
+
+        // 8. Mobile Menu Logic (Fixed)
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById('hamburger');
             const mobileMenu = document.getElementById('mobileMenu');
-
+            
             hamburger.addEventListener('click', () => {
                 mobileMenu.classList.toggle('open');
             });
-
-            // Close menu when clicking outside
+            
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('#hamburger') && !e.target.closest('#mobileMenu')) {
                     mobileMenu.classList.remove('open');
@@ -815,95 +511,5 @@
             });
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const track = document.getElementById('marquee-track');
-            const items = document.querySelectorAll('.marquee-item');
-
-            // Calculate total width
-            let totalWidth = 0;
-            items.forEach(item => {
-                totalWidth += item.offsetWidth;
-            });
-
-            // Set initial position (offset by half for centered start)
-            gsap.set(track, { x: -totalWidth / 2 });
-
-            // Animation with responsive duration
-            const duration = window.innerWidth < 768 ? 40 : 60; // Slower on mobile
-
-            gsap.to(track, {
-                x: `+=${totalWidth / 2}`,
-                duration: duration,
-                ease: "none",
-                repeat: -1,
-                onRepeat: () => {
-                    // Reset position for perfect loop
-                    gsap.set(track, { x: -totalWidth / 2 });
-                }
-            });
-
-            // Handle resize
-            window.addEventListener('resize', () => {
-                let newWidth = 0;
-                items.forEach(item => {
-                    newWidth += item.offsetWidth;
-                });
-                totalWidth = newWidth;
-            });
-        });
-
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const marquee = document.getElementById('projects-marquee');
-            const cards = document.querySelectorAll('.project-card');
-
-            // Calculate total width including gaps
-            let totalWidth = 0;
-            cards.forEach(card => {
-                totalWidth += card.offsetWidth + 32; // 32px for gap-8
-            });
-
-            // Set initial position
-            gsap.set(marquee, { x: 0 });
-
-            // Create animation
-            const animation = gsap.to(marquee, {
-                x: `-=${totalWidth / 2}`,
-                duration: 40,
-                ease: "none",
-                repeat: -1,
-                onRepeat: () => {
-                    gsap.set(marquee, { x: 0 });
-                }
-            });
-
-            // Hover effects
-            marquee.addEventListener('mouseenter', () => {
-                gsap.to(animation, { timeScale: 0.5, duration: 0.5 });
-            });
-
-            marquee.addEventListener('mouseleave', () => {
-                gsap.to(animation, { timeScale: 1, duration: 0.5 });
-            });
-
-            // Handle resize
-            window.addEventListener('resize', () => {
-                let newWidth = 0;
-                cards.forEach(card => {
-                    newWidth += card.offsetWidth + 32;
-                });
-                totalWidth = newWidth;
-            });
-        });
-    </script>
 </body>
-
 </html>
-
-
-
-
-
-
