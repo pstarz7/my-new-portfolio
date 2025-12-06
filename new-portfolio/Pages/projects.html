@@ -5,183 +5,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Papu Badatya</title>
-    <!-- Tailwind CSS -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP -->
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bebas+Neue&family=Bokor&family=Caveat:wght@400..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Doto:wght@100..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Edu+AU+VIC+WA+NT+Pre:wght@400..700&family=Ga+Maamli&family=Indie+Flower&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lacquer&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Major+Mono+Display&family=Oswald:wght@200..700&family=Pacifico&family=Permanent+Marker&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prata&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Dirt&family=Shadows+Into+Light&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Spicy+Rice&family=Underdog&display=swap"
-        rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
-        .hero-banner-img {
-            background-image: url(https://framerusercontent.com/images/q2Szdu3FT5kkl1WGzvxUXtkKDd0.png);
-            background-position: center;
-            background-size: cover;
-        }
+        body { font-family: 'Segoe UI', sans-serif; }
+        .lato-bold { font-family: "Lato", sans-serif; font-weight: 700; }
+        .lato-regular { font-family: "Lato", sans-serif; font-weight: 400; }
+        .lato-black { font-family: "Lato", sans-serif; font-weight: 900; }
 
-        .marquee-container {
-            height: 50px;
-            position: relative;
+        /* --- Navbar Logic --- */
+        .mobile-menu {
+            max-height: 0;
             overflow: hidden;
-        }
-
-        .marquee-container::before,
-        .marquee-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 700px;
-            height: 100%;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .marquee-container::before {
-            left: 0;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        .marquee-container::after {
-            right: 0;
-            background: linear-gradient(270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
-        }
-
-        .marquee-track {
-            display: flex;
-            position: absolute;
-            height: 100%;
-            align-items: center;
-            will-change: transform;
-        }
-
-        .marquee-item {
-            display: flex;
-            align-items: center;
-            margin: 0 2rem;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 768px) {
-            .marquee-item {
-                margin: 0 1rem;
-            }
-
-            .marquee-container::before,
-            .marquee-container::after {
-                width: 80px;
-            }
-        }
-
-        .lobster-regular {
-            font-family: "Lobster", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .bebas-neue-regular {
-            font-family: "Bebas Neue", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-               
-        .custom-cursor {
-            cursor: url('/images/click.png') 0 0, auto;
+            opacity: 0;
+            transition: all 0.4s ease-in-out;
+            visibility: hidden; /* Ensures it's not clickable when closed */
         }
         
-        body {
-       
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .lato-thin {
-            font-family: "Lato", sans-serif;
-            font-weight: 100;
-            font-style: normal;
+        .mobile-menu.open {
+            max-height: 400px; /* Large enough to fit content */
+            opacity: 1;
+            visibility: visible;
         }
 
-        .lato-light {
-            font-family: "Lato", sans-serif;
-            font-weight: 300;
-            font-style: normal;
-        }
-
-        .lato-regular {
-            font-family: "Lato", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .lato-bold {
-            font-family: "Lato", sans-serif;
-            font-weight: 700;
-            font-style: normal;
-        }
-
-        .lato-black {
-            font-family: "Lato", sans-serif;
-            font-weight: 900;
-            font-style: normal;
-        }
-
-        .lato-thin-italic {
-            font-family: "Lato", sans-serif;
-            font-weight: 100;
-            font-style: italic;
-        }
-
-        .lato-light-italic {
-            font-family: "Lato", sans-serif;
-            font-weight: 300;
-            font-style: italic;
-        }
-
-        .lato-regular-italic {
-            font-family: "Lato", sans-serif;
-            font-weight: 400;
-            font-style: italic;
-        }
-
-        .lato-bold-italic {
-            font-family: "Lato", sans-serif;
-            font-weight: 700;
-            font-style: italic;
-        }
-
-        .lato-black-italic {
-            font-family: "Lato", sans-serif;
-            font-weight: 900;
-            font-style: italic;
-        }
-
-        /* Project Card Styles */
+        /* --- Project Card Styling --- */
         .project-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            position: relative;
+            background: white;
+            will-change: transform, opacity;
+            transform: translateZ(0); 
         }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        .image-wrapper {
+            overflow: hidden;
+            height: 240px;
+            width: 100%;
+            position: relative;
         }
 
         .project-image {
-            height: 240px;
+            height: 100%;
             width: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .project-card:hover .project-image {
-            transform: scale(1.03);
+            transform: scale(1.1);
         }
 
         .tech-stack {
@@ -197,152 +77,95 @@
             border-radius: 20px;
             font-size: 12px;
             color: #4b5563;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover .tech-item {
+            background-color: #e5e7eb;
+            color: black;
         }
 
         .project-category {
             position: absolute;
             top: 16px;
             right: 16px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* Section Headers */
-        .section-header {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 40px;
-        }
-
+        /* Header Animation */
+        .section-header { position: relative; display: inline-block; }
         .section-header::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background-color: #000;
+            content: ''; position: absolute; bottom: -8px; left: 0;
+            width: 0%; height: 3px; background-color: #000;
+            transition: width 0.6s ease;
         }
-        /* Navbar styles */
-.nav-links {
-    transition: all 0.3s ease;
-}
-
-.mobile-menu {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-}
-
-.mobile-menu.open {
-    max-height: 300px;
-}
-
-.hamburger {
-    display: none;
-    cursor: pointer;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    .mobile-menu {
-        position: absolute;
-        top: 55px;
-        left: 0;
-        right: 0;
-        background-color: white;
-        z-index: 100;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .mobile-menu a {
-        display: block;
-        padding: 15px 20px;
-        text-align: center;
-        border-bottom: 1px solid #f3f4f6;
-    }
-}
-
+        .section-header.active::after { width: 60px; }
     </style>
 </head>
 
 <body class="overflow-x-hidden bg-white">
-    <!-- Custom Cursor Element -->
 
-<!-- Responsive Navbar -->
-<nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative">
-    <div class="navo-logo pl-2">
-        <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
-            <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-        </a>
-    </div>
+    <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white">
+        <div class="navo-logo pl-2">
+            <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
+                <i class="ri-gemini-fill text-orange-400"></i> Pstarz
+            </a>
+        </div>
 
-    <!-- Desktop Navigation -->
-    <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px] font-regular">
-        <a href="projects.html">Work</a>
-        <a href="about.html">About</a>
-        <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing">Resume</a>
-        <a href="contact.html">Contact</a>
-    </div>
+        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px]">
+            <a href="projects.html" class="text-orange-400">Work</a>
+            <a href="about.html" class="hover:text-orange-400 transition-colors">About</a>
+            <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" class="hover:text-orange-400 transition-colors">Resume</a>
+            <a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a>
+        </div>
 
-    <!-- Mobile Hamburger -->
-    <div class="hamburger md:hidden pr-3" id="hamburger">
-        <i class="ri-menu-line text-2xl"></i>
-    </div>
+        <div class="hamburger md:hidden pr-3 cursor-pointer" id="hamburger">
+            <i class="ri-menu-line text-2xl"></i>
+        </div>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu md:hidden w-full" id="mobileMenu">
-        <a href="projects.html" class="block py-3 px-5">Work</a>
-        <a href="about.html" class="block py-3 px-5">About</a>
-        <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" class="block py-3 px-5">Resume</a>
-        <a href="contact.html" class="block py-3 px-5">Contact</a>
-    </div>
-</nav>
-    <!-- Projects Header Section -->
+        <div class="mobile-menu md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 z-40" id="mobileMenu">
+            <a href="projects.html" class="block py-4 px-5 lato-bold text-orange-400 border-b border-gray-100 bg-gray-50">Work</a>
+            <a href="about.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">About</a>
+            <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">Resume</a>
+            <a href="contact.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors">Contact</a>
+        </div>
+    </nav>
+
     <div class="container mx-auto px-4 py-16 md:py-24">
-        <div class="max-w-3xl mx-auto text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-bold lato-black mb-6">My Projects</h1>
-            <p class="text-lg md:text-xl text-gray-600 lato-regular leading-relaxed">
+        <div class="max-w-3xl mx-auto text-center mb-16 hero-content">
+            <h1 class="text-4xl md:text-7xl font-bold lato-black mb-6 overflow-hidden">
+                <span class="inline-block reveal-text">My Projects</span>
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-600 lato-regular leading-relaxed reveal-text opacity-0 translate-y-4">
                 A collection of my work showcasing full-stack applications, frontend designs, and creative experiments.
             </p>
         </div>
     </div>
 
-    <!-- Full-Stack Projects Section -->
     <div class="container mx-auto px-4 py-12">
         <div class="mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">🔬 Full-Stack Projects</h2>
+            <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">Full-Stack Projects</h2>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 project-grid">
 
-                      <!-- Diary-Story Writer -->
-            <a href="https://diary-web-app-nine.vercel.app/stories" target="_blank" class="project-card group">
-                <div class="relative">
-                    <img src="/images/diary.gif" 
-                         alt="Diary-Story Writer" class="project-image">
+            <a href="https://diary-web-app-nine.vercel.app/stories" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                <div class="image-wrapper">
+                    <img src="/images/diary.gif" loading="lazy" decoding="async" alt="Diary-Story Writer" class="project-image">
                     <span class="project-category">Full-Stack</span>
                 </div>
-                <div class="p-6 bg-white">
+                <div class="p-6">
                     <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Diary-Story Writer</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A full-stack collaboration project developed with my brother. I built the frontend while he handled the backend.</p>
+                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A full-stack collaboration project. I built the frontend while my brother handled the backend.</p>
                     <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">JavaScript</span>
                         <span class="tech-item">EJS</span>
                         <span class="tech-item">Express</span>
                         <span class="tech-item">MongoDB</span>
@@ -351,270 +174,34 @@
                 </div>
             </a>
             
-            <!-- ResumeCraft -->
-            <a href="https://resume-craft-three.vercel.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/resume.gif" 
-                         alt="ResumeCraft" class="project-image">
+            <a href="https://resume-craft-three.vercel.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                <div class="image-wrapper">
+                    <img src="/images/resume.gif" loading="lazy" decoding="async" alt="ResumeCraft" class="project-image">
                     <span class="project-category">Full-Stack</span>
                 </div>
-                <div class="p-6 bg-white">
+                <div class="p-6">
                     <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">ResumeCraft</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A fully functional web app that allows users to create and download professional resumes — completely free.</p>
+                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A fully functional web app that allows users to create and download professional resumes.</p>
                     <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">Tailwind CSS</span>
-                        <span class="tech-item">CSS</span>
                         <span class="tech-item">Node.js</span>
                         <span class="tech-item">Express</span>
+                        <span class="tech-item">Tailwind</span>
                     </div>
                 </div>
             </a>
 
-            <!-- CureIt Project -->
-            <a href="https://cureit-web-app-ao71.onrender.com/ai" class="project-card group">
-                <div class="relative">
-                    <img src="/images/cureit.gif" 
-                         alt="CureIt Project" class="project-image">
+            <a href="https://cureit-web-app-ao71.onrender.com/ai" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                <div class="image-wrapper">
+                    <img src="/images/cureit.gif" loading="lazy" decoding="async" alt="CureIt Project" class="project-image">
                     <span class="project-category">Full-Stack</span>
                 </div>
-                <div class="p-6 bg-white">
+                <div class="p-6">
                     <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">CureIt</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A platform designed to help users easily understand their medications. Created especially for my father.</p>
+                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A platform designed to help users easily understand their medications using Gemini AI.</p>
                     <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">JavaScript</span>
                         <span class="tech-item">Node.js</span>
-                        <span class="tech-item">Express</span>
                         <span class="tech-item">GeminiAI</span>
-                    </div>
-                </div>
-            </a>
-            
-  
-        </div>
-    </div>
-
-    <!-- Frontend Projects Section -->
-    <div class="container mx-auto px-4 py-12 bg-gray-50">
-        <div class="mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">🎨 Frontend Projects</h2>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                      <!-- Trackyo -->
-            <a href="https://trackyo.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/banner.png" 
-                         alt="Trckyo" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Trackyo-job tracker</h3>
-                 <p class="text-gray-600 lato-regular mb-4">Responsive job tracker built with JavaScript and Firebase, designed to organize the job search process, With clean UI.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">tailwindcss</span>
-                        <span class="tech-item">Firebase</span>
-                        <span class="tech-item">Javascript</span>
-                        <span class="tech-item">Responsive UI</span>
-                        
-                    </div>
-                </div>
-            </a>
-
-
-                           <!-- React Portfolio -->
-            <a href="https://my-portfolio-pb7.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/react.png" 
-                         alt="BatMan FanPage" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">React Portfolio</h3>
-                    <p class="text-gray-600 lato-regular mb-4">Responsive portfolio website built with React, showcasing my skills and projects.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">React Js</span>
-                        <span class="tech-item">tailwindcss</span>
-                    </div>
-                </div>
-            </a>
-            
-       
-
-                      <!-- SANimX Animation Library -->
-            <a href="https://sanimx-gsap-animations.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/sanimx.png" 
-                         alt="SANimX Animation Library" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">SANimX Animation Library</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A lightweight animation library of ready-to-use GSAP effects. Just copy, paste, and animate!</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">Tailwind CSS</span>
-                        <span class="tech-item">JavaScript</span>
-                        <span class="tech-item">GSAP</span>
-                        <span class="tech-item">ScrollTrigger</span>
-                    </div>
-                </div>
-            </a>
-
-
-         <!-- pstarz-tshirt Landing Page UI -->
-<a href="https://cozy-sprinkles-67caf9.netlify.app/" class="project-card group">
-    <div class="relative">
-        <img src="/images/pstarz.png" 
-             alt="Aniweve Naruto FanPage UI" class="project-image">
-        <span class="project-category">Frontend</span>
-    </div>
-    <div class="p-6 bg-white">
-        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Frontend UI for a Landing Page</h3>
-        <p class="text-gray-600 lato-regular mb-4">A clean, responsive frontend UI for a T-shirt landing page, featuring smooth user experience.</p>
-        <div class="tech-stack">
-            <span class="tech-item">HTML</span>
-            <span class="tech-item">CSS</span>
-            <span class="tech-item">TailwindCSS</span>
-            <span class="tech-item">JavaScript</span>
-        </div>
-    </div>
-</a>
-
-            <!-- BatMan FanPage -->
-            <a href="https://the-batman12.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/batman4.png" 
-                         alt="BatMan FanPage" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">BatMan FanPage</h3>
-                    <p class="text-gray-600 lato-regular mb-4">An interactive website celebrating the Batman franchise with smooth animations.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">JavaScript</span>
-                        <span class="tech-item">GSAP</span>
-                        <span class="tech-item">ScrollTrigger</span>
-                    </div>
-                </div>
-            </a>
-            
-
-            <!-- Aniweve Naruto FanPage UI -->
-            <a href="https://aniwave7.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/aniwave7.png" 
-                         alt="Aniweve Naruto FanPage UI" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Aniweve Naruto FanPage UI</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A dynamic and colorful fan page UI featuring Naruto photos and quotes.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">JavaScript</span>
-                    </div>
-                </div>
-            </a>
-            
-            <!-- Property Landing Page -->
-            <a href="https://chimerical-tanuki-6fc385.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/antlacticui.png" 
-                         alt="Property Landing Page" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Property Landing Page</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A beautifully designed landing page for showcasing properties with elegant animations.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">TailwindCSS</span>
-                        <span class="tech-item">JavaScript</span>
-                        <span class="tech-item">GSAP</span>
-                        <span class="tech-item">ScrollTrigger</span>
-                    </div>
-                </div>
-            </a>
-            
-            <!-- Library Frontend -->
-            <a href="https://calm-entremet-634b3c.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/sanUi.png" 
-                         alt="Library Frontend" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Library Frontend Ui</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A modern and minimalistic frontend UI for a library website.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">JavaScript</span>
-                    </div>
-                </div>
-            </a>
-            
-            <!-- Piretcoder EdTech UI -->
-            <a href="https://tangerine-bavarois-4789c0.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/piretedcoder.png" 
-                         alt="Piretcoder EdTech UI" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Piretcoder EdTech UI</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A sleek and clean UI design for an online educational platform.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">Locomotive.js</span>
-                    </div>
-                </div>
-            </a>
-                       <!-- sai intelct ui  -->
-                  <a href="https://sai-intellect-solution-ui.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/saiint.png" 
-                         alt="Piretcoder EdTech UI" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Assignment UI</h3>
-                    <p class="text-gray-600 lato-regular mb-4">This is an assignment project I made for my brother.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">JavaScript</span>
-                    </div>
-                </div>
-            </a>
-
-                                   <!-- furnture landing apge ui  -->
-                  <a href="https://nirakar-and-sons.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/nirakar-and-sons.png" 
-                         alt="Piretcoder EdTech UI" class="project-image">
-                    <span class="project-category">Frontend</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Furniture landing page UI</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A simple landing page ui For a local Furniture shop.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">GSAP</span>
+                        <span class="tech-item">Express</span>
                     </div>
                 </div>
             </a>
@@ -622,244 +209,278 @@
         </div>
     </div>
 
-    <!-- Other Projects Section -->
+    <div class="bg-gray-50 py-16">
+        <div class="container mx-auto px-4">
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">Frontend Projects</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 project-grid">
+
+                <a href="https://trackyo.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                    <div class="image-wrapper">
+                        <img src="/images/banner.png" loading="lazy" decoding="async" alt="Trackyo" class="project-image">
+                        <span class="project-category">Frontend</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Trackyo</h3>
+                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Responsive job tracker built with JavaScript and Firebase.</p>
+                        <div class="tech-stack">
+                            <span class="tech-item">Firebase</span>
+                            <span class="tech-item">JavaScript</span>
+                            <span class="tech-item">Tailwind</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://my-portfolio-pb7.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                    <div class="image-wrapper">
+                        <img src="/images/react.png" loading="lazy" decoding="async" alt="React Portfolio" class="project-image">
+                        <span class="project-category">React</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">React Portfolio</h3>
+                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Responsive portfolio website built with React.</p>
+                        <div class="tech-stack">
+                            <span class="tech-item">React Js</span>
+                            <span class="tech-item">Tailwind</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://sanimx-gsap-animations.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                    <div class="image-wrapper">
+                        <img src="/images/sanimx.png" loading="lazy" decoding="async" alt="SANimX" class="project-image">
+                        <span class="project-category">Library</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">SANimX Library</h3>
+                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A lightweight animation library of ready-to-use GSAP effects.</p>
+                        <div class="tech-stack">
+                            <span class="tech-item">GSAP</span>
+                            <span class="tech-item">ScrollTrigger</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://the-batman12.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                    <div class="image-wrapper">
+                        <img src="/images/batman4.png" loading="lazy" decoding="async" alt="Batman" class="project-image">
+                        <span class="project-category">Animation</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">The Batman</h3>
+                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Interactive website celebrating the Batman franchise.</p>
+                        <div class="tech-stack">
+                            <span class="tech-item">GSAP</span>
+                            <span class="tech-item">ScrollTrigger</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://chimerical-tanuki-6fc385.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                    <div class="image-wrapper">
+                        <img src="/images/antlacticui.png" loading="lazy" decoding="async" alt="Property" class="project-image">
+                        <span class="project-category">UI/UX</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Property Landing Page</h3>
+                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Beautifully designed landing page for showcasing properties.</p>
+                        <div class="tech-stack">
+                            <span class="tech-item">GSAP</span>
+                            <span class="tech-item">Tailwind</span>
+                        </div>
+                    </div>
+                </a>
+
+                 <a href="https://sai-intellect-solution-ui.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                    <div class="image-wrapper">
+                        <img src="/images/saiint.png" loading="lazy" decoding="async" alt="Sai Intellect" class="project-image">
+                        <span class="project-category">UI</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Assignment UI</h3>
+                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">An academic assignment interface design.</p>
+                        <div class="tech-stack">
+                            <span class="tech-item">HTML/CSS</span>
+                            <span class="tech-item">JS</span>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
     <div class="container mx-auto px-4 py-12">
         <div class="mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">🛠 Other Projects</h2>
+            <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">Other Projects</h2>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- GSAP Animation Practice -->
-            <a href="https://comfy-boba-7814ac.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/gsap-animtion.png" 
-                         alt="GSAP Animation Practice" class="project-image">
-                    <span class="project-category">Animation</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">GSAP Animation Practice</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A simple animation playground using GSAP and Lenis.js for smooth scrolling.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">GSAP</span>
-                        <span class="tech-item">ScrollTrigger</span>
-                        <span class="tech-item">Lenis.js</span>
-                    </div>
-                </div>
-            </a>
-
-                        <!-- DOM Practice -->
-            <a href="https://bejewelled-rabanadas-6891a3.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/deskport.png" 
-                         alt="GSAP Animation Practice" class="project-image">
-                    <span class="project-category">DOM</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Desktop Portfolio</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A simple DOM Practice Project</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">JavaScript</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 project-grid">
             
-                    </div>
-                </div>
-            </a>
-
-                                    <!-- Responsive nav Practice -->
-            <a href="https://vocal-peony-94abda.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/nab respons.png" 
-                         alt="GSAP Animation Practice" class="project-image">
-                    <span class="project-category">Responsive</span>
-                </div>
-                <div class="p-6 bg-white">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Responsive NavBar</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A simple responsive Navbar Practice Project</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">GSAP</span>
-                        <span class="tech-item">JavaScript</span>
-                        
-            
-                    </div>
-                </div>
-            </a>
-            
-            <!-- Weather App -->
-            <a href="https://weathapp17.netlify.app/" class="project-card group">
-                <div class="relative">
-                    <img src="/images/weather-app.png" 
-                         alt="Weather App" class="project-image">
+            <a href="https://weathapp17.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                <div class="image-wrapper">
+                    <img src="/images/weather-app.png" loading="lazy" decoding="async" alt="Weather App" class="project-image">
                     <span class="project-category">Web App</span>
                 </div>
-                <div class="p-6 bg-white">
+                <div class="p-6">
                     <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Weather App</h3>
-                    <p class="text-gray-600 lato-regular mb-4">A responsive web app that displays real-time weather forecasts.</p>
+                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A responsive web app that displays real-time weather forecasts.</p>
                     <div class="tech-stack">
-                        <span class="tech-item">HTML</span>
-                        <span class="tech-item">CSS</span>
-                        <span class="tech-item">JavaScript</span>
+                        <span class="tech-item">HTML/CSS</span>
+                        <span class="tech-item">JS</span>
                         <span class="tech-item">Weather API</span>
                     </div>
                 </div>
             </a>
+
+            <a href="https://comfy-boba-7814ac.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                <div class="image-wrapper">
+                    <img src="/images/gsap-animtion.png" loading="lazy" decoding="async" alt="GSAP" class="project-image">
+                    <span class="project-category">Experiment</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">GSAP Playground</h3>
+                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Animation playground using GSAP and Lenis.js.</p>
+                    <div class="tech-stack">
+                        <span class="tech-item">GSAP</span>
+                        <span class="tech-item">Lenis</span>
+                    </div>
+                </div>
+            </a>
+
+             <a href="https://bejewelled-rabanadas-6891a3.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                <div class="image-wrapper">
+                    <img src="/images/deskport.png" loading="lazy" decoding="async" alt="Desktop Portfolio" class="project-image">
+                    <span class="project-category">DOM</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Desktop Portfolio</h3>
+                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A simple DOM manipulation practice project.</p>
+                    <div class="tech-stack">
+                        <span class="tech-item">DOM API</span>
+                        <span class="tech-item">JS</span>
+                    </div>
+                </div>
+            </a>
+            
+             <a href="https://vocal-peony-94abda.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
+                <div class="image-wrapper">
+                    <img src="/images/nab respons.png" loading="lazy" decoding="async" alt="Nav" class="project-image">
+                    <span class="project-category">Layout</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Responsive Navbar</h3>
+                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Responsive Navbar layout practice.</p>
+                    <div class="tech-stack">
+                        <span class="tech-item">CSS Flexbox</span>
+                        <span class="tech-item">GSAP</span>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 
-    <!-- Footer Section -->
-    <div class="bg-gray-100 py-12">
-        <div class="container mx-auto px-4 text-center">
+    <div class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4 text-center anim-trigger">
             <h3 class="text-2xl font-bold lato-bold mb-4">Want to see more?</h3>
-            <p class="text-gray-600 lato-regular mb-6 max-w-2xl mx-auto">
-                I'm constantly working on new projects and experiments. Feel free to reach out if you'd like to collaborate or just chat about design and development!
+            <p class="text-gray-600 lato-regular mb-8 max-w-2xl mx-auto">
+                I'm constantly working on new projects and experiments. Feel free to reach out if you'd like to collaborate or just chat!
             </p>
-            <a href="https://mail.google.com/mail/u/2/?ogbl#inbox?compose=new" class="inline-block bg-black text-white px-6 py-3 rounded-full font-medium lato-bold hover:bg-gray-800 transition-colors">
+            <a href="contact.html" class="inline-block bg-black text-white px-8 py-3 rounded-full font-medium lato-bold hover:bg-gray-800 transition-transform hover:scale-105 duration-300">
                 Get In Touch
             </a>
         </div>
     </div>
-        <footer id="Contact" class="bg-black text-white py-16 lato-regular">
+
+    <footer class="bg-black text-white py-12 lato-regular text-center">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <!-- Contact Column -->
-                <div class="space-y-4">
-                    <h3 class="text-lg lato-bold mb-6">Get in touch</h3>
-                    <div class="flex items-start space-x-4">
-                        <i class="ri-mail-line mt-1"></i>
-                        <a href="mailto:papubadatya355@gmail.com" class="hover:text-orange-400 transition-colors">
-                            papubadatya355@gmail.com
-                        </a>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <i class="ri-phone-line mt-1"></i>
-                        <a href="tel:+916370134774" class="hover:text-orange-400 transition-colors">
-                            +91 6370134774
-                        </a>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <i class="ri-map-pin-line mt-1"></i>
-                        <span>Berhampur, Ganjam, Odisha, India - 760010</span>
-                    </div>
-                </div>
-                
-                <!-- Social Column -->
-                <div class="space-y-4">
-                    <h3 class="text-lg lato-bold mb-6">Connect</h3>
-                    <div class="flex space-x-6">
-                        <a href="https://www.linkedin.com/in/papu-badatya-759767254/" class="text-2xl hover:text-orange-400 transition-colors">
-                            <i class="ri-linkedin-fill"></i>
-                        </a>
-                        <a href="https://github.com/pstarz7" class="text-2xl hover:text-orange-400 transition-colors">
-                            <i class="ri-github-fill"></i>
-                        </a>
-                        <a href="https://www.instagram.com/_pstarz/" class="text-2xl hover:text-orange-400 transition-colors">
-                            <i class="ri-instagram-line"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Copyright Column -->
-                <div class="space-y-4 md:text-right">
-              
-                    <div class="mt-8 pt-6 border-t border-gray-700">
-                        © 2024 Papu Badatya. All rights reserved.
-                    </div>
-                </div>
+             <div class="flex justify-center gap-8 mb-8">
+                <a href="#" class="text-2xl hover:text-orange-400 transition-colors"><i class="ri-linkedin-fill"></i></a>
+                <a href="#" class="text-2xl hover:text-orange-400 transition-colors"><i class="ri-github-fill"></i></a>
+                <a href="#" class="text-2xl hover:text-orange-400 transition-colors"><i class="ri-instagram-line"></i></a>
             </div>
+            <p class="text-gray-500 text-sm">© 2024 Papu Badatya. All rights reserved.</p>
         </div>
     </footer>
 
 
     <script>
-        // Initialize Lenis
+        // 1. Initialize Lenis (Smooth Scroll)
         const lenis = new Lenis({
             autoRaf: true,
+            smooth: true,
+            lerp: 0.1
         });
 
-        // Listen for the scroll event and log the event data
-        lenis.on('scroll', (e) => {
-            console.log(e);
+        // 2. Register GSAP Plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 3. Hero Animation
+        const tl = gsap.timeline();
+        tl.from(".reveal-text", {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "power4.out"
         });
 
-        // Custom cursor
-        const cursor = document.getElementById('custom-cursor');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-        });
-
-        // GSAP animations for project cards on scroll
-        gsap.utils.toArray(".project-card").forEach(card => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                },
-                opacity: 0,
-                y: 50,
-                duration: 0.8,
-                ease: "power2.out"
-            });
-        });
-
-        // Animate section headers
+        // 4. Section Headers Animation (Underline Effect)
         gsap.utils.toArray(".section-header").forEach(header => {
-            gsap.from(header, {
-                scrollTrigger: {
-                    trigger: header,
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                },
-                opacity: 0,
-                x: -30,
-                duration: 0.6,
-                ease: "power2.out"
+            ScrollTrigger.create({
+                trigger: header,
+                start: "top 80%",
+                onEnter: () => header.classList.add("active")
             });
+        });
 
-            gsap.from(header.querySelector("h2"), {
-                scrollTrigger: {
-                    trigger: header,
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                },
-                opacity: 0,
-                y: 20,
-                duration: 0.8,
-                delay: 0.2,
-                ease: "power2.out"
+        // 5. Optimized Card Stagger Animation (Batch)
+        ScrollTrigger.batch(".project-card", {
+            interval: 0.1, 
+            batchMax: 3, 
+            onEnter: batch => {
+                gsap.to(batch, {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.15,
+                    overwrite: true,
+                    duration: 0.8,
+                    ease: "power3.out"
+                });
+            },
+        });
+        
+        gsap.set(".project-card", { y: 60, opacity: 0 });
+
+        // 6. Footer Animation
+        gsap.from(".anim-trigger", {
+            scrollTrigger: {
+                trigger: ".anim-trigger",
+                start: "top 85%",
+            },
+            y: 40,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out"
+        });
+
+        // 7. Mobile Menu Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            hamburger.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#hamburger') && !e.target.closest('#mobileMenu')) {
+                    mobileMenu.classList.remove('open');
+                }
             });
         });
     </script>
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    hamburger.addEventListener('click', () => {
-        mobileMenu.classList.toggle('open');
-    });
-
-    // Optional: Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('#hamburger') && !e.target.closest('#mobileMenu')) {
-            mobileMenu.classList.remove('open');
-        }
-    });
-});
-</script>
-
 </body>
 </html>
-
-
-
-
-
-
-
