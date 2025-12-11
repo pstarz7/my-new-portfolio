@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: MKCG Redesign | Papu Badatya</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Bebas+Neue&family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        html, body { height: 100%; font-family: 'Segoe UI', sans-serif; }
+
+        /* Typography */
+        .lato-regular { font-family: "Lato", sans-serif; font-weight: 400; }
+        .lato-bold { font-family: "Lato", sans-serif; font-weight: 700; }
+        .lato-black { font-family: "Lato", sans-serif; font-weight: 900; }
+        .font-merriweather { font-family: 'Merriweather', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+
+        /* Navbar & Menu */
+        .mobile-menu {
+            max-height: 0; overflow: hidden; opacity: 0;
+            transition: all 0.4s ease-in-out; visibility: hidden;
+        }
+        .mobile-menu.open {
+            max-height: 400px; opacity: 1; visibility: visible;
+        }
+
+        /* Color Swatch Circle */
+        .color-swatch {
+            width: 80px; height: 80px; border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .color-swatch:hover { transform: scale(1.1); }
+
+        /* Media Containers */
+        .media-container {
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #f3f4f6;
+        }
+
+        /* Mobile Mockup Frame */
+        .phone-frame {
+            border: 12px solid #1f2937;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden bg-white">
+
+    <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white border-b border-gray-100">
+        <div class="navo-logo pl-2">
+            <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
+                <i class="ri-gemini-fill text-orange-400"></i> Pstarz
+            </a>
+        </div>
+
+        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px]">
+            <a href="/Pages/projects.html" class="text-orange-400 transition-colors">Work</a>
+            <a href="/Pages/about.html" class="hover:text-orange-400 transition-colors">About</a>
+            <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" class="hover:text-orange-400 transition-colors">Resume</a>
+            <a href="/Pages/contact.html" class="hover:text-orange-400 transition-colors">Contact</a>
+        </div>
+
+        <div class="hamburger md:hidden pr-3 cursor-pointer" id="hamburger">
+            <i class="ri-menu-line text-2xl"></i>
+        </div>
+
+        <div class="mobile-menu md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 z-40" id="mobileMenu">
+            <a href="/Pages/projects.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-orange-400 border-b border-gray-100">Work</a>
+            <a href="/Pages/about.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800 border-b border-gray-100">About</a>
+            <a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800 border-b border-gray-100">Resume</a>
+            <a href="/Pages/contact.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800">Contact</a>
+        </div>
+    </nav>
+
+    <header class="container mx-auto px-4 py-20 md:py-28 max-w-5xl">
+        <span class="text-orange-400 font-bold tracking-[3px] uppercase text-xs mb-4 block anim-reveal">Case Study</span>
+        <h1 class="text-4xl md:text-6xl lato-black text-gray-900 mb-8 leading-tight anim-reveal">
+            Reimagining a Lifeline:<br>M.K.C.G. Hospital Redesign
+        </h1>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-b border-gray-100 py-8 anim-reveal">
+            <div>
+                <h4 class="text-xs text-gray-400 uppercase tracking-wider mb-1">Role</h4>
+                <p class="lato-bold text-gray-800">Frontend UI Developer</p>
+            </div>
+            <div>
+                <h4 class="text-xs text-gray-400 uppercase tracking-wider mb-1">Type</h4>
+                <p class="lato-bold text-gray-800">Civic Design Concept</p>
+            </div>
+            <div>
+                <h4 class="text-xs text-gray-400 uppercase tracking-wider mb-1">Location</h4>
+                <p class="lato-bold text-gray-800">Berhampur, Odisha</p>
+            </div>
+            <div>
+                <h4 class="text-xs text-gray-400 uppercase tracking-wider mb-1">Stack</h4>
+                <p class="lato-bold text-gray-800">HTML, Tailwind, JS</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="container mx-auto px-4 py-10 max-w-3xl">
+        <div class="anim-reveal">
+            <h2 class="text-2xl md:text-3xl lato-bold mb-6">1. The Why: Curiosity Meets Necessity</h2>
+            <p class="text-gray-600 lato-regular text-lg leading-relaxed mb-6">
+                M.K.C.G. Medical College & Hospital is a place many people in Southern Odisha depend on. It treats thousands, teaches hundreds, and supports families every single day.
+            </p>
+            <p class="text-gray-600 lato-regular text-lg leading-relaxed mb-8">
+                But the moment I opened the official website, it felt outdated and overwhelming. Too many links, too much scrolling, and no clear direction. It reminded me of how government sites often grow over the years without a real design plan.
+            </p>
+            
+            <div class="border-l-4 border-orange-400 pl-6 py-2 my-10 bg-orange-50/50 rounded-r-lg">
+                <p class="text-gray-800 italic font-medium text-xl">
+                    "If I feel lost on this website, what happens to a worried family member looking for emergency help?"
+                </p>
+            </div>
+
+            <p class="text-gray-600 lato-regular text-lg leading-relaxed">
+                That thought was enough for me to start this redesign. My aim was simple: rebuild the landing page with clarity and empathy, and show that even government platforms can feel clean, modern and human.
+            </p>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-20 mt-10">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <h2 class="text-2xl md:text-3xl lato-bold mb-10 text-center anim-reveal">2. The Problem: The Digital Maze</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 anim-card">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-red-500 mb-4 text-xl"><i class="ri-spam-2-line"></i></div>
+                    <h3 class="font-bold text-lg mb-2">Information Overload</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Important and unimportant things are mixed together. Notices for staff show up right beside patient details.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 anim-card">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-500 mb-4 text-xl"><i class="ri-sort-desc"></i></div>
+                    <h3 class="font-bold text-lg mb-2">No Prioritization</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">A user in a medical emergency shouldn’t have to scroll past alumni information to find help.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 anim-card">
+                    <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 mb-4 text-xl"><i class="ri-layout-2-line"></i></div>
+                    <h3 class="font-bold text-lg mb-2">Outdated Interface</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">The design feels old, which directly affects the trust users place in the institution.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 py-20 max-w-6xl">
+        <div class="max-w-3xl mx-auto text-center mb-10 anim-reveal">
+            <h3 class="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+                <i class="ri-error-warning-fill text-gray-400"></i> The Current Experience
+            </h3>
+            <p class="text-gray-600 leading-relaxed mb-6 text-lg">
+                This is the existing interface. Notice the cluttered sidebar, the marquee scrolling text that distracts the eye, and the lack of a clear call-to-action for patients. It forces users to hunt for information rather than guiding them.
+            </p>
+            <a href="https://www.mkcgmch.org/" target="_blank" class="text-orange-500 font-bold hover:underline inline-flex items-center gap-2">
+                Visit Official Website <i class="ri-external-link-line"></i>
+            </a>
+        </div>
+
+        <div class="w-full media-container anim-reveal bg-gray-100 p-2 shadow-2xl">
+            <video class="w-full h-auto rounded-lg scroll-video" muted playsinline loop poster="/images/mkcg-old-placeholder.jpg">
+                <source src="/images/mkcgoldui.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
+
+    <section class="bg-black text-white py-20">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <h2 class="text-2xl md:text-3xl lato-bold mb-4 anim-reveal">4. Visual Identity: Trust & Warmth</h2>
+            <p class="text-gray-400 max-w-2xl mb-12 anim-reveal">Most hospitals use a flat blue. I wanted something more relatable. I used Coolors to build a palette that feels reliable yet comforting.</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 anim-reveal">
+                <div class="flex flex-col items-center">
+                    <div class="color-swatch bg-[#216869] mb-3"></div>
+                    <span class="font-mono text-sm text-gray-400">#216869</span>
+                    <span class="text-xs text-gray-500">Stormy Teal</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="color-swatch bg-[#49a078] mb-3"></div>
+                    <span class="font-mono text-sm text-gray-400">#49a078</span>
+                    <span class="text-xs text-gray-500">Seaweed Green</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="color-swatch bg-[#1f2421] border border-gray-700 mb-3"></div>
+                    <span class="font-mono text-sm text-gray-400">#1f2421</span>
+                    <span class="text-xs text-gray-500">Carbon Black</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="color-swatch bg-[#dce1de] mb-3"></div>
+                    <span class="font-mono text-sm text-gray-400">#dce1de</span>
+                    <span class="text-xs text-gray-500">Alabaster</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 border-t border-gray-800 pt-10 anim-reveal">
+                <div>
+                    <h4 class="text-gray-500 uppercase tracking-widest text-xs mb-4">Typography</h4>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="font-merriweather text-3xl mb-1">Merriweather</p>
+                            <p class="text-gray-500 text-sm">Headings - Gives a sense of heritage.</p>
+                        </div>
+                        <div>
+                            <p class="font-inter text-3xl mb-1">Inter</p>
+                            <p class="text-gray-500 text-sm">Body - Clean, simple, and readable.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-gray-500 uppercase tracking-widest text-xs mb-4">Resources Used</h4>
+                    <ul class="space-y-3">
+                        <li><a href="https://coolors.co/" target="_blank" class="flex items-center gap-2 hover:text-orange-400 transition-colors"><i class="ri-link"></i> Coolors.co (Palette)</a></li>
+                        <li><a href="https://fonts.google.com/" target="_blank" class="flex items-center gap-2 hover:text-orange-400 transition-colors"><i class="ri-link"></i> Google Fonts</a></li>
+                        <li><a href="https://lucide.dev/" target="_blank" class="flex items-center gap-2 hover:text-orange-400 transition-colors"><i class="ri-link"></i> Lucide Icons</a></li>
+                        <li><a href="https://www.behance.net/" target="_blank" class="flex items-center gap-2 hover:text-orange-400 transition-colors"><i class="ri-behance-fill"></i> Behance (Inspiration)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 py-20 max-w-3xl">
+        <div class="anim-reveal">
+            <h2 class="text-2xl md:text-3xl lato-bold mb-6">3. The Solution: Design With Empathy</h2>
+            <p class="text-gray-600 lato-regular text-lg leading-relaxed mb-8">
+                I started by separating users based on intent instead of treating everyone the same. I implemented the <strong>"Who Are You?"</strong> approach.
+            </p>
+            
+            <div class="bg-orange-50 p-6 rounded-lg mb-8 border border-orange-100">
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-3"><span class="w-2 h-2 bg-orange-400 rounded-full"></span> <strong>Patients</strong> → OPD Booking, Lab Reports</li>
+                    <li class="flex items-center gap-3"><span class="w-2 h-2 bg-orange-400 rounded-full"></span> <strong>Students</strong> → Syllabus, Results, Hostel Info</li>
+                    <li class="flex items-center gap-3"><span class="w-2 h-2 bg-orange-400 rounded-full"></span> <strong>Faculty</strong> → Tenders, Departments</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">Emergency First</h3>
+            <p class="text-gray-600 lato-regular text-lg leading-relaxed">
+                In healthcare, fast access is everything. I added a clear "Emergency" button in the hero section and an always-visible footer area. This creates a quick path for Ambulance (108) or Help Desk contacts without searching.
+            </p>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-20 border-y border-gray-100">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <h2 class="text-2xl md:text-3xl lato-bold mb-10 text-center anim-reveal">Visual Highlights</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 anim-reveal">
+                <div class="group relative rounded-xl overflow-hidden shadow-md cursor-pointer">
+                    <img src="/images/mkcg-cntnt.png" alt="Hero Section" class="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">Clean Hero Section</span>
+                    </div>
+                </div>
+                <div class="group relative rounded-xl overflow-hidden shadow-md cursor-pointer">
+                    <img src="/images/mkcg-emg.png" alt="Emergency Modal" class="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">Emergency Quick Access</span>
+                    </div>
+                </div>
+                <div class="group relative rounded-xl overflow-hidden shadow-md cursor-pointer md:col-span-2">
+                    <img src="/images/mkcg=footer.png" alt="Footer Design" class="w-full h-[300px] md:h-[400px] object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">Organized Footer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 py-20 max-w-6xl">
+        <div class="media-container bg-white p-4 md:p-8 anim-reveal">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-6">
+                <div>
+                    <h3 class="text-2xl font-bold mb-2">The Redesign Concept</h3>
+                    <p class="text-gray-500">A cleaner, faster, and more accessible interface.</p>
+                </div>
+                <a href="https://mkcgnewui.netlify.app/" target="_blank" class="px-6 py-3 bg-black text-white rounded-full font-bold hover:bg-orange-500 transition-colors mt-4 md:mt-0">
+                    View Live Concept <i class="ri-arrow-right-line ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200">
+                <video class="w-full h-auto scroll-video" muted playsinline loop>
+                    <source src="/images/mkcguinew.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-900 py-20 text-white">
+        <div class="container mx-auto px-4 max-w-5xl flex flex-col md:flex-row items-center gap-12">
+            
+            <div class="w-full md:w-1/2 anim-reveal">
+                <span class="text-orange-400 font-bold uppercase tracking-wider text-xs mb-2 block">Adaptability</span>
+                <h2 class="text-3xl md:text-4xl lato-bold mb-6">Built for Every Device</h2>
+                <p class="text-gray-400 leading-relaxed mb-6">
+                    In Berhampur, many users access the hospital site via mobile phones. I prioritized a responsive layout that stacks content logically, ensures touch targets are large enough, and keeps the emergency button accessible at thumb's reach.
+                </p>
+                <div class="flex gap-4 text-gray-300">
+                    <div class="flex flex-col items-center">
+                        <i class="ri-smartphone-line text-2xl mb-1"></i>
+                        <span class="text-xs">Mobile</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="ri-tablet-line text-2xl mb-1"></i>
+                        <span class="text-xs">Tablet</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="ri-macbook-line text-2xl mb-1"></i>
+                        <span class="text-xs">Desktop</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2 flex justify-center anim-reveal">
+                <div class="phone-frame w-[280px] h-[580px]">
+                    <video class="w-full h-full object-cover scroll-video" muted playsinline loop>
+                        <source src="/images/mkcgurmob.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 py-16 max-w-3xl">
+        <div class="anim-reveal">
+            <h2 class="text-2xl md:text-3xl lato-bold mb-6">The Outcome</h2>
+            <p class="text-gray-600 lato-regular text-lg leading-relaxed mb-8">
+                This redesign turns the website from a giant list of links into a portal that actually helps people. What started as a curiosity project reminded me that public services deserve simple and thoughtful design.
+            </p>
+            <div class="flex flex-wrap gap-3 mt-4">
+                <span class="px-4 py-2 bg-gray-100 rounded-full text-sm font-bold text-gray-600">HTML5 Semantic</span>
+                <span class="px-4 py-2 bg-gray-100 rounded-full text-sm font-bold text-gray-600">Tailwind CSS</span>
+                <span class="px-4 py-2 bg-gray-100 rounded-full text-sm font-bold text-gray-600">JavaScript</span>
+                <span class="px-4 py-2 bg-gray-100 rounded-full text-sm font-bold text-gray-600">Responsive UI</span>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white py-16 lato-regular border-t border-gray-900 mt-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+                
+                <div class="space-y-4">
+                    <a href="#" class="text-2xl font-bold lato-black tracking-tighter flex items-center gap-2">
+                        <i class="ri-gemini-fill text-orange-400"></i> Pstarz
+                    </a>
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+                        I bridge the gap between design and technology, building responsive interfaces that leave a lasting impact. Focused on clean code, smooth motion, and seamless user experiences.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-lg lato-bold text-white mb-2">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/Pages/projects.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Work</a></li>
+                        <li><a href="/Pages/about.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">About Me</a></li>
+                        <li><a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" target="_blank" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Resume</a></li>
+                        <li><a href="/Pages/contact.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-lg lato-bold text-white mb-2">Contact Info</h3>
+                    <div class="space-y-3">
+                        <a href="mailto:papubadatya355@gmail.com" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group">
+                            <i class="ri-mail-line text-lg group-hover:text-white transition-colors"></i>
+                            papubadatya355@gmail.com
+                        </a>
+                        <a href="tel:+916370134774" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group">
+                            <i class="ri-phone-line text-lg group-hover:text-white transition-colors"></i>
+                            +91 6370134774
+                        </a>
+                        <div class="flex items-start gap-3 text-gray-400 text-sm">
+                            <i class="ri-map-pin-line text-lg mt-0.5"></i>
+                            <span>Berhampur, Ganjam,<br>Odisha, India - 760010</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="text-lg lato-bold text-white mb-2">Interested in connecting?</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300">
+                            <i class="ri-linkedin-fill text-lg"></i>
+                        </a>
+                        <a href="https://github.com/pstarz7" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all duration-300">
+                            <i class="ri-github-fill text-lg"></i>
+                        </a>
+                        <a href="https://www.instagram.com/_pstarz/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#E1306C] hover:text-white transition-all duration-300">
+                            <i class="ri-instagram-line text-lg"></i>
+                        </a>
+                        <a href="https://x.com/_pstarz" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all duration-300">
+                            <i class="ri-twitter-x-fill text-lg"></i>
+                        </a>
+                        <a href="https://www.behance.net/papubadatya1" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#1769ff] hover:text-white transition-all duration-300">
+                            <i class="ri-behance-fill text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+                <p>© 2025 Papu Badatya. All rights reserved.</p>
+                <p class="flex items-center gap-1">
+                    Made with <i class="ri-heart-fill text-red-500 animate-pulse"></i> & <i class="ri-music-2-fill text-orange-400"></i>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Initialize Lenis
+        const lenis = new Lenis({ autoRaf: true, smooth: true });
+
+        // 2. Register GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 3. Animations
+        gsap.utils.toArray(".anim-reveal").forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top 85%" },
+                y: 40, opacity: 0, duration: 1, ease: "power2.out"
+            });
+        });
+
+        gsap.utils.toArray(".anim-card").forEach((el, i) => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top 90%" },
+                y: 50, opacity: 0, duration: 0.8, delay: i * 0.1, ease: "power2.out"
+            });
+        });
+
+        // 4. SCROLL BASED VIDEO PLAY/PAUSE LOGIC
+        // Logic: Find all videos with class 'scroll-video'. Play when in view, pause when out.
+        gsap.utils.toArray(".scroll-video").forEach(video => {
+            ScrollTrigger.create({
+                trigger: video,
+                start: "top 80%", // Start playing when top of video hits 80% of viewport
+                end: "bottom 20%", // Pause when bottom of video passes 20% of viewport (scrolled past)
+                onEnter: () => video.play(),
+                onLeave: () => video.pause(),
+                onEnterBack: () => video.play(),
+                onLeaveBack: () => video.pause(),
+            });
+        });
+
+        // 5. Mobile Menu
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#hamburger') && !e.target.closest('#mobileMenu')) mobileMenu.classList.remove('open');
+            });
+        });
+    </script>
+</body>
+</html>
