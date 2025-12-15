@@ -96,14 +96,20 @@
         }
         .mobile-menu.open { max-height: 400px; opacity: 1; visibility: visible; }
 
-        /* TEXT REVEAL STYLE */
-        .reveal-word {
+        /* HIGHLIGHTER ANIMATION STYLE */
+        .highlight-word {
             display: inline-block;
-            opacity: 0.3; /* Start transparent/gray */
-            color: #9ca3af; /* Gray-400 */
-            transition: opacity 0.2s, color 0.2s;
+            position: relative;
+            z-index: 1;
+            /* Natural Pastel Gradient */
+            background-image: linear-gradient(120deg, rgba(251, 146, 60, 0.2) 0%, rgba(251, 146, 60, 0.5) 100%); 
+            background-repeat: no-repeat;
+            background-size: 0% 35%; /* Start width 0, 35% height (marker thickness) */
+            background-position: 0% 90%; /* Sits low like a marker stroke */
+            border-radius: 2px;
+            /* Important: Ensures proper spacing */
+            margin-right: 0.2em; 
         }
-        /* The animation will turn this to opacity: 1 and color: brand-orange */
     </style>
 </head>
 
@@ -151,7 +157,6 @@
                 <h2 class="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-gray-500">Creative Frontend Developer</h2>
                 <span class="h-[1px] w-8 bg-orange-500"></span>
             </div>
-            
             <h1 class="text-[13vw] leading-[0.85] lobster-regular text-gray-900 mb-8 md:mb-12 anim-hero opacity-0 translate-y-20 relative z-30">
                 Papu Badatya
             </h1>
@@ -180,7 +185,7 @@
 
     <section class="w-full bg-white py-32 md:py-48 px-6 flex justify-center items-center text-center">
         <div class="max-w-5xl mx-auto w-full">
-            <h2 id="text-reveal" class="text-[clamp(2rem,4.5vw,4.5rem)] leading-[1.4] tracking-normal lato-black text-gray-300">
+            <h2 id="text-reveal" class="text-[clamp(1.8rem,4vw,3.5rem)] leading-[1.6] tracking-normal lato-black text-gray-900">
                 Hey! I'm a frontend UI developer based in India. I craft responsive, high-performance interfaces that blend Design with Functionality.
             </h2>
         </div>
@@ -261,7 +266,7 @@
                 </div>
             </a>
 
-            <a href="/Pages/projects.html" class="bento-card bento-col-2 group anim-reveal relative overflow-hidden bg-gray-50 border-dashed border-2 border-gray-200 flex flex-col justify-center items-center text-center p-8 hover:border-orange-500 hover:bg-orange-50 transition-all duration-300">
+            <a href="#project-scroll-track" class="bento-card bento-col-2 group anim-reveal relative overflow-hidden bg-gray-50 border-dashed border-2 border-gray-200 flex flex-col justify-center items-center text-center p-8 hover:border-orange-500 hover:bg-orange-50 transition-all duration-300">
                 <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
                 <h3 class="text-2xl md:text-4xl text-gray-800 lato-black mb-2 relative z-10 group-hover:text-orange-600 transition-colors">
                     See my all tiny frontend works
@@ -558,29 +563,29 @@
             });
         });
 
-        // 8. Text Reveal Animation (Highlighting effect)
+        // 8. Text Reveal Animation (Highlighter Effect)
         const textElement = document.getElementById('text-reveal');
         if (textElement) {
             const text = textElement.innerText;
             const words = text.split(" ");
             textElement.innerHTML = ""; // Clear original text
 
-            // Wrap each word in a span
+            // Wrap each word in a span and append a separate space text node
             words.forEach(word => {
                 const span = document.createElement("span");
-                span.innerText = word + " ";
-                span.className = "reveal-word"; // Starts gray/transparent via CSS
+                span.innerText = word;
+                span.className = "highlight-word"; // Apply CSS for highlighter
                 textElement.appendChild(span);
+                textElement.appendChild(document.createTextNode(" ")); // Explicit space
             });
 
-            // Animate spans from gray to orange/black
-            gsap.to(".reveal-word", {
-                opacity: 1,
-                color: "#fb923c", // Highlight color (Brand Orange)
+            // Animate background-size from 0% to 100%
+            gsap.to(".highlight-word", {
+                backgroundSize: "100% 35%",
                 stagger: 0.1,
                 scrollTrigger: {
                     trigger: "#text-reveal",
-                    start: "top 85%",
+                    start: "top 80%",
                     end: "bottom 50%",
                     scrub: 1
                 }
