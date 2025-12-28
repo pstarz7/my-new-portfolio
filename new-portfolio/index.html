@@ -50,11 +50,8 @@
         }
         #loader-icon {
             font-size: 3rem; color: #fb923c;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.6; }
+            /* Animation handles in JS for better control */
+            opacity: 0; transform: scale(0.8);
         }
 
         /* --- BENTO GRID LAYOUT --- */
@@ -222,7 +219,7 @@
                 </div>
                 <div class="absolute bottom-0 left-0 w-full p-6 bg-white/95 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                     <h3 class="lato-bold text-lg">ResumeCraft</h3>
-                    <p class="text-xs text-gray-500 mt-1">Utility • Tailwind, EJS</p>
+                    <p class="text-xs text-gray-500 mt-1">Utility • React</p>
                 </div>
             </a>
 
@@ -266,7 +263,7 @@
                 </div>
             </a>
 
-            <a href="/Pages/projects.html" class="bento-card bento-col-2 group anim-reveal relative overflow-hidden bg-gray-50 border-dashed border-2 border-gray-200 flex flex-col justify-center items-center text-center p-8 hover:border-orange-500 hover:bg-orange-50 transition-all duration-300">
+            <a href="#project-scroll-track" class="bento-card bento-col-2 group anim-reveal relative overflow-hidden bg-gray-50 border-dashed border-2 border-gray-200 flex flex-col justify-center items-center text-center p-8 hover:border-orange-500 hover:bg-orange-50 transition-all duration-300">
                 <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
                 <h3 class="text-2xl md:text-4xl text-gray-800 lato-black mb-2 relative z-10 group-hover:text-orange-600 transition-colors">
                     See my all tiny frontend works
@@ -281,68 +278,6 @@
 
         </div>
     </section>
-
-    <section class="w-full bg-white py-20 px-4 md:px-10 border-t border-gray-100">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-6">
-                <div class="anim-reveal">
-                    <span class="text-orange-500 font-bold uppercase tracking-widest text-xs mb-3 block">Services</span>
-                    <h2 class="text-4xl md:text-6xl lg:text-7xl lato-black text-gray-900 leading-tight">
-                        Building Digital<br>Experiences.
-                    </h2>
-                </div>
-                <p class="text-gray-500 text-base md:text-lg max-w-md lg:text-right lato-regular anim-reveal">
-                    I focus on the "Front of the Frontend"—where design meets logic, creating interfaces that are beautiful, functional, and responsive.
-                </p>
-            </div>
-
-            <div class="flex flex-col border-t border-gray-200">
-                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
-                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
-                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">01</span>
-                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">UI Development</h3>
-                    </div>
-                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
-                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
-                            Translating creative designs into clean, semantic, and pixel-perfect code that looks great on any device.
-                        </p>
-                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
-                            <i class="ri-layout-grid-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
-                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
-                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">02</span>
-                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">Motion & Interactivity</h3>
-                    </div>
-                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
-                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
-                            Bringing static layouts to life with GSAP animations, smooth scrolling, and engaging micro-interactions.
-                        </p>
-                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
-                            <i class="ri-magic-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
-                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
-                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">03</span>
-                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">Creative Prototyping</h3>
-                    </div>
-                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
-                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
-                            Experimenting with new ideas—from hardware integration (IoT) to unique web apps—to solve problems creatively.
-                        </p>
-                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
-                            <i class="ri-lightbulb-flash-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
     <section id="desk-section" class="w-full bg-white py-24 px-4 md:px-10 border-t border-gray-100">
         <div class="max-w-[1400px] mx-auto">
@@ -423,8 +358,68 @@
             </div>
         </div>
     </section>
-    
-    
+
+    <section class="w-full bg-white py-20 px-4 md:px-10 border-t border-gray-100">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-6">
+                <div class="anim-reveal">
+                    <span class="text-orange-500 font-bold uppercase tracking-widest text-xs mb-3 block">Services</span>
+                    <h2 class="text-4xl md:text-6xl lg:text-7xl lato-black text-gray-900 leading-tight">
+                        Building Digital<br>Experiences.
+                    </h2>
+                </div>
+                <p class="text-gray-500 text-base md:text-lg max-w-md lg:text-right lato-regular anim-reveal">
+                    I focus on the "Front of the Frontend"—where design meets logic, creating interfaces that are beautiful, functional, and responsive.
+                </p>
+            </div>
+
+            <div class="flex flex-col border-t border-gray-200">
+                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
+                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
+                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">01</span>
+                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">UI Development</h3>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
+                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
+                            Translating creative designs into clean, semantic, and pixel-perfect code that looks great on any device.
+                        </p>
+                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
+                            <i class="ri-layout-grid-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
+                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
+                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">02</span>
+                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">Motion & Interactivity</h3>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
+                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
+                            Bringing static layouts to life with GSAP animations, smooth scrolling, and engaging micro-interactions.
+                        </p>
+                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
+                            <i class="ri-magic-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
+                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
+                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">03</span>
+                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">Creative Prototyping</h3>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
+                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
+                            Experimenting with new ideas—from hardware integration (IoT) to unique web apps—to solve problems creatively.
+                        </p>
+                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
+                            <i class="ri-lightbulb-flash-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="w-full bg-gray-50 py-24 px-6 md:px-12">
         <div class="max-w-6xl mx-auto text-center mb-16 anim-reveal">
             <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3 lato-black">My Frontend Process</h2>
@@ -599,13 +594,41 @@
         // 1. Lenis Smooth Scroll
         const lenis = new Lenis({ autoRaf: true, smooth: true });
 
-        // 2. Preloader & Hero Animation
+        // 2. Optimized Preloader
+        // Start animating the quote IMMEDIATELY so users see something while assets load
+        const preloaderTl = gsap.timeline();
+        preloaderTl.to(['#quote-text', '#quote-author'], { opacity: 1, y: 0, duration: 1, ease: 'power2.out', stagger: 0.3 })
+                   .to('#loader-icon', { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }, "-=0.5");
+
+        // When everything (images, fonts) is ready, fade out preloader
         window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-            tl.to(['#quote-text', '#quote-author'], { opacity: 1, y: 0, duration: 1, ease: 'power2.out', stagger: 0.3 })
-              .to('#preloader', { y: '-100%', duration: 1, ease: 'power4.inOut', delay: 2.2, onComplete: () => document.getElementById('preloader').style.display = 'none' })
-              .to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }, "-=0.5");
+            gsap.to('#preloader', { 
+                y: '-100%', 
+                duration: 1, 
+                ease: 'power4.inOut', 
+                delay: 0.5, // Small delay to let user read quote
+                onComplete: () => {
+                    document.getElementById('preloader').style.display = 'none';
+                    // Trigger Hero Animation only after preloader leaves
+                    gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" });
+                }
+            });
         });
+
+        // Fallback: If loading takes too long (e.g., > 5 seconds), force hide preloader
+        setTimeout(() => {
+            if(document.getElementById('preloader').style.display !== 'none'){
+                 gsap.to('#preloader', { 
+                    y: '-100%', 
+                    duration: 1, 
+                    ease: 'power4.inOut',
+                    onComplete: () => {
+                        document.getElementById('preloader').style.display = 'none';
+                        gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" });
+                    }
+                });
+            }
+        }, 5000);
 
         // 3. GSAP Config
         gsap.registerPlugin(ScrollTrigger);
@@ -684,46 +707,40 @@
              }
         });
 
-        // 10. Desk Section Animations
-    
-    // A. Header Text Reveal
-    gsap.to(".desk-anim-text", {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-            trigger: "#desk-section",
-            start: "top 75%"
-        }
-    });
+        // 10. Desk Section Animations (Unified Timeline)
+        const deskTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#desk-section",
+                start: "top 75%" // Starts when top of section hits 75% of viewport
+            }
+        });
 
-    // B. Main Card Reveal (Scale & Fade)
-    gsap.to(".desk-anim-card", {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-            trigger: "#desk-section",
-            start: "top 60%"
-        }
-    });
+        // A. Header Text Reveal
+        deskTl.to(".desk-anim-text", {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out"
+        })
+        // B. Main Card Reveal (Slight overlap for smoothness)
+        .to(".desk-anim-card", {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "power3.out"
+        }, "-=0.6");
 
-    // C. Internal Image Parallax (Moves image down as you scroll)
-    gsap.to(".desk-parallax-img", {
-        yPercent: 20, // Moves the image 20% down
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".desk-anim-card",
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
-        }
-    });
+        // C. Internal Image Parallax (Moves image down as you scroll)
+        gsap.to(".desk-parallax-img", {
+            yPercent: 20, // Moves the image 20% down
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".desk-anim-card",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
     </script>
 </body>
 </html>
-
-
-
