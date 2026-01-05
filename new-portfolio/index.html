@@ -50,8 +50,7 @@
         }
         #loader-icon {
             font-size: 3rem; color: #fb923c;
-            /* Animation handles in JS for better control */
-            opacity: 0; transform: scale(0.8);
+            opacity: 0; transform: scale(0.8); /* Controlled by JS */
         }
 
         /* --- BENTO GRID LAYOUT --- */
@@ -162,10 +161,6 @@
         <div class="w-full max-w-[1400px] h-[50vh] md:h-[75vh] rounded-[2rem] md:rounded-[3rem] overflow-hidden relative shadow-2xl anim-hero opacity-0 translate-y-20 z-10">
             <img src="/images/bnr4.jpg" class="w-full h-full object-cover parallax-hero-img scale-110">
             <div class="absolute inset-0 bg-black/10"></div>
-            <div class="absolute bottom-6 left-6 md:bottom-12 md:left-12 text-white z-20">
-                <p class="lato-bold text-lg md:text-2xl">Based in India</p>
-                <p class="lato-regular text-sm md:text-base opacity-80">Building Digital Experiences</p>
-            </div>
         </div>
     </header>
 
@@ -185,6 +180,48 @@
             <h2 id="text-reveal" class="text-[clamp(1.8rem,4vw,3.5rem)] leading-[1.6] tracking-normal lato-black text-gray-900">
                 Hey! I'm a frontend UI developer based in India. I craft responsive, high-performance interfaces that blend Design with Functionality.
             </h2>
+        </div>
+    </section>
+
+    <section class="w-full bg-white py-17 px-4 md:px-10 border-t border-gray-100">
+        <div class="max-w-[1400px] mx-auto">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6 anim-reveal">
+                
+                <div class="max-w-2xl">
+                    <span class="text-orange-500 font-bold uppercase tracking-widest text-xs mb-3 block">Visual Promo</span>
+                    <h2 class="text-4xl md:text-6xl lato-black text-gray-900 leading-tight">
+                        Bringing Pixels to <span class="lobster-regular text-orange-500 font-normal">Life</span>.
+                    </h2>
+                </div>
+
+                <p class="text-gray-500 text-sm md:text-base lato-regular leading-relaxed max-w-md md:text-right">
+                    I really enjoy frontend development. I focus on every detail to make sure everything runs smoothly and looks great.
+                </p>
+            </div>
+
+            <div class="relative w-full h-[350px] md:h-[80vh] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-sm border border-gray-200 group bg-gray-50 anim-reveal">
+                
+                <video id="ui-video" 
+                       class="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                       muted playsinline loop poster="/images/video-poster.jpg">
+                    <source src="myuiintro.mp4" type="video/mp4">
+                </video>
+
+                <div class="absolute bottom-6 right-6 z-20">
+                    <div class="bg-black/30 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full flex items-center gap-3 shadow-lg">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+                        </span>
+                        <span class="text-white font-mono text-xs tracking-widest font-bold" id="video-real-time">00:00:00</span>
+                    </div>
+                </div>
+
+                <div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
+
+            </div>
+
         </div>
     </section>
 
@@ -279,86 +316,6 @@
         </div>
     </section>
 
-    <section id="desk-section" class="w-full bg-white py-24 px-4 md:px-10 border-t border-gray-100">
-        <div class="max-w-[1400px] mx-auto">
-            
-            <div class="desk-anim-text flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4 md:gap-6 opacity-0 translate-y-10">
-                <div class="max-w-lg">
-                    <span class="text-orange-500 font-bold uppercase tracking-widest text-xs mb-2 block">The Base</span>
-                    <h2 class="text-4xl sm:text-5xl md:text-6xl lato-black text-gray-900 leading-[1.1]">
-                        My Daily <span class="lobster-regular text-orange-500 font-normal">View</span>.
-                    </h2>
-                </div>
-                
-                <div class="flex items-center gap-2 text-gray-400 text-xs uppercase tracking-widest font-bold md:animate-pulse">
-                    <i class="ri-mouse-line hidden md:inline-block"></i> 
-                    <span class="hidden md:inline-block">Hover for Specs</span>
-                    <span class="md:hidden">Tap to Explore</span>
-                </div>
-            </div>
-
-            <div class="desk-anim-card relative w-full h-[400px] md:h-[75vh] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-200 group bg-gray-900 opacity-0 translate-y-20">
-                
-                <img src="/images/mydesk.jpg" 
-                     alt="My Desk Setup" 
-                     class="desk-parallax-img w-full h-full object-cover opacity-90 transition-all duration-700 ease-out group-hover:opacity-60 scale-110">
-                
-                <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-500 group-hover:opacity-0 pointer-events-none">
-                    <div class="text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-white/50 flex items-center justify-center mb-4 mx-auto backdrop-blur-sm">
-                            <i class="ri-add-line text-2xl md:text-3xl text-white"></i>
-                        </div>
-                        <p class="text-white font-bold tracking-[0.2em] text-xs md:text-sm uppercase">Creative Zone</p>
-                    </div>
-                </div>
-
-                <div class="absolute bottom-0 left-0 w-full bg-white/10 backdrop-blur-xl border-t border-white/20 p-6 md:p-10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-white">
-                        
-                        <div class="space-y-1 md:space-y-2 border-b md:border-b-0 md:border-r border-white/20 pb-4 md:pb-0">
-                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Coordinates</span>
-                            <div class="flex items-center gap-3">
-                                <i class="ri-map-pin-2-fill text-xl md:text-2xl"></i>
-                                <div>
-                                    <h4 class="text-lg md:text-xl lato-bold">Berhampur</h4>
-                                    <p class="text-[10px] md:text-xs text-gray-300">Odisha, India</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2 border-b md:border-b-0 md:border-r border-white/20 pb-4 md:pb-0 md:pl-8">
-                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Environment</span>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">Minimalist</span>
-                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">High Perf.</span>
-                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">Lo-Fi Audio</span>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2 md:pl-8 flex flex-col justify-center">
-                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Current State</span>
-                            <div class="flex items-center gap-2">
-                                <span class="relative flex h-2 w-2 md:h-3 md:w-3">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-green-500"></span>
-                                </span>
-                                <span class="text-base md:text-lg lato-bold">Ready to Build.</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="absolute top-4 left-4 md:top-6 md:left-6 w-6 h-6 md:w-8 md:h-8 border-l-2 border-t-2 border-white/50 rounded-tl-lg"></div>
-                <div class="absolute top-4 right-4 md:top-6 md:right-6 w-6 h-6 md:w-8 md:h-8 border-r-2 border-t-2 border-white/50 rounded-tr-lg"></div>
-                <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6 w-6 h-6 md:w-8 md:h-8 border-l-2 border-b-2 border-white/50 rounded-bl-lg transition-opacity duration-300 group-hover:opacity-0"></div>
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 w-6 h-6 md:w-8 md:h-8 border-r-2 border-b-2 border-white/50 rounded-br-lg transition-opacity duration-300 group-hover:opacity-0"></div>
-
-            </div>
-        </div>
-    </section>
-
     <section class="w-full bg-white py-20 px-4 md:px-10 border-t border-gray-100">
         <div class="max-w-[1400px] mx-auto">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-6">
@@ -429,21 +386,21 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-[1400px] mx-auto">
             <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-reveal aspect-square">
-                <img src="https://i.pinimg.com/1200x/3a/d4/03/3ad403dfe64e97314b3c55df129dc4c4.jpg" alt="Ideation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <img src="https://i.pinimg.com/1200x/c3/b8/82/c3b882d08c3b09751526b7587b11f857.jpg" alt="Ideation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                 <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
                     <h3 class="text-xl font-bold">1. Ideation</h3>
                     <p class="text-xs mt-1">Research & Moodboards</p>
                 </div>
             </div>
             <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-reveal aspect-square">
-                <img src="https://i.pinimg.com/736x/6d/1c/45/6d1c450f96ae68e8aca4aceffa72d4a7.jpg" alt="Identity" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <img src="https://i.pinimg.com/1200x/4c/21/8e/4c218e455f3a94db944b4faa6a023703.jpg" alt="Identity" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                 <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
                     <h3 class="text-xl font-bold">2. Identity</h3>
                     <p class="text-xs mt-1">Colors & Visuals</p>
                 </div>
             </div>
             <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-reveal aspect-square">
-                <img src="https://i.pinimg.com/1200x/29/45/06/294506e397c6060f08d431cdb24b7a56.jpg" alt="Typography" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <img src="https://i.pinimg.com/736x/f2/47/a4/f247a41067866d896b77c4913a8837b4.jpg" alt="Typography" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                 <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
                     <h3 class="text-xl font-bold">3. Typography</h3>
                     <p class="text-xs mt-1">Font Selection</p>
@@ -534,6 +491,86 @@
         </div>
     </div>
 
+    <section id="desk-section" class="w-full bg-white py-24 px-4 md:px-10 border-t border-gray-100">
+        <div class="max-w-[1400px] mx-auto">
+            
+            <div class="desk-anim-text flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4 md:gap-6 opacity-0 translate-y-10">
+                <div class="max-w-lg">
+                    <span class="text-orange-500 font-bold uppercase tracking-widest text-xs mb-2 block">The Base</span>
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl lato-black text-gray-900 leading-[1.1]">
+                        My Daily <span class="lobster-regular text-orange-500 font-normal">View</span>.
+                    </h2>
+                </div>
+                
+                <div class="flex items-center gap-2 text-gray-400 text-xs uppercase tracking-widest font-bold md:animate-pulse">
+                    <i class="ri-mouse-line hidden md:inline-block"></i> 
+                    <span class="hidden md:inline-block">Hover for Specs</span>
+                    <span class="md:hidden">Tap to Explore</span>
+                </div>
+            </div>
+
+            <div class="desk-anim-card relative w-full h-[400px] md:h-[75vh] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-200 group bg-gray-900 opacity-0 translate-y-20">
+                
+                <img src="/images/mydesk.jpg" 
+                     alt="My Desk Setup" 
+                     class="desk-parallax-img w-full h-full object-cover opacity-90 transition-all duration-700 ease-out group-hover:opacity-60 scale-110">
+                
+                <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-500 group-hover:opacity-0 pointer-events-none">
+                    <div class="text-center">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-white/50 flex items-center justify-center mb-4 mx-auto backdrop-blur-sm">
+                            <i class="ri-add-line text-2xl md:text-3xl text-white"></i>
+                        </div>
+                        <p class="text-white font-bold tracking-[0.2em] text-xs md:text-sm uppercase">Creative Zone</p>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-0 left-0 w-full bg-white/10 backdrop-blur-xl border-t border-white/20 p-6 md:p-10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-white">
+                        
+                        <div class="space-y-1 md:space-y-2 border-b md:border-b-0 md:border-r border-white/20 pb-4 md:pb-0">
+                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Coordinates</span>
+                            <div class="flex items-center gap-3">
+                                <i class="ri-map-pin-2-fill text-xl md:text-2xl"></i>
+                                <div>
+                                    <h4 class="text-lg md:text-xl lato-bold">INDIA</h4>
+                                    <p class="text-[10px] md:text-xs text-gray-300">Berhampur, Odisha </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 border-b md:border-b-0 md:border-r border-white/20 pb-4 md:pb-0 md:pl-8">
+                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Environment</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">Minimalist</span>
+                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">High Perf.</span>
+                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">Lo-Fi Audio</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 md:pl-8 flex flex-col justify-center">
+                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Current State</span>
+                            <div class="flex items-center gap-2">
+                                <span class="relative flex h-2 w-2 md:h-3 md:w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-green-500"></span>
+                                </span>
+                                <span class="text-base md:text-lg lato-bold">Ready to Build.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="absolute top-4 left-4 md:top-6 md:left-6 w-6 h-6 md:w-8 md:h-8 border-l-2 border-t-2 border-white/50 rounded-tl-lg"></div>
+                <div class="absolute top-4 right-4 md:top-6 md:right-6 w-6 h-6 md:w-8 md:h-8 border-r-2 border-t-2 border-white/50 rounded-tr-lg"></div>
+                <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6 w-6 h-6 md:w-8 md:h-8 border-l-2 border-b-2 border-white/50 rounded-bl-lg transition-opacity duration-300 group-hover:opacity-0"></div>
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 w-6 h-6 md:w-8 md:h-8 border-r-2 border-b-2 border-white/50 rounded-br-lg transition-opacity duration-300 group-hover:opacity-0"></div>
+
+            </div>
+        </div>
+    </section>
+
     <section class="w-full bg-white py-20 px-6 border-y border-gray-50 my-10">
         <div class="max-w-4xl mx-auto text-center anim-reveal">
             <div class="mb-6">
@@ -560,7 +597,7 @@
                     <ul class="space-y-2">
                         <li><a href="/Pages/projects.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Work</a></li>
                         <li><a href="/Pages/about.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">About Me</a></li>
-                        <li><a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" target="_blank" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Resume</a></li>
+                        <li><a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Resume</a></li>
                         <li><a href="/Pages/contact.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Contact</a></li>
                     </ul>
                 </div>
@@ -594,28 +631,32 @@
         // 1. Lenis Smooth Scroll
         const lenis = new Lenis({ autoRaf: true, smooth: true });
 
-        // 2. Optimized Preloader
-        // Start animating the quote IMMEDIATELY so users see something while assets load
-        const preloaderTl = gsap.timeline();
-        preloaderTl.to(['#quote-text', '#quote-author'], { opacity: 1, y: 0, duration: 1, ease: 'power2.out', stagger: 0.3 })
-                   .to('#loader-icon', { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }, "-=0.5");
+        // 2. Optimized Preloader - Fixed Timing
+        // Initially hide opacity
+        gsap.set('#loader-icon', { opacity: 0, scale: 0.8 });
+        
+        // Immediate animation (DOMContentLoaded)
+        document.addEventListener("DOMContentLoaded", () => {
+             const preloaderTl = gsap.timeline();
+             preloaderTl.to(['#quote-text', '#quote-author'], { opacity: 1, y: 0, duration: 1, ease: 'power2.out', stagger: 0.3 })
+                        .to('#loader-icon', { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }, "-=0.5");
+        });
 
-        // When everything (images, fonts) is ready, fade out preloader
+        // When everything loads, fade out
         window.addEventListener('load', () => {
             gsap.to('#preloader', { 
                 y: '-100%', 
                 duration: 1, 
                 ease: 'power4.inOut', 
-                delay: 0.5, // Small delay to let user read quote
+                delay: 0.5, 
                 onComplete: () => {
                     document.getElementById('preloader').style.display = 'none';
-                    // Trigger Hero Animation only after preloader leaves
                     gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" });
                 }
             });
         });
 
-        // Fallback: If loading takes too long (e.g., > 5 seconds), force hide preloader
+        // Fallback safety
         setTimeout(() => {
             if(document.getElementById('preloader').style.display !== 'none'){
                  gsap.to('#preloader', { 
@@ -660,7 +701,7 @@
             }
         });
 
-        // 7. Reveal Animations
+        // 7. Reveal Animations (Generic)
         document.querySelectorAll('.anim-reveal').forEach(el => {
             gsap.from(el, {
                 y: 50, opacity: 0, duration: 1, ease: "power2.out",
@@ -673,18 +714,16 @@
         if (textElement) {
             const text = textElement.innerText;
             const words = text.split(" ");
-            textElement.innerHTML = ""; // Clear original text
+            textElement.innerHTML = ""; 
 
-            // Wrap each word in a span and append a separate space text node
             words.forEach(word => {
                 const span = document.createElement("span");
                 span.innerText = word;
-                span.className = "highlight-word"; // Apply CSS for highlighter
+                span.className = "highlight-word"; 
                 textElement.appendChild(span);
-                textElement.appendChild(document.createTextNode(" ")); // Explicit space
+                textElement.appendChild(document.createTextNode(" ")); 
             });
 
-            // Animate background-size from 0% to 100%
             gsap.to(".highlight-word", {
                 backgroundSize: "100% 35%",
                 stagger: 0.1,
@@ -707,22 +746,20 @@
              }
         });
 
-        // 10. Desk Section Animations (Unified Timeline)
+        // 10. Desk Section Animations (Unified Timeline Fix)
         const deskTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#desk-section",
-                start: "top 75%" // Starts when top of section hits 75% of viewport
+                start: "top 75%" 
             }
         });
 
-        // A. Header Text Reveal
         deskTl.to(".desk-anim-text", {
             y: 0,
             opacity: 1,
             duration: 1,
             ease: "power3.out"
         })
-        // B. Main Card Reveal (Slight overlap for smoothness)
         .to(".desk-anim-card", {
             y: 0,
             opacity: 1,
@@ -730,9 +767,8 @@
             ease: "power3.out"
         }, "-=0.6");
 
-        // C. Internal Image Parallax (Moves image down as you scroll)
         gsap.to(".desk-parallax-img", {
-            yPercent: 20, // Moves the image 20% down
+            yPercent: 20, 
             ease: "none",
             scrollTrigger: {
                 trigger: ".desk-anim-card",
@@ -741,10 +777,58 @@
                 scrub: true
             }
         });
+
+        // 11. Video Logic (Counter + Scroll Play/Pause)
+        const videoElement = document.getElementById('ui-video');
+        const timeDisplay = document.getElementById('video-real-time');
+
+        // A. Real-time Counter
+        if (videoElement && timeDisplay) {
+            videoElement.addEventListener('timeupdate', () => {
+                const currentTime = videoElement.currentTime;
+                
+                const minutes = Math.floor(currentTime / 60);
+                const seconds = Math.floor(currentTime % 60);
+                const ms = Math.floor((currentTime % 1) * 100);
+
+                const fMin = String(minutes).padStart(2, '0');
+                const fSec = String(seconds).padStart(2, '0');
+                const fMs = String(ms).padStart(2, '0');
+
+                timeDisplay.innerText = `${fMin}:${fSec}:${fMs}`;
+            });
+        }
+
+        // B. Scroll-Based Play/Pause Logic
+        ScrollTrigger.create({
+            trigger: "#ui-video",
+            start: "top bottom", // enter viewport
+            end: "bottom top",   // leave viewport
+            onEnter: () => {
+                if(videoElement) videoElement.play();
+            },
+            onLeave: () => {
+                if(videoElement) videoElement.pause();
+            },
+            onEnterBack: () => {
+                if(videoElement) videoElement.play();
+            },
+            onLeaveBack: () => {
+                if(videoElement) videoElement.pause();
+            }
+        });
+
+        // C. Scale Animation
+        gsap.from("#ui-video", {
+            scale: 1.05, 
+            duration: 1.5,
+            scrollTrigger: {
+                trigger: "#ui-video",
+                start: "top 90%",
+                end: "bottom 60%",
+                scrub: 1
+            }
+        });
     </script>
 </body>
 </html>
-
-
-
-
