@@ -3,17 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Papu Badatya</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Papu Badatya | Creative UI Developer</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        brand: '#fb923c',
-                    }
+                    colors: { brand: '#ee373c' },
+                    fontFamily: { 'gilroy': ['Gilroy', 'sans-serif'] }
                 }
             }
         }
@@ -21,825 +20,502 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Bebas+Neue&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
-        html, body { height: 100%; font-family: 'Lato', sans-serif; }
+        :root { --brand: #ee373c; --black: #0a0a0a; }
+
+        /* Universal Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
+        
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Regular.woff2') format('woff2'); font-weight: 400; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Bold.woff2') format('woff2'); font-weight: 700; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Heavy.woff2') format('woff2'); font-weight: 900; }
+
+        html, body { width: 100%; overflow-x: clip; background-color: #fff; color: var(--black); font-family: 'Gilroy', sans-serif; -webkit-font-smoothing: antialiased; }
 
         /* Typography */
-        .lobster-regular { font-family: "Lobster", sans-serif; font-weight: 400; }
-        .lato-regular { font-family: "Lato", sans-serif; font-weight: 400; }
-        .lato-bold { font-family: "Lato", sans-serif; font-weight: 700; }
-        .lato-black { font-family: "Lato", sans-serif; font-weight: 900; }
-        .bebas-font { font-family: "Bebas Neue", sans-serif; }
+        .big-title { font-size: clamp(3.2rem, 13vw, 15rem); line-height: 0.8; font-weight: 900; letter-spacing: -0.06em; display: inline-block; white-space: nowrap; }
+        .showcase-title { font-size: clamp(2rem, 6vw, 6rem); line-height: 0.9; font-weight: 900; letter-spacing: -0.04em; }
+        .bebas-font { font-family: 'Bebas Neue', sans-serif; }
+        .lobster-font { font-family: 'Lobster', cursive; }
         .quote-font { font-family: "Playfair Display", serif; }
 
-        /* Preloader */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #ffffff; z-index: 10000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            gap: 24px;
+        /* Custom Cursor */
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: var(--brand); border-radius: 50% !important;
+            pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); display: none;
+            mix-blend-mode: difference; transition: width 0.3s, height 0.3s;
         }
-        #loader-icon {
-            font-size: 3rem; color: #fb923c;
-            opacity: 0; transform: scale(0.8); /* Controlled by JS */
-        }
+        @media (hover: hover) and (pointer: fine) { #cursor { display: block; } body { cursor: none; } }
 
-        /* --- BENTO GRID LAYOUT --- */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+        /* Mobile Overlay */
+        #mobile-nav-overlay {
+            position: fixed; inset: 0; background: var(--black); z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; padding: 10%;
+            clip-path: circle(0% at 100% 0%); transition: clip-path 0.8s cubic-bezier(0.85, 0, 0.15, 1);
         }
-        @media (min-width: 768px) {
-            .bento-grid {
-                grid-template-columns: repeat(3, 1fr);
-                grid-auto-rows: minmax(300px, auto);
-            }
-            .bento-col-2 { grid-column: span 2; }
-            .bento-row-2 { grid-row: span 2; }
-        }
+        #mobile-nav-overlay.active { clip-path: circle(150% at 100% 0%); }
 
-        .bento-card {
-            position: relative; overflow: hidden; border-radius: 1.5rem;
-            background: #f9fafb; transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #e5e7eb;
-        }
-        .bento-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: #fb923c; }
-        .bento-card:hover .bento-img { transform: scale(1.05); }
-        .bento-img { transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Marquee & Slider */
-        .marquee-container {
-            position: relative; overflow: hidden; height: 60px;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        }
-        .marquee-track { display: flex; gap: 4rem; width: max-content; }
-        .horizontal-scroll-container { display: flex; gap: 2rem; width: max-content; }
-        
-        /* Mobile Menu */
-        .mobile-menu {
-            max-height: 0; overflow: hidden; opacity: 0;
-            transition: all 0.4s ease-in-out; visibility: hidden;
-        }
-        .mobile-menu.open { max-height: 400px; opacity: 1; visibility: visible; }
+        /* Marquee */
+        .marquee-track { display: flex; width: max-content;  }
 
-        /* HIGHLIGHTER ANIMATION STYLE */
+        /* Slider */
+        .horizontal-section { width: 100%; overflow: hidden; position: relative; cursor: grab; }
+        .horizontal-track { display: flex; width: max-content; gap: 4vw; padding-right: 20vw; padding-left: 6vw; }
+
+        /* Highlighter Effect - Brand Red with Black Text */
         .highlight-word {
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-            /* Natural Pastel Gradient */
-            background-image: linear-gradient(120deg, rgba(251, 146, 60, 0.2) 0%, rgba(251, 146, 60, 0.5) 100%); 
-            background-repeat: no-repeat;
-            background-size: 0% 35%; /* Start width 0, 35% height (marker thickness) */
-            background-position: 0% 90%; /* Sits low like a marker stroke */
-            border-radius: 2px;
-            /* Important: Ensures proper spacing */
-            margin-right: 0.2em; 
+            display: inline-block; position: relative; z-index: 1;
+            color: #000; /* Force text to be black */
+            background-image: linear-gradient(120deg, var(--brand) 0%, var(--brand) 100%);
+            background-repeat: no-repeat; background-size: 0% 30%; background-position: 0% 95%;
+            transition: background-size 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        .stroke-text { -webkit-text-stroke: 5px #e2e8f0; color: transparent; }
+        #preloader { position: fixed; inset: 0; background: #fff; z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        
+        /* Animation Classes */
+        .project-wrap { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); border: 1px solid #f9f9f9; }
+        .project-wrap:hover { border-color: var(--brand); }
+        .magnetic { display: inline-block; }
     </style>
 </head>
 
-<body class="overflow-x-hidden bg-white text-gray-900">
+<body>
+    <div id="cursor"></div>
 
-    <div id="preloader">
-        <i id="loader-icon" class="ri-gemini-fill"></i>
-        <div class="text-center px-6 max-w-lg">
-            <p class="quote-font text-2xl md:text-3xl text-gray-900 leading-snug italic opacity-0 translate-y-4" id="quote-text">
-                "I have no special talent. I am only passionately curious."
-            </p>
-            <span class="text-sm font-bold text-orange-500 mt-4 block uppercase tracking-widest opacity-0 translate-y-4" id="quote-author">
-                — Albert Einstein
-            </span>
+    <div id="mobile-nav-overlay">
+        <button id="close-menu" class="absolute top-10 right-10 text-white text-4xl font-light"><i class="ri-close-line"></i></button>
+        <div class="flex flex-col gap-6">
+            <a href="/Pages/projects.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Work</a>
+            <a href="/Pages/about.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">About ME</a>
+            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Resume</a>
+            <a href="/Pages/contact.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Contact</a>
+
         </div>
     </div>
 
-    <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white border-b border-gray-100">
-        <div class="navo-logo pl-2">
-            <a href="#" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
-                <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-            </a>
+    <div id="preloader">
+        <p class="quote-font text-2xl italic opacity-0 translate-y-4 text-center px-10" id="loader-quote">
+            "I have no special talent. I am only passionately curious."
+        </p>
+    </div>
+
+    <nav class="fixed top-0 left-0 w-full z-[100] px-6 md:px-12 py-8 flex justify-between items-center mix-blend-difference text-white">
+        <a href="#" class="font-black text-2xl tracking-tighter uppercase magnetic leading-none">Pstarz<span class="text-brand">.</span></a>
+        <div class="hidden lg:flex gap-12 font-bold text-[10px] uppercase tracking-[0.4em]">
+            <a href="/Pages/projects.html" class="nav-item magnetic">Works</a>
+            <a href="/Pages/about.html" class="nav-item magnetic">About Me</a>
+            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="nav-item magnetic">Resume</a>
+            <a href="/Pages/contact.html" class="nav-item magnetic">Contact</a>
         </div>
-        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px]">
-            <a href="/Pages/projects.html" class="hover:text-orange-400 transition-colors">Work</a>
-            <a href="/Pages/about.html" class="hover:text-orange-400 transition-colors">About</a>
-            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="hover:text-orange-400 transition-colors">Resume</a>
-            <a href="/Pages/contact.html" class="hover:text-orange-400 transition-colors">Contact</a>
-        </div>
-        <div class="hamburger md:hidden pr-3 cursor-pointer" id="hamburger">
-            <i class="ri-menu-line text-2xl"></i>
-        </div>
-        <div class="mobile-menu md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 z-40" id="mobileMenu">
-            <a href="/Pages/projects.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800 border-b border-gray-100">Work</a>
-            <a href="/Pages/about.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800 border-b border-gray-100">About</a>
-            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-gray-800 border-b border-gray-100">Resume</a>
-            <a href="/Pages/contact.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 text-orange-400">Contact</a>
+        <div class="flex items-center gap-6">
+            <a href="mailto:papubadatya355@gmail.com" class="hidden sm:block text-[10px] font-black uppercase tracking-widest border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all magnetic">Get In Touch</a>
+            <div class="cursor-pointer text-4xl magnetic" id="open-menu"><i class="ri-menu-4-fill"></i></div>
         </div>
     </nav>
 
-    <header class="relative w-full pt-28 md:pt-32 pb-20 px-4 flex flex-col items-center justify-center">
-        <div class="text-center z-20">
-            <div class="flex items-center justify-center gap-3 mb-6 anim-hero opacity-0 translate-y-10">
-                <span class="h-[1px] w-8 bg-orange-500"></span>
-                <h2 class="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-gray-500">Creative Frontend Developer</h2>
-                <span class="h-[1px] w-8 bg-orange-500"></span>
+    <main class="w-full">
+        <section class="min-h-screen w-full flex flex-col justify-end px-4 md:px-12 pb-12 md:pb-24 pt-32 relative overflow-hidden">
+            <div class="relative w-full">
+                <h1 class="big-title text-gray-900 mb-[-1vw] md:mb-[-2vw] relative z-20 pointer-events-none anim-hero" >
+                    PAPU<br><span class="text-gray-200 uppercase font-black" >BADATYA</span>
+                </h1>
+                <div class="mt-6 md:mt-0 md:absolute right-0 top-[-10%] w-full md:w-[48%] h-[40vh] md:h-[75vh] z-10 overflow-hidden shadow-2xl anim-hero" >
+                    <img src="/images/bnr4.jpg" class="w-full h-full object-cover parallax-hero scale-110">
+                </div>
             </div>
-            <h1 class="text-[13vw] leading-[0.85] lobster-regular text-gray-900 mb-8 md:mb-12 anim-hero opacity-0 translate-y-20 relative z-30">
-                Papu Badatya
-            </h1>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mt-12 gap-8 anim-hero">
+                <div class="max-w-xs">
+                    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-4">India / Creative Developer</p>
+                    <p class="text-base md:text-lg leading-tight font-bold">Crafting responsive, high-performance interfaces that blend Design with Functionality.</p>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <span class="hidden md:block w-12 h-[1px] bg-black"></span>
+                    <p class="bebas-font text-2xl md:text-3xl tracking-widest uppercase text-gray-300">Front of the Frontend</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 border-y border-gray-100 bg-white overflow-hidden w-full">
+            <div class="marquee-track flex whitespace-nowrap">
+                <h2 class="text-[10vw] md:text-[8vw] font-black uppercase stroke-text pr-20">HTML5 • CSS3 • JAVASCRIPT • REACT • TAILWIND • GSAP • NODE.JS •</h2>
+                <h2 class="text-[10vw] md:text-[8vw] font-black uppercase stroke-text pr-15">HTML5 • CSS3 • JAVASCRIPT • REACT • TAILWIND • GSAP • NODE.JS •</h2>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 md:py-56 px-6 md:px-12 max-w-7xl mx-auto">
+            <h3 id="text-reveal" class="text-[8vw] md:text-[4.5vw] leading-[1.1] font-black tracking-tight text-gray-900">
+                Hey! I'm a frontend developer based in India. I focus on the "Front of the Frontend"—where design meets logic, creating interfaces that are <span class="lobster-font text-brand font-normal lowercase">beautiful</span> and functional.
+            </h3>
+        </section>
+
+        <section class="w-full px-6 py-20 bg-gray-50">
+            <div class="max-w-[1500px] mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+                    <h2 class="text-4xl md:text-6xl font-black uppercase leading-[0.8] tracking-tighter text-skew" data-animate="heading">Pixel <span class="text-brand lobster-font capitalize">Motion</span></h2>
+                    <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.4em]" data-animate="heading">Interactive UI / 00:34</p>
+                </div>
+                <div class="relative w-full aspect-video md:h-[90vh] overflow-hidden bg-black anim-up group shadow-2xl">
+                    <video id="ui-video" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" muted playsinline loop>
+                        <source src="/images/myuiintro.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute bottom-6 right-6 md:bottom-12 md:right-12 bg-white/10 backdrop-blur-xl px-8 py-4 text-white">
+                        <span class="text-xs font-mono font-bold tracking-widest" id="video-timer">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="px-6 md:px-12 py-32 md:py-56 bg-white">
+            <div class="flex justify-between items-baseline mb-24 border-b border-black pb-8">
+                <h2 class="bebas-font text-7xl md:text-[10vw] uppercase leading-none" data-animate="heading">Some of My Works</h2>
+                <p class="font-black text-[11px] uppercase tracking-widest text-gray-300" data-animate="heading">Selected Archive</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-y-24 md:gap-y-48 gap-x-12">
+                <article class="md:col-span-8 anim-up relative project-wrap">
+                    <a href="https://diary-web-app-nine.vercel.app/stories" target="_blank" class="block group h-full">
+                        <div class="aspect-video overflow-hidden bg-gray-100"><img src="/images/diary.gif" class="w-full h-full object-cover"></div>
+                        <div class="mt-8 flex justify-between items-start"><h4 class="text-3xl md:text-6xl font-black uppercase leading-none tracking-tighter" data-animate="heading">Diary & Stories</h4><span class="text-[10px] font-black border border-black px-4 py-2 uppercase">Visit</span></div>
+                    </a>
+                </article>
+
+                <article class="md:col-span-4 md:mt-48 anim-up relative project-wrap">
+                    <a href="https://resume-craft-three.vercel.app/" target="_blank" class="block group">
+                        <div class="aspect-[4/5] overflow-hidden bg-gray-100"><img src="/images/resume.gif" class="w-full h-full object-cover"></div>
+                        <h4 class="text-3xl font-black uppercase mt-8 tracking-tighter" data-animate="heading">ResumeCraft</h4>
+                    </a>
+                </article>
+
+                <article class="md:col-span-12 h-[60vh] md:h-[80vh] relative group overflow-hidden anim-up shadow-2xl mt-24">
+                    <a href="/Pages/Casestudy-mkcg-newui.html" class="block h-full">
+                        <img src="/images/iphone-mkcg.png" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent p-8 md:p-20 flex flex-col justify-end text-white text-skew">
+                            <h4 class="text-7xl md:text-[12vw] font-black leading-none uppercase tracking-tighter">MKCG</h4>
+                            <p class="max-w-md font-bold text-sm md:text-xl mt-8 italic text-gray-300 font-gilroy">Empathy-driven Healthcare Design.</p>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="md:col-span-5 anim-up mt-24 project-wrap">
+                    <a href="https://myshiro.netlify.app/" target="_blank" class="block group">
+                        <img src="/images/myshiro.gif" class="w-full aspect-square object-cover bg-gray-100">
+                        <h4 class="text-4xl font-black mt-8 uppercase tracking-tighter" data-animate="heading">Shiro Robot</h4>
+                    </a>
+                </article>
+
+                <article class="md:col-span-5 md:col-start-8 md:mt-56 anim-up project-wrap">
+                    <a href="https://cureit-web-app-fyj5.vercel.app/" target="_blank" class="block group">
+                        <img src="/images/cureit.gif" class="w-full aspect-square object-cover bg-gray-100">
+                        <h4 class="text-4xl font-black mt-8 uppercase tracking-tighter" data-animate="heading">CureIt AI</h4>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <section class="py-32 md:py-64 px-6 md:px-12 bg-white overflow-hidden border-t border-gray-100">
+            <div class="max-w-[1600px] mx-auto relative">
+                <div class="flex flex-col lg:flex-row items-center lg:items-end gap-16 lg:gap-24">
+                    <div class="w-full lg:w-[65%] aspect-video bg-gray-50 overflow-hidden shadow-2xl anim-up">
+                        <video class="w-full h-full object-cover" src="/images/sanvee-jewellry.mp4" autoplay loop muted playsinline></video>
+                    </div>
+                    <div class="w-full lg:w-[35%] flex flex-col items-start pb-4">
+                        <span class="text-brand font-black text-xs uppercase tracking-[0.5em] mb-6 hover:text-brand">Visual Study</span>
+                        <h2 class="showcase-title uppercase text-skew mb-8 tracking-tighter leading-none hover:text-brand">UI SHOWCASE</h2>
+                        <div class="max-w-sm">
+                            <p class="text-lg md:text-xl font-bold text-gray-500 mb-10 leading-tight">Focusing on smooth transitions and elegant layout using React and TailwindCSS.</p>
+                            <a href="/Pages/projects.html" class="group relative px-10 py-5 bg-black text-white text-[10px] font-black uppercase tracking-widest overflow-hidden block w-fit">
+                                <span class="relative z-10">Explore More</span>
+                                <div class="absolute inset-0 bg-brand translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-32 md:py-56 border-t border-gray-100 bg-white overflow-hidden w-full">
+            <div class="px-6 md:px-12 mb-20 flex justify-between items-end">
+                <h2 class="bebas-font text-7xl md:text-[10vw] uppercase leading-none tracking-tighter text-skew" data-animate="heading">PROJECTS</h2>
+                <p class="text-[10px] font-black uppercase tracking-[0.5em] text-gray-300">Swipe or Drag</p>
+            </div>
+            <div class="horizontal-section w-full">
+                <div class="horizontal-track">
+                    <div class="w-[90vw] md:w-[750px] flex-shrink-0 group anim-card-in"><a href="https://trackyo.netlify.app/"><img src="/images/banner.png" class="w-full aspect-video object-cover mb-8 shadow-2xl border border-gray-100"><h4 class="text-3xl font-black uppercase tracking-tighter">Trackyo</h4></a></div>
+                    <div class="w-[90vw] md:w-[750px] flex-shrink-0 group anim-card-in"><a href="https://playlist-for-you.netlify.app/"><img src="/images/dashbordui.png" class="w-full aspect-video object-cover mb-8 shadow-2xl border border-gray-100"><h4 class="text-3xl font-black uppercase tracking-tighter">Music UI</h4></a></div>
+                    <div class="w-[90vw] md:w-[750px] flex-shrink-0 group anim-card-in"><a href="https://sanveeflowers.netlify.app/"><img src="/images/sanveeFlower.png" class="w-full aspect-video object-cover mb-8 shadow-2xl border border-gray-100"><h4 class="text-3xl font-black uppercase tracking-tighter">Flowers</h4></a></div>
+                    <div class="w-[90vw] md:w-[750px] flex-shrink-0 group anim-card-in"><a href="https://cyclesync7.netlify.app/"><img src="/images/CycleSync.png" class="w-full aspect-video object-cover mb-8 shadow-2xl border border-gray-100"><h4 class="text-3xl font-black uppercase tracking-tighter">CycleSync</h4></a></div>
+                    <div class="w-[90vw] md:w-[750px] flex-shrink-0 group anim-card-in">
+    <a href="/Pages/projects.html" class="relative block w-full aspect-video bg-[#ee373c] overflow-hidden border border-gray-100 shadow-2xl transition-all duration-700">
+        
+        <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+            <h4 class="bebas-font text-[25vw] md:text-[15vw] stroke-text whitespace-nowrap select-none">WORKS</h4>
         </div>
 
-        <div class="w-full max-w-[1400px] h-[50vh] md:h-[75vh] rounded-[2rem] md:rounded-[3rem] overflow-hidden relative shadow-2xl anim-hero opacity-0 translate-y-20 z-10">
-            <img src="/images/bnr4.jpg" class="w-full h-full object-cover parallax-hero-img scale-110">
-            <div class="absolute inset-0 bg-black/10"></div>
-        </div>
-    </header>
-
-    <div class="py-4 border-y border-gray-100 bg-gray-50">
-        <div class="marquee-container">
-            <div class="marquee-track" id="marquee-track-main">
-                 <span class="text-4xl bebas-font text-gray-300 px-8">HTML5 • CSS3 • JAVASCRIPT • REACT • TAILWIND • GSAP • SCROLLTRIGGER • NODE.JS •</span>
-                 <span class="text-4xl bebas-font text-gray-800 px-8">HTML5 • CSS3 • JAVASCRIPT • REACT • TAILWIND • GSAP • SCROLLTRIGGER • NODE.JS •</span>
-                 <span class="text-4xl bebas-font text-gray-300 px-8">HTML5 • CSS3 • JAVASCRIPT • REACT • TAILWIND • GSAP • SCROLLTRIGGER • NODE.JS •</span>
-                 <span class="text-4xl bebas-font text-gray-800 px-8">HTML5 • CSS3 • JAVASCRIPT • REACT • TAILWIND • GSAP • SCROLLTRIGGER • NODE.JS •</span>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 md:p-12 z-10">
+            <h4 class="text-3xl md:text-7xl font-black uppercase tracking-tighter text-white leading-[0.8] mb-6 group-hover:scale-105 transition-transform duration-700">
+                Explore More<br>Projects
+            </h4>
+            
+            <div class="flex items-center gap-3 text-white/70 uppercase font-black text-[9px] md:text-[10px] tracking-[0.4em] group-hover:text-white transition-colors duration-500">
+                <span>View Full Archive</span>
+                <i class="ri-arrow-right-line text-xl md:text-2xl"></i>
             </div>
         </div>
-    </div>
 
-    <section class="w-full bg-white py-32 md:py-48 px-6 flex justify-center items-center text-center">
-        <div class="max-w-5xl mx-auto w-full">
-            <h2 id="text-reveal" class="text-[clamp(1.8rem,4vw,3.5rem)] leading-[1.6] tracking-normal lato-black text-gray-900">
-                Hey! I'm a frontend UI developer based in India. I craft responsive, high-performance interfaces that blend Design with Functionality.
+        <div class="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-700 mix-blend-overlay"></div>
+    </a>
+</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="desk-section" class="py-24 md:py-40 px-4 md:px-10 bg-white border-t border-gray-100">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-20">
+                <div class="w-full md:w-1/2 h-[50vh] md:h-[80vh] project-wrap overflow-hidden">
+                    <img src="/images/mydesk.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+                </div>
+                <div class="w-full md:w-1/2 flex flex-col justify-center">
+                    <span class="text-brand font-black text-[10px] uppercase tracking-widest mb-4">India Setup</span>
+                    <h2 class="text-5xl md:text-7xl font-black leading-none uppercase mb-8 md:mb-10 text-gray-900">THE BASE<br><span class="text-gray-200">2026</span></h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10 border-t border-gray-100 pt-8">
+                        <div><p class="text-[9px] font-black uppercase tracking-widest text-brand">ENVIRONMENT</p><p class="font-bold text-base md:text-lg">Minimalist / semi-classical Audio</p></div>
+                        <div><p class="text-[9px] font-black uppercase tracking-widest text-brand">CURRENT STATE</p><p class="font-bold text-base md:text-lg">Ready to Build.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       <section class="py-48 text-center px-6 bg-white border-y border-gray-100 overflow-hidden">
+            <i class="ri-double-quotes-l text-6xl text-brand opacity-30"></i>
+            <h2 class="quote-font text-3xl md:text-6xl md:leading-tight max-w-4xl mx-auto mt-10 uppercase font-black tracking-tighter text-skew">
+"It’s not about ideas. It’s about making ideas happen."
             </h2>
-        </div>
-    </section>
+            <p class="bebas-font text-2xl mt-8 tracking-widest text-gray-300">Scott Belsky</p>
+        </section>
 
-    <section class="w-full bg-white py-17 px-4 md:px-10 border-t border-gray-100">
-        <div class="max-w-[1400px] mx-auto">
-            
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6 anim-reveal">
-                
-                <div class="max-w-2xl">
-                    <span class="text-orange-500 font-bold uppercase tracking-widest text-xs mb-3 block">Visual Promo</span>
-                    <h2 class="text-4xl md:text-6xl lato-black text-gray-900 leading-tight">
-                        Bringing Pixels to <span class="lobster-regular text-orange-500 font-normal">Life</span>.
-                    </h2>
-                </div>
-
-                <p class="text-gray-500 text-sm md:text-base lato-regular leading-relaxed max-w-md md:text-right">
-                    I really enjoy frontend UI development. I focus on every detail to make sure everything runs smoothly and looks great.
-                </p>
-            </div>
-
-            <div class="relative w-full h-[350px] md:h-[80vh] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-sm border border-gray-200 group bg-gray-50 anim-reveal">
-                
-                <video id="ui-video" 
-                       class="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
-                       muted playsinline loop poster="">
-                    <source src="/images/myuiintro.mp4" type="video/mp4">
-                </video>
-
-                <div class="absolute bottom-6 right-6 z-20">
-                    <div class="bg-black/30 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full flex items-center gap-3 shadow-lg">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
-                        </span>
-                        <span class="text-white font-mono text-xs tracking-widest font-bold" id="video-real-time">00:00:00</span>
+        <footer id="contact" class="bg-black text-white px-6 md:px-12 py-32 md:py-56 overflow-hidden w-full">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="flex flex-col gap-10 mb-32 lg:mb-48">
+                    <h2 class="big-title text-brand leading-[0.75]">GET IN<br>TOUCH<span class="text-white">.</span></h2>
+                    <div class="w-full flex flex-col lg:flex-row lg:items-end justify-between gap-12">
+                        <p class="text-2xl md:text-4xl font-black max-w-xl text-gray-500 leading-none uppercase tracking-tighter">Available for remote roles and collaborations worldwide, and on-site in India.</p>
+                        <a href="mailto:papubadatya355@gmail.com" class="text-2xl md:text-3xl font-black hover:text-brand transition-all border-b border-gray-800 pb-2 uppercase tracking-tighter">Let's Work Together</a>
                     </div>
                 </div>
 
-                <div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <section id="projects" class="px-4 md:px-10 mb-24 max-w-[1400px] mx-auto pt-10">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-            <div>
-                <span class="text-orange-500 font-bold uppercase tracking-widest text-xs">My Workspace</span>
-                <h2 class="text-5xl lato-black mt-2">Featured Projects</h2>
-            </div>
-            <p class="lato-regular text-gray-500 max-w-sm text-sm md:text-right">
-                A selection of my best work in web development, mobile apps, and hardware integration.
-            </p>
-        </div>
-
-        <div class="bento-grid">
-            
-            <a href="https://diary-web-app-nine.vercel.app/stories" target="_blank" class="bento-card group anim-reveal">
-                <img src="/images/diary.gif" alt="Diary" class="bento-img">
-                <div class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md z-10">
-                    <i class="ri-arrow-right-up-line"></i>
-                </div>
-                <div class="absolute bottom-0 left-0 w-full p-6 bg-white/95 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 class="lato-bold text-lg">Diary & Stories</h3>
-                    <p class="text-xs text-gray-500 mt-1">Full Stack • Node.js . Frontend</p>
-                </div>
-            </a>
-
-            <a href="https://resume-craft-three.vercel.app/" target="_blank" class="bento-card group anim-reveal">
-                <img src="/images/resume.gif" alt="Resume" class="bento-img">
-                <div class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md z-10">
-                    <i class="ri-arrow-right-up-line"></i>
-                </div>
-                <div class="absolute bottom-0 left-0 w-full p-6 bg-white/95 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 class="lato-bold text-lg">ResumeCraft</h3>
-                    <p class="text-xs text-gray-500 mt-1">Utility • EJS, TailwindCSS</p>
-                </div>
-            </a>
-
-            <a href="https://cureit-web-app-fyj5.vercel.app/" target="_blank" class="bento-card group anim-reveal">
-                <img src="/images/cureit.gif" alt="CureIt" class="bento-img">
-                <div class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md z-10">
-                    <i class="ri-arrow-right-up-line"></i>
-                </div>
-                <div class="absolute bottom-0 left-0 w-full p-6 bg-white/95 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 class="lato-bold text-lg">CureIt AI Guide</h3>
-                    <p class="text-xs text-gray-500 mt-1">AI Integration • Gemini</p>
-                </div>
-            </a>
-
-            <a href="/Pages/Casestudy-mkcg-newui.html" class="bento-card bento-col-2 bento-row-2 group anim-reveal">
-                <img src="/images/iphone-mkcg.png" alt="MKCG" class="bento-img">
-                <div class="absolute inset-0 bg-black/40 p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-orange-500 font-bold text-xs uppercase bg-white px-3 py-1 rounded-full w-fit mb-3">Case Study</span>
-                    <h3 class="text-white text-3xl lato-bold">MKCG Redesign</h3>
-                    <p class="text-gray-200 text-sm mt-2 max-w-md">Transforming a cluttered government portal into an empathy-driven, accessible lifeline for patients.</p>
-                </div>
-            </a>
-
-            <a href="https://myshiro.netlify.app/" target="_blank" class="bento-card bento-row-2 group anim-reveal">
-                <img src="/images/myshiro.gif" alt="Shiro" class="bento-img">
-                <div class="absolute inset-0 bg-black/40 p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span class="text-orange-500 font-bold text-xs uppercase bg-white px-3 py-1 rounded-full w-fit mb-3">Hardware</span>
-                    <h3 class="text-white text-2xl lato-bold">Shiro Robot</h3>
-                    <p class="text-gray-200 text-sm mt-2">ESP32 & C++ Companion.</p>
-                </div>
-            </a>
-
-            <a href="https://imagify-landing-page.netlify.app/" target="_blank" class="bento-card group anim-reveal">
-                <img src="/images/imagify-banner.gif" alt="Imagify" class="bento-img">
-                <div class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md z-10">
-                    <i class="ri-arrow-right-up-line"></i>
-                </div>
-                <div class="absolute bottom-0 left-0 w-full p-6 bg-white/95 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 class="lato-bold text-lg">Imagify App</h3>
-                    <p class="text-xs text-gray-500 mt-1">React Native • Mobile</p>
-                </div>
-            </a>
-
-            <a href="/Pages/projects.html" class="bento-card bento-col-2 group anim-reveal relative overflow-hidden bg-gray-50 border-dashed border-2 border-gray-200 flex flex-col justify-center items-center text-center p-8 hover:border-orange-500 hover:bg-orange-50 transition-all duration-300">
-                <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
-                <h3 class="text-2xl md:text-4xl text-gray-800 lato-black mb-2 relative z-10 group-hover:text-orange-600 transition-colors">
-                   Take a look at my tiny frontend projects and creative work
-                </h3>
-                <p class="text-gray-500 text-sm lato-regular relative z-10 mb-6">
-                    A collection of micro-interactions, landing pages, and UI experiments.
-                </p>
-                <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center group-hover:scale-110 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300 z-10">
-                    <i class="ri-arrow-down-line text-2xl"></i>
-                </div>
-            </a>
-
-        </div>
-    </section>
-
-    <section class="w-full bg-white py-20 px-4 md:px-10 border-t border-gray-100">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-6">
-                <div class="anim-reveal">
-                    <span class="text-orange-500 font-bold uppercase tracking-widest text-xs mb-3 block">Services</span>
-                    <h2 class="text-4xl md:text-6xl lg:text-7xl lato-black text-gray-900 leading-tight">
-                        Building Digital<br>Experiences.
-                    </h2>
-                </div>
-                <p class="text-gray-500 text-base md:text-lg max-w-md lg:text-right lato-regular anim-reveal">
-                    I focus on the "Front of the Frontend"—where design meets logic, creating interfaces that are beautiful, functional, and responsive.
-                </p>
-            </div>
-
-            <div class="flex flex-col border-t border-gray-200">
-                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
-                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
-                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">01</span>
-                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">UI Development</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-20 lg:gap-12 border-t border-gray-900 pt-20">
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Connect</p>
+                        <div class="flex flex-col gap-4">
+                            <a href="mailto:papubadatya355@gmail.com" class="text-xl md:text-2xl font-black hover:text-brand transition-all break-all uppercase leading-none">papubadatya355@gmail.com</a>
+                            <a href="tel:+916370134774" class="text-xl md:text-2xl font-black text-gray-500 hover:text-white transition-all">+91 6370134774</a>
+                        </div>
                     </div>
-                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
-                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
-                            Translating creative designs into clean, semantic, and pixel-perfect code that looks great on any device.
-                        </p>
-                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
-                            <i class="ri-layout-grid-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Social Network</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-black uppercase tracking-widest">
+                            <a href="https://github.com/pstarz7" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1">Github</a>
+                            <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1">LinkedIn</a>
+                            <a href="https://www.instagram.com/_pstarz/" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1">Instagram</a>
+                            <a href="https://x.com/_pstarz" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1">Twitter</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Navigation</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-black uppercase tracking-widest">
+                            <a href="/Pages/projects.html" class="hover:text-brand">Work</a>
+                            <a href="/Pages/about.html" class="hover:text-brand">About</a>
+                            <a href="/Pages/contact.html" class="hover:text-brand">Contact</a>
+                            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="hover:text-brand">Resume</a>
                         </div>
                     </div>
                 </div>
-                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
-                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
-                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">02</span>
-                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">Motion & Interactivity</h3>
-                    </div>
-                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
-                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
-                            Bringing static layouts to life with GSAP animations, smooth scrolling, and engaging micro-interactions.
-                        </p>
-                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
-                            <i class="ri-magic-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-item group py-10 md:py-14 border-b border-gray-200 flex flex-col lg:flex-row justify-between lg:items-center cursor-pointer transition-all duration-500 hover:lg:px-6 hover:border-orange-500 anim-reveal">
-                    <div class="flex items-start md:items-center gap-4 md:gap-10 mb-6 lg:mb-0">
-                        <span class="text-gray-300 text-lg md:text-xl font-bold font-mono group-hover:text-orange-500 transition-colors mt-1 md:mt-0">03</span>
-                        <h3 class="text-2xl md:text-4xl lg:text-5xl lato-bold text-gray-900 group-hover:text-orange-500 transition-colors">Creative Prototyping</h3>
-                    </div>
-                    <div class="flex flex-col md:flex-row md:items-center justify-between lg:justify-end gap-6 md:gap-10 w-full lg:w-auto">
-                        <p class="text-gray-500 text-sm md:text-base max-w-sm leading-relaxed lg:opacity-0 lg:group-hover:opacity-100 lg:-translate-x-4 lg:group-hover:translate-x-0 transition-all duration-500">
-                            Experimenting with new ideas—from hardware integration (IoT) to unique web apps—to solve problems creatively.
-                        </p>
-                        <div class="self-end md:self-auto w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-300 flex-shrink-0">
-                            <i class="ri-lightbulb-flash-line text-lg md:text-xl text-gray-400 group-hover:text-white transition-colors duration-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="w-full bg-gray-50 py-24 px-6 md:px-12">
-        <div class="max-w-6xl mx-auto text-center mb-16 anim-reveal">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3 lato-black">My Frontend Process</h2>
-            <p class="text-gray-600 text-lg max-w-2xl mx-auto lato-regular">
-                Every interface starts with an idea, shaped by design thinking and built into a seamless user experience.
-            </p>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-[1400px] mx-auto">
-            <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-reveal aspect-square">
-                <img src="https://i.pinimg.com/1200x/c3/b8/82/c3b882d08c3b09751526b7587b11f857.jpg" alt="Ideation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 class="text-xl font-bold">1. Ideation</h3>
-                    <p class="text-xs mt-1">Research & Moodboards</p>
+                <div class="mt-40 pt-12 border-t border-gray-900 flex flex-col md:flex-row justify-between text-[10px] font-black uppercase tracking-[0.5em] text-gray-800 gap-8">
+                    <p>© 2026 PAPU BADATYA. A Frontend UI Developer • INDIA</p>
+                    <p>Designed with rhyth • Built with logic • Driven by creativity.</p>
                 </div>
             </div>
-            <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-reveal aspect-square">
-                <img src="https://i.pinimg.com/1200x/4c/21/8e/4c218e455f3a94db944b4faa6a023703.jpg" alt="Identity" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 class="text-xl font-bold">2. Identity</h3>
-                    <p class="text-xs mt-1">Colors & Visuals</p>
-                </div>
-            </div>
-            <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-reveal aspect-square">
-                <img src="https://i.pinimg.com/736x/f2/47/a4/f247a41067866d896b77c4913a8837b4.jpg" alt="Typography" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 class="text-xl font-bold">3. Typography</h3>
-                    <p class="text-xs mt-1">Font Selection</p>
-                </div>
-            </div>
-            <div class="relative rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300 anim-reveal aspect-square">
-                <img src="https://i.pinimg.com/1200x/ff/26/55/ff265557d59bcd1d8de129b2674e7676.jpg" alt="Development" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 class="text-xl font-bold">4. Development</h3>
-                    <p class="text-xs mt-1">Pixel-Perfect Code</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="w-full bg-white flex flex-col items-center justify-center px-4 py-24 md:py-32">
-        <div class="max-w-6xl w-full flex flex-col md:flex-row items-center gap-12">
-            <div class="relative w-full md:w-2/3 group anim-reveal">
-                <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-100">
-                    <video class="w-full h-auto transform transition-transform duration-700 group-hover:scale-105" src="/images/sanvee-jewellry.mp4" autoplay loop muted playsinline></video>
-                </div>
-                <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">Live Preview</div>
-            </div>
-            <div class="w-full md:w-1/3 space-y-6 anim-reveal">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 lato-black">UI Showcase</h2>
-                <p class="text-gray-600 text-lg leading-relaxed lato-regular">A creative frontend made with <span class="font-bold text-black">React</span> and <span class="font-bold text-black">TailwindCSS</span>. Focusing on smooth transitions and elegant layout.</p>
-                <a href="/Pages/projects.html" class="inline-block px-8 py-3 bg-black text-white rounded-full font-bold hover:bg-orange-500 transition-colors duration-300">See All Projects</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="py-20 overflow-hidden bg-white border-t border-gray-100">
-        <div class="container mx-auto px-4 mb-10">
-            <h2 class="text-4xl font-bold lato-bold" id="project-scroll-track">More Projects</h2>
-        </div>
-        <div class="relative w-full overflow-hidden">
-            <div class="horizontal-scroll-container pl-4">
-                <a href="https://trackyo.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
-                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
-                        <img src="/images/banner.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <h3 class="text-xl font-bold lato-bold">Trackyo Job Tracker</h3>
-                </a>
-                <a href="https://playlist-for-you.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
-                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
-                        <img src="/images/dashbordui.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <h3 class="text-xl font-bold lato-bold">Music Dashboard UI</h3>
-                </a>
-                <a href="https://sanveeflowers.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
-                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
-                        <img src="/images/sanveeFlower.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <h3 class="text-xl font-bold lato-bold">Aesthetic Flower UI</h3>
-                </a>
-                      <a href="https://cyclesync7.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
-                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
-                        <img src="/images/CycleSync.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <h3 class="text-xl font-bold lato-bold">Medical WebApp</h3>
-                </a>
-                <a href="https://cozy-sprinkles-67caf9.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
-                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
-                        <img src="/images/pstarz.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <h3 class="text-xl font-bold lato-bold">T-Shirt Brand Landing</h3>
-                </a>
-                <a href="https://sanimx-gsap-animations.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
-                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
-                        <img src="/images/sanimx-gsap.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <h3 class="text-xl font-bold lato-bold">GSAP Animation Library</h3>
-                </a>
-                <a href="https://my-portfolio-pb7.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
-                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
-                        <img src="/images/react.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <h3 class="text-xl font-bold lato-bold">React Portfolio V1</h3>
-                </a>
-                <a href="https://the-batman12.netlify.app/" class="block flex-shrink-0 w-[300px] md:w-[400px] group">
-                    <div class="h-[220px] md:h-[280px] rounded-xl overflow-hidden mb-4 relative">
-                        <img src="/images/bataman2.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                    </div>
-                    <h3 class="text-xl font-bold lato-bold">Batman Fan Page</h3>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <section id="desk-section" class="w-full bg-white py-24 px-4 md:px-10 border-t border-gray-100">
-        <div class="max-w-[1400px] mx-auto">
-            
-            <div class="desk-anim-text flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4 md:gap-6 opacity-0 translate-y-10">
-                <div class="max-w-lg">
-                    <span class="text-orange-500 font-bold uppercase tracking-widest text-xs mb-2 block">The Base</span>
-                    <h2 class="text-4xl sm:text-5xl md:text-6xl lato-black text-gray-900 leading-[1.1]">
-                        My Daily <span class="lobster-regular text-orange-500 font-normal">View</span>.
-                    </h2>
-                </div>
-                
-                <div class="flex items-center gap-2 text-gray-400 text-xs uppercase tracking-widest font-bold md:animate-pulse">
-                    <i class="ri-mouse-line hidden md:inline-block"></i> 
-                    <span class="hidden md:inline-block">Hover for Specs</span>
-                    <span class="md:hidden">Tap to Explore</span>
-                </div>
-            </div>
-
-            <div class="desk-anim-card relative w-full h-[400px] md:h-[75vh] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-200 group bg-gray-900 opacity-0 translate-y-20">
-                
-                <img src="/images/mydesk.jpg" 
-                     alt="My Desk Setup" 
-                     class="desk-parallax-img w-full h-full object-cover opacity-90 transition-all duration-700 ease-out group-hover:opacity-60 scale-110">
-                
-                <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-500 group-hover:opacity-0 pointer-events-none">
-                    <div class="text-center">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-white/50 flex items-center justify-center mb-4 mx-auto backdrop-blur-sm">
-                            <i class="ri-add-line text-2xl md:text-3xl text-white"></i>
-                        </div>
-                        <p class="text-white font-bold tracking-[0.2em] text-xs md:text-sm uppercase">Creative Zone</p>
-                    </div>
-                </div>
-
-                <div class="absolute bottom-0 left-0 w-full bg-white/10 backdrop-blur-xl border-t border-white/20 p-6 md:p-10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-white">
-                        
-                        <div class="space-y-1 md:space-y-2 border-b md:border-b-0 md:border-r border-white/20 pb-4 md:pb-0">
-                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Coordinates</span>
-                            <div class="flex items-center gap-3">
-                                <i class="ri-map-pin-2-fill text-xl md:text-2xl"></i>
-                                <div>
-                                    <h4 class="text-lg md:text-xl lato-bold">INDIA</h4>
-                                    <p class="text-[10px] md:text-xs text-gray-300">Berhampur, Odisha </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2 border-b md:border-b-0 md:border-r border-white/20 pb-4 md:pb-0 md:pl-8">
-                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Environment</span>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">Minimalist</span>
-                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">High Perf.</span>
-                                <span class="px-2 py-1 md:px-3 border border-white/30 rounded-full text-[10px] md:text-xs">Lo-Fi Audio</span>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2 md:pl-8 flex flex-col justify-center">
-                            <span class="text-orange-400 text-[10px] font-bold uppercase tracking-widest">Current State</span>
-                            <div class="flex items-center gap-2">
-                                <span class="relative flex h-2 w-2 md:h-3 md:w-3">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-green-500"></span>
-                                </span>
-                                <span class="text-base md:text-lg lato-bold">Ready to Build.</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="absolute top-4 left-4 md:top-6 md:left-6 w-6 h-6 md:w-8 md:h-8 border-l-2 border-t-2 border-white/50 rounded-tl-lg"></div>
-                <div class="absolute top-4 right-4 md:top-6 md:right-6 w-6 h-6 md:w-8 md:h-8 border-r-2 border-t-2 border-white/50 rounded-tr-lg"></div>
-                <div class="absolute bottom-4 left-4 md:bottom-6 md:left-6 w-6 h-6 md:w-8 md:h-8 border-l-2 border-b-2 border-white/50 rounded-bl-lg transition-opacity duration-300 group-hover:opacity-0"></div>
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 w-6 h-6 md:w-8 md:h-8 border-r-2 border-b-2 border-white/50 rounded-br-lg transition-opacity duration-300 group-hover:opacity-0"></div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="w-full bg-white py-20 px-6 border-y border-gray-50 my-10">
-        <div class="max-w-4xl mx-auto text-center anim-reveal">
-            <div class="mb-6">
-                <i class="ri-double-quotes-l text-4xl md:text-5xl text-orange-400 opacity-80 inline-block"></i>
-            </div>
-            <h2 class="quote-font text-3xl md:text-5xl md:leading-tight text-gray-900 mb-8">"It’s not about ideas. It’s about making ideas happen."</h2>
-            <div class="flex items-center justify-center gap-4">
-                <span class="h-[1px] w-8 bg-orange-400"></span>
-                <p class="lato-bold text-xs md:text-sm text-gray-500 uppercase tracking-[3px]">Scott Belsky</p>
-                <span class="h-[1px] w-8 bg-orange-400"></span>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-black text-white py-16 lato-regular border-t border-gray-900">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-                <div class="space-y-4">
-                    <a href="#" class="text-2xl font-bold lato-black tracking-tighter flex items-center gap-2"><i class="ri-gemini-fill text-orange-400"></i> Pstarz</a>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-xs">I bridge the gap between design and technology, building responsive interfaces that leave a lasting impact. Focused on clean code, smooth motion, and seamless user experiences.</p>
-                </div>
-                <div class="space-y-4">
-                    <h3 class="text-lg lato-bold text-white mb-2">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="/Pages/projects.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Work</a></li>
-                        <li><a href="/Pages/about.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">About Me</a></li>
-                        <li><a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Resume</a></li>
-                        <li><a href="/Pages/contact.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="space-y-4">
-                    <h3 class="text-lg lato-bold text-white mb-2">Contact Info</h3>
-                    <div class="space-y-3">
-                        <a href="mailto:papubadatya355@gmail.com" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group"><i class="ri-mail-line text-lg group-hover:text-white transition-colors"></i> papubadatya355@gmail.com</a>
-                        <a href="tel:+916370134774" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group"><i class="ri-phone-line text-lg group-hover:text-white transition-colors"></i> +91 6370134774</a>
-                        <div class="flex items-start gap-3 text-gray-400 text-sm"><i class="ri-map-pin-line text-lg mt-0.5"></i> <span>Berhampur, Ganjam,<br>Odisha, India - 760010</span></div>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <h3 class="text-lg lato-bold text-white mb-2">Interested in connecting?</h3>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300"><i class="ri-linkedin-fill text-lg"></i></a>
-                        <a href="https://github.com/pstarz7" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all duration-300"><i class="ri-github-fill text-lg"></i></a>
-                        <a href="https://www.instagram.com/_pstarz/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#E1306C] hover:text-white transition-all duration-300"><i class="ri-instagram-line text-lg"></i></a>
-                        <a href="https://x.com/_pstarz" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all duration-300"><i class="ri-twitter-x-fill text-lg"></i></a>
-                        <a href="https://www.behance.net/papubadatya1" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#1769ff] hover:text-white transition-all duration-300"><i class="ri-behance-fill text-lg"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-                <p>© 2025 Papu Badatya. All rights reserved.</p>
-                <p class="flex items-center gap-1">Made with <i class="ri-heart-fill text-red-500 animate-pulse"></i> & <i class="ri-music-2-fill text-orange-400"></i></p>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </main>
 
     <script>
-        // 1. Lenis Smooth Scroll
-        const lenis = new Lenis({ autoRaf: true, smooth: true });
+        const lenis = new Lenis({ autoRaf: true, smooth: true, lerp: 0.1 });
+        gsap.registerPlugin(ScrollTrigger, Draggable);
 
-        // 2. Optimized Preloader - Fixed Timing
-        // Initially hide opacity
-        gsap.set('#loader-icon', { opacity: 0, scale: 0.8 });
-        
-        // Immediate animation (DOMContentLoaded)
-        document.addEventListener("DOMContentLoaded", () => {
-             const preloaderTl = gsap.timeline();
-             preloaderTl.to(['#quote-text', '#quote-author'], { opacity: 1, y: 0, duration: 1, ease: 'power2.out', stagger: 0.3 })
-                        .to('#loader-icon', { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }, "-=0.5");
-        });
+        // Skew on Scroll Logic
+        let proxy = { skew: 0 },
+            skewSetter = gsap.quickSetter(".text-skew", "skewY", "deg"),
+            clampSkew = gsap.utils.clamp(-2, 2); 
 
-        // When everything loads, fade out
-        window.addEventListener('load', () => {
-            gsap.to('#preloader', { 
-                y: '-100%', 
-                duration: 1, 
-                ease: 'power4.inOut', 
-                delay: 0.5, 
-                onComplete: () => {
-                    document.getElementById('preloader').style.display = 'none';
-                    gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" });
-                }
-            });
-        });
-
-        // Fallback safety
-        setTimeout(() => {
-            if(document.getElementById('preloader').style.display !== 'none'){
-                 gsap.to('#preloader', { 
-                    y: '-100%', 
-                    duration: 1, 
-                    ease: 'power4.inOut',
-                    onComplete: () => {
-                        document.getElementById('preloader').style.display = 'none';
-                        gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" });
-                    }
-                });
-            }
-        }, 5000);
-
-        // 3. GSAP Config
-        gsap.registerPlugin(ScrollTrigger);
-
-        // 4. Marquee
-        gsap.to("#marquee-track-main", { xPercent: -50, repeat: -1, duration: 30, ease: "none" });
-
-        // 5. Parallax for Hero Image
-        gsap.to(".parallax-hero-img", {
-            yPercent: 20,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "header",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        // 6. Horizontal Scroll
-        const scrollContainer = document.querySelector(".horizontal-scroll-container");
-        function getScrollAmount() { return -(scrollContainer.scrollWidth - window.innerWidth); }
-        gsap.to(scrollContainer, {
-            x: () => getScrollAmount(),
-            duration: 3, ease: "none",
-            scrollTrigger: {
-                trigger: ".horizontal-scroll-container",
-                start: "top 80%", end: () => `+=${getScrollAmount() * -1}`, scrub: 1, invalidateOnRefresh: true,
-            }
-        });
-
-        // 7. Reveal Animations (Generic)
-        document.querySelectorAll('.anim-reveal').forEach(el => {
-            gsap.from(el, {
-                y: 50, opacity: 0, duration: 1, ease: "power2.out",
-                scrollTrigger: { trigger: el, start: "top 85%" }
-            });
-        });
-
-        // 8. Text Reveal Animation (Highlighter Effect)
-        const textElement = document.getElementById('text-reveal');
-        if (textElement) {
-            const text = textElement.innerText;
-            const words = text.split(" ");
-            textElement.innerHTML = ""; 
-
-            words.forEach(word => {
-                const span = document.createElement("span");
-                span.innerText = word;
-                span.className = "highlight-word"; 
-                textElement.appendChild(span);
-                textElement.appendChild(document.createTextNode(" ")); 
-            });
-
-            gsap.to(".highlight-word", {
-                backgroundSize: "100% 35%",
-                stagger: 0.1,
-                scrollTrigger: {
-                    trigger: "#text-reveal",
-                    start: "top 80%",
-                    end: "bottom 50%",
-                    scrub: 1
-                }
-            });
-        }
-
-        // 9. Mobile Menu
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-        hamburger.addEventListener('click', () => { mobileMenu.classList.toggle('open'); });
-        document.addEventListener('click', (e) => {
-             if (!e.target.closest('#hamburger') && !e.target.closest('#mobileMenu')) {
-                 mobileMenu.classList.remove('open');
-             }
-        });
-
-        // 10. Desk Section Animations (Unified Timeline Fix)
-        const deskTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#desk-section",
-                start: "top 75%" 
-            }
-        });
-
-        deskTl.to(".desk-anim-text", {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out"
-        })
-        .to(".desk-anim-card", {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: "power3.out"
-        }, "-=0.6");
-
-        gsap.to(".desk-parallax-img", {
-            yPercent: 20, 
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".desk-anim-card",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        // 11. Video Logic (Counter + Scroll Play/Pause)
-        const videoElement = document.getElementById('ui-video');
-        const timeDisplay = document.getElementById('video-real-time');
-
-        // A. Real-time Counter
-        if (videoElement && timeDisplay) {
-            videoElement.addEventListener('timeupdate', () => {
-                const currentTime = videoElement.currentTime;
-                
-                const minutes = Math.floor(currentTime / 60);
-                const seconds = Math.floor(currentTime % 60);
-                const ms = Math.floor((currentTime % 1) * 100);
-
-                const fMin = String(minutes).padStart(2, '0');
-                const fSec = String(seconds).padStart(2, '0');
-                const fMs = String(ms).padStart(2, '0');
-
-                timeDisplay.innerText = `${fMin}:${fSec}:${fMs}`;
-            });
-        }
-
-        // B. Scroll-Based Play/Pause Logic
         ScrollTrigger.create({
-            trigger: "#ui-video",
-            start: "top bottom", // enter viewport
-            end: "bottom top",   // leave viewport
-            onEnter: () => {
-                if(videoElement) videoElement.play();
-            },
-            onLeave: () => {
-                if(videoElement) videoElement.pause();
-            },
-            onEnterBack: () => {
-                if(videoElement) videoElement.play();
-            },
-            onLeaveBack: () => {
-                if(videoElement) videoElement.pause();
+            onUpdate: (self) => {
+                let skew = clampSkew(self.getVelocity() / -400);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, {skew: 0, duration: 0.8, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew)});
+                }
             }
         });
 
-        // C. Scale Animation
-        gsap.from("#ui-video", {
-            scale: 1.05, 
-            duration: 1.5,
-            scrollTrigger: {
-                trigger: "#ui-video",
-                start: "top 90%",
-                end: "bottom 60%",
-                scrub: 1
-            }
+
+        
+
+        // Preloader
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to("#loader-quote", { opacity: 1, y: 0, duration: 1 })
+              .to("#preloader", { yPercent: -100, duration: 1.2, ease: "power4.inOut", delay: 0.8 })
+              .to(".anim-hero", { y: 0, opacity: 1, stagger: 0.1, duration: 1, ease: "power4.out" });
         });
+
+        // Fixed Marquee
+        gsap.to(".marquee-track", { xPercent: -50, repeat: -1, duration: 20, ease: "none" });
+
+        // Horizontal archive
+        const horizontalTrack = document.querySelector('.horizontal-track');
+        if(window.innerWidth > 1024) {
+            gsap.to(horizontalTrack, {
+                x: () => -(horizontalTrack.scrollWidth - window.innerWidth),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".horizontal-section", start: "top 10%",
+                    end: () => `+=${horizontalTrack.scrollWidth}`,
+                    scrub: 1, pin: true, invalidateOnRefresh: true, anticipatePin: 1
+                }
+            });
+        } else {
+            Draggable.create(horizontalTrack, { type: "x", edgeResistance: 0.65, bounds: ".horizontal-section", inertia: true });
+        }
+
+        // Magnetic Logic
+        document.querySelectorAll('.magnetic').forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(item, { x: x * 0.4, y: y * 0.4, duration: 0.3 });
+            });
+            item.addEventListener('mouseleave', () => gsap.to(item, { x: 0, y: 0, duration: 0.5 }));
+        });
+
+        // Highlighter Logic - Pure Red Highlight, Black Text
+        const textReveal = document.getElementById('text-reveal');
+        const words = textReveal.innerText.split(" ");
+        textReveal.innerHTML = words.map(w => `<span class="highlight-word">${w}</span>`).join(" ");
+        gsap.to(".highlight-word", {
+            backgroundSize: "100% 30%", stagger: 0.05,
+            scrollTrigger: { trigger: "#text-reveal", start: "top 85%", end: "bottom 50%", scrub: 1 }
+        });
+
+        // Timer and Video Logic - Smooth Scroll Based Play/Pause
+        const vid = document.getElementById('ui-video');
+        const timer = document.getElementById('video-timer');
+        if(vid) {
+            vid.addEventListener('timeupdate', () => {
+                const mins = String(Math.floor(vid.currentTime / 60)).padStart(2, '0');
+                const secs = String(Math.floor(vid.currentTime % 60)).padStart(2, '0');
+                const ms = String(Math.floor((vid.currentTime % 1) * 100)).padStart(2, '0');
+                timer.innerText = `${mins}:${secs}:${ms}`;
+            });
+            
+            ScrollTrigger.create({
+                trigger: vid,
+                start: "top bottom", 
+                end: "bottom top",
+                onEnter: () => vid.play(),
+                onEnterBack: () => vid.play(),
+                onLeave: () => vid.pause(),
+                onLeaveBack: () => vid.pause()
+            });
+        }
+
+        // Custom Cursor
+        const cursor = document.querySelector('#cursor');
+        if(window.matchMedia("(hover: hover)").matches) {
+            window.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
+            document.querySelectorAll('a, button, .group, article').forEach(el => {
+                el.onmouseenter = () => { cursor.style.width = '100px'; cursor.style.height = '100px'; };
+                el.onmouseleave = () => { cursor.style.width = '12px'; cursor.style.height = '12px'; };
+            });
+        }
+
+        // Overlay Menu
+        const overlay = document.getElementById('mobile-nav-overlay');
+        document.getElementById('open-menu').onclick = () => overlay.classList.add('active');
+        document.getElementById('close-menu').onclick = () => overlay.classList.remove('active');
+
+        // Clean Stagger Reveals for ALL sections and individual Archive cards
+        document.querySelectorAll('.anim-up, .anim-card-in').forEach(el => {
+            gsap.from(el, { 
+                y: 80, 
+                opacity: 0, 
+                duration: 1.5, 
+                ease: "power4.out", 
+                scrollTrigger: { 
+                    trigger: el, 
+                    start: "top 95%" 
+                } 
+            });
+        });
+
+        /* ================================
+   HEADING TEXT ANIMATIONS (SAFE)
+================================ */
+
+// Split heading text into spans
+function splitHeading(el) {
+    const text = el.innerText;
+    el.innerHTML = text
+        .split(" ")
+        .map(word => `<span class="inline-block overflow-hidden">
+            <span class="inline-block heading-word">${word}&nbsp;</span>
+        </span>`)
+        .join("");
+}
+
+// Animate big section headings
+document.querySelectorAll('[data-animate="heading"]').forEach(heading => {
+    splitHeading(heading);
+
+    gsap.from(heading.querySelectorAll('.heading-word'), {
+        y: 120,
+        opacity: 0,
+        rotate: 2,
+        duration: 1.2,
+        ease: "power4.out",
+        stagger: 0.08,
+        scrollTrigger: {
+            trigger: heading,
+            start: "top 85%",
+        }
+    });
+});
+
+/* ================================
+   META TEXT (SMALL LABELS)  
+================================ */
+document.querySelectorAll('[data-animate="meta"]').forEach(el => {
+    gsap.from(el, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+        }
+    });
+});
+
     </script>
 </body>
 </html>
-
-
-
-
