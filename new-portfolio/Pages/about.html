@@ -3,489 +3,378 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>About | Papu Badatya</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#ee373c' },
+                    fontFamily: { 'gilroy': ['Gilroy', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Bebas+Neue&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .lato-regular { font-family: "Lato", sans-serif; font-weight: 400; }
-        .lato-bold { font-family: "Lato", sans-serif; font-weight: 700; }
-        .lato-black { font-family: "Lato", sans-serif; font-weight: 900; }
-           
-        /* Navbar styles */
-        .nav-links { transition: all 0.3s ease; }
-        .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .mobile-menu.open { max-height: 300px; }
-        .hamburger { display: none; cursor: pointer; }
+        :root { --brand: #ee373c; --black: #0a0a0a; }
 
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hamburger { display: block; }
-            .mobile-menu {
-                position: absolute; top: 55px; left: 0; right: 0;
-                background-color: white; z-index: 100;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .mobile-menu a { display: block; padding: 15px 20px; text-align: center; border-bottom: 1px solid #f3f4f6; }
-        }
-
-        /* Skills Styling */
-        .skill-category { position: relative; padding-left: 24px; }
-        .skill-category::before {
-            content: ''; position: absolute; left: 0; top: 12px;
-            width: 16px; height: 3px; background-color: #000;
-        }
+        /* Universal Reset matching Master System */
+        * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
         
-        /* Swiper Customization */
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Regular.woff2') format('woff2'); font-weight: 400; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Bold.woff2') format('woff2'); font-weight: 700; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Heavy.woff2') format('woff2'); font-weight: 900; }
+
+        html, body { width: 100%; overflow-x: clip; background-color: #fff; color: var(--black); font-family: 'Gilroy', sans-serif; -webkit-font-smoothing: antialiased; }
+
+        /* Typography matching Master Logic */
+        .big-title { 
+            font-size: clamp(3.2rem, 13vw, 15rem); 
+            line-height: 0.8; 
+            font-weight: 900; 
+            letter-spacing: -0.06em; 
+            display: inline-block; 
+            white-space: nowrap; 
+        }
+        .bebas-font { font-family: 'Bebas Neue', sans-serif; }
+        .lobster-font { font-family: 'Lobster', cursive; }
+        .quote-font { font-family: "Playfair Display", serif; }
+
+        /* Custom Cursor */
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: var(--brand); border-radius: 50% !important;
+            pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); display: none;
+            mix-blend-mode: difference; transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+        @media (hover: hover) and (pointer: fine) { #cursor { display: block; } body { cursor: none; } }
+
+        /* Mobile Overlay */
+        #mobile-nav-overlay {
+            position: fixed; inset: 0; background: var(--black); z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; padding: 10%;
+            clip-path: circle(0% at 100% 0%); transition: clip-path 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        #mobile-nav-overlay.active { clip-path: circle(150% at 100% 0%); }
+
+        /* Swiper Carousel */
         .swiper-slide { width: auto !important; }
         .swiper-slide img {
-            width: 250px; height: 250px; object-fit: cover; border-radius: 4px;
-            filter: grayscale(20%); transition: filter 0.3s ease;
+            width: 280px; height: 380px; object-fit: cover;
+            filter: grayscale(100%); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .swiper-slide img:hover { filter: grayscale(0%); }
+        .swiper-slide:hover img { filter: grayscale(0%); transform: scale(1.05); }
+
+        @media (max-width: 768px) { .swiper-slide img { width: 220px; height: 300px; } }
+
+        /* Highlighter Effect - Brand Red with Black Text */
+        .highlight-word {
+            display: inline-block; position: relative; z-index: 1;
+            color: #000;
+            background-image: linear-gradient(120deg, var(--brand) 0%, var(--brand) 100%);
+            background-repeat: no-repeat; background-size: 0% 30%; background-position: 0% 95%;
+            transition: background-size 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .skill-card { border: 1px solid #f1f1f1; transition: all 0.4s ease; }
+        .skill-card:hover { border-color: var(--brand); background: #fafafa; }
         
-        @media (max-width: 768px) {
-            .swiper-slide img { width: 200px; height: 200px; }
-        }
-         .quote-font {  font-family: "Playfair Display", serif; }
+        .magnetic { display: inline-block; }
+        .stroke-text { -webkit-text-stroke: 1px #e2e8f0; color: transparent; }
     </style>
 </head>
 
-<body class="overflow-x-hidden bg-white">
-    
-    <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white">
-        <div class="navo-logo pl-2">
-            <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
-                <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-            </a>
-        </div>
+<body class="overflow-x-hidden">
+    <div id="cursor"></div>
 
-        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px] font-regular">
-            <a href="projects.html" class="hover:text-orange-400 transition-colors">Work</a>
-            <a href="about.html" class="text-orange-400">About</a>
-            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="hover:text-orange-400 transition-colors">Resume</a>
-            <a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a>
-        </div>
+    <div id="mobile-nav-overlay">
+        <button id="close-menu" class="absolute top-10 right-10 text-white text-4xl font-light"><i class="ri-close-line"></i></button>
+        <div class="flex flex-col gap-6">
+            <a href="projects.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Work</a>
+            <a href="about.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">About ME</a>
+            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Resume</a>
+            <a href="contact.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Contact</a>
 
-        <div class="hamburger md:hidden pr-3" id="hamburger">
-            <i class="ri-menu-line text-2xl"></i>
         </div>
+    </div>
 
-        <div class="mobile-menu md:hidden w-full" id="mobileMenu">
-            <a href="projects.html" class="block py-3 px-5 lato-bold">Work</a>
-            <a href="about.html" class="block py-3 px-5 lato-bold text-orange-400">About</a>
-            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="block py-3 px-5 lato-bold">Resume</a>
-            <a href="contact.html" class="block py-3 px-5 lato-bold">Contact</a>
+   
+
+    <nav class="fixed top-0 left-0 w-full z-[100] px-6 md:px-12 py-8 flex justify-between items-center mix-blend-difference text-white">
+        <a href="/index.html" class="font-black text-2xl tracking-tighter uppercase magnetic leading-none">Pstarz<span class="text-brand">.</span></a>
+        <div class="hidden lg:flex gap-12 font-bold text-[10px] uppercase tracking-[0.4em]">
+            <a href="projects.html" class="nav-item magnetic">Works</a>
+            <a href="about.html" class="nav-item magnetic text-brand">About Me</a>
+            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="nav-item magnetic">Resume</a>
+            <a href="contact.html" class="nav-item magnetic">Contact</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="mailto:papubadatya355@gmail.com" class="hidden sm:block text-[10px] font-black uppercase tracking-widest border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all magnetic">Get In Touch</a>
+            <div class="cursor-pointer text-4xl magnetic" id="open-menu"><i class="ri-menu-4-fill"></i></div>
         </div>
     </nav>
 
-
-    <div class="container mx-auto px-4 py-16 md:py-24">
-        <div class="max-w-4xl mx-auto">
-            
-            <h1 class="text-5xl md:text-7xl font-bold lato-black mb-8 anim-trigger">About Me</h1>
-            
-            <div class="mb-16">
-                <p class="text-xl md:text-2xl lato-regular leading-relaxed mb-6 anim-trigger">
-                    I'm a <span class="lato-bold">frontend developer</span> who builds clean, responsive interfaces that people love to use. 
-                    For me, coding isn't just about making things work it's about creating experiences that feel alive.
-                </p>
-                
-                <p class="text-xl md:text-2xl lato-regular leading-relaxed mb-6 anim-trigger">
-                    I specialize in <span class="lato-bold">HTML, CSS, JavaScript, and React</span>, with a passion for bringing designs to life 
-                    using <span class="lato-bold">GSAP and ScrollTrigger</span>. I've also dabbled in backend with Node.js, Express, and MongoDB 
-                    to understand how everything connects.
-                </p>
-                
-                <p class="text-xl md:text-2xl lato-regular leading-relaxed anim-trigger">
-                    With about <span class="lato-bold">1 year of focused frontend development</span> through personal and collaboration projects, 
-                    I'm now looking to bring my skills to a professional team where I can grow and create amazing things together.
-                </p>
-            </div>
-            
-                 <!-- Instagram-style Photo Gallery -->
-            <div class="mb-20">
-                <h2 class="text-3xl md:text-4xl lato-bold mb-8">Gallery</h2>
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                        <!-- Add your project screenshots here -->
-                      <div class="swiper-slide">
-                            <img src="/images/pstar-wtrfl.jpg" alt="Project 1">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/images/IMG-20250329-WA0015.jpg" alt="Project 2">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/images/photo_2025-07-12_23-04-32.jpg" alt="Project 3">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/images/photo_2025-07-12_23-04-36.jpg" alt="Project 4">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/images/photo_2025-07-12_23-04-07.jpg" alt="Project 5">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/images/photo_2025-07-12_23-04-13.jpg" alt="Project 6">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="/images/IMG_20250330_121828.jpg" alt="Project 7">
-                        </div>
-                           <div class="swiper-slide">
-                            <img src="/images/IMG-20250329-WA0037.jpg" alt="Project 8">
-                        </div>
-                          <div class="swiper-slide">
-                            <img src="/images/shiro with me.jpg" alt="Project 9">
-                        </div> 
-                             <div class="swiper-slide">
-                            <img src="/images/IMG_20250712_223124.jpg" alt="Project 10">
-                        </div>
-                         <div class="swiper-slide">
-                            <img src="/images/1.jpg" alt="Project 11">
-                        </div> 
-                    </div>
+    <main class="w-full">
+        <section class="pt-48 md:pt-64 px-6 md:px-12 mb-16 md:mb-24 overflow-hidden">
+            <h1 class="big-title text-gray-900 anim-up uppercase leading-none text-skew">
+                ABOUT<br><span class="text-gray-200">PHILOSOPHY</span>
+            </h1>
+            <div class="flex flex-col md:flex-row justify-between items-start mt-16 gap-10 anim-up">
+                <div class="max-w-xl">
+                    <p class="text-2xl md:text-4xl font-black leading-tight">
+                        I build clean, responsive interfaces that people love to use. For me, coding is about creating experiences that <span class="text-brand lobster-font italic capitalize">feel alive.</span>
+                    </p>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <span class="w-16 h-[1px] bg-black"></span>
+                    <p class="bebas-font text-3xl tracking-widest uppercase text-gray-400">papu Badatya</p>
                 </div>
             </div>
-            
-            <div class="mb-20">
-                <h2 class="text-3xl md:text-4xl lato-bold mb-8 anim-trigger">Skills & Languages</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="skill-block anim-trigger">
-                        <h3 class="text-xl lato-bold skill-category mb-4">Frontend</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-center"><i class="fab fa-html5 text-orange-500 text-xl mr-3"></i><span class="lato-regular">HTML5</span></li>
-                            <li class="flex items-center"><i class="fab fa-css3-alt text-blue-500 text-xl mr-3"></i><span class="lato-regular">CSS3</span></li>
-                            <li class="flex items-center"><i class="fab fa-js-square text-yellow-400 text-xl mr-3"></i><span class="lato-regular">JavaScript (ES6+)</span></li>
-                            <li class="flex items-center"><i class="fab fa-react text-blue-400 text-xl mr-3"></i><span class="lato-regular">React.js</span></li>
-                            <li class="flex items-center"><i class="ri-tailwind-css-fill text-cyan-400 text-xl mr-3"></i><span class="lato-regular">Tailwind CSS</span></li>
+        </section>
+
+        <section class="py-24 md:py-40 px-6 md:px-12 border-t border-gray-100 overflow-hidden">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
+                <div class="flex flex-col justify-center">
+                    <h2 class="text-xs font-black uppercase tracking-[0.4em] text-brand mb-10">The Narrative</h2>
+                    <h3 id="text-reveal" class="text-xl md:text-3xl font-black leading-tight text-black mb-12">
+                        I specialize in HTML, CSS, JavaScript, and React, with a passion for bringing designs to life using GSAP and ScrollTrigger. I focus on the "Front of the Frontend"—where design meets logic, creating interfaces that are beautiful and functional.
+                    </h3>
+                    <div class="space-y-8 anim-up">
+                        <p class="text-lg md:text-xl font-bold leading-relaxed text-gray-500">
+                            I've also dabbled in backend with <span class="text-black">Node.js, Express, and MongoDB</span> to understand the full architectural connection. With about 1 year of focused development, I'm ready to bring high-impact results to your team.
+                        </p>
+                    </div>
+                </div>
+                <div class="relative h-[65vh] bg-gray-100 overflow-hidden shadow-2xl anim-up">
+                    <img src="/images/ps5.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 md:py-40 bg-gray-50 overflow-hidden w-full">
+            <div class="px-6 md:px-12 mb-16 flex justify-between items-end">
+                <h2 class="bebas-font text-7xl md:text-9xl uppercase leading-none text-skew">The Gallery</h2>
+                <p class="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400">Swipe Moments</p>
+            </div>
+            <div class="swiper px-6 md:px-12">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="/images/pstar-wtrfl.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/IMG-20250329-WA0015.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-32.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-36.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-07.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-13.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/IMG_20250330_121828.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/IMG-20250329-WA0037.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/shiro with me.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/IMG_20250712_223124.jpg"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-32 md:py-56 px-6 md:px-12 bg-white">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="flex justify-between items-baseline mb-24 border-b border-black pb-8">
+                    <h2 class="bebas-font text-7xl md:text-[10vw] uppercase leading-none">Toolkit</h2>
+                    <p class="font-black text-[11px] uppercase tracking-widest text-gray-300">Capabilities</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="skill-card p-10 anim-up">
+                        <h4 class="text-xl font-black uppercase mb-8 border-b border-brand pb-2">Frontend</h4>
+                        <ul class="space-y-4 font-bold text-sm">
+                            <li><i class="fab fa-html5 mr-3 text-orange-500"></i> HTML5</li>
+                            <li><i class="fab fa-css3-alt mr-3 text-blue-500"></i> CSS3</li>
+                            <li><i class="fab fa-js-square mr-3 text-yellow-500"></i> JavaScript (ES6+)</li>
+                            <li><i class="fab fa-react mr-3 text-cyan-400"></i> React.js</li>
+                            <li><i class="ri-tailwind-css-fill mr-3 text-blue-400"></i> Tailwind CSS</li>
                         </ul>
                     </div>
-                    
-                    <div class="skill-block anim-trigger">
-                        <h3 class="text-xl lato-bold skill-category mb-4">Animation</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-center"><i class="fas fa-bolt text-green-500 text-xl mr-3"></i><span class="lato-regular">GSAP</span></li>
-                            <li class="flex items-center"><i class="fas fa-scroll text-purple-500 text-xl mr-3"></i><span class="lato-regular">ScrollTrigger</span></li>
-                            <li class="flex items-center"><i class="fas fa-sliders-h text-blue-300 text-xl mr-3"></i><span class="lato-regular">Swiper.js</span></li>
+                    <div class="skill-card p-10 anim-up">
+                        <h4 class="text-xl font-black uppercase mb-8 border-b border-brand pb-2">Animation</h4>
+                        <ul class="space-y-4 font-bold text-sm">
+                            <li><i class="fas fa-bolt mr-3 text-green-500"></i> GSAP</li>
+                            <li><i class="fas fa-scroll mr-3 text-purple-500"></i> ScrollTrigger</li>
+                            <li><i class="fas fa-sliders-h mr-3 text-blue-300"></i> Swiper.js</li>
                         </ul>
                     </div>
-                    
-                    <div class="skill-block anim-trigger">
-                        <h3 class="text-xl lato-bold skill-category mb-4">Backend</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-center"><i class="fab fa-node-js text-green-600 text-xl mr-3"></i><span class="lato-regular">Node.js</span></li>
-                            <li class="flex items-center"><i class="fas fa-server text-gray-600 text-xl mr-3"></i><span class="lato-regular">Express.js</span></li>
-                            <li class="flex items-center"><i class="fas fa-database text-green-700 text-xl mr-3"></i><span class="lato-regular">MongoDB</span></li>
-                            <li class="flex items-center"><i class="ri-firebase-fill text-orange-500 text-xl mr-3"></i><span class="lato-regular">Firebase</span></li>
+                    <div class="skill-card p-10 anim-up">
+                        <h4 class="text-xl font-black uppercase mb-8 border-b border-brand pb-2">Backend</h4>
+                        <ul class="space-y-4 font-bold text-sm">
+                            <li><i class="fab fa-node-js mr-3 text-green-600"></i> Node.js</li>
+                            <li><i class="fas fa-server mr-3 text-gray-600"></i> Express.js</li>
+                            <li><i class="fas fa-database mr-3 text-green-800"></i> MongoDB</li>
+                            <li><i class="ri-firebase-fill mr-3 text-orange-400"></i> Firebase</li>
                         </ul>
                     </div>
-                    
-                    <div class="skill-block anim-trigger">
-                        <h3 class="text-xl lato-bold skill-category mb-4">Creative Tools</h3>
-                        <ul class="space-y-2">
-<li class="flex items-center"><i class="ri-movie-fill text-blue-500 text-xl mr-3"></i><span class="lato-regular">Premiere Pro</span></li>
-<li class="flex items-center"><i class="ri-image-edit-fill text-pink-500 text-xl mr-3"></i><span class="lato-regular">Photoshop</span></li>
-<li class="flex items-center"><i class="fab fa-figma text-purple-600 text-xl mr-3"></i><span class="lato-regular">Figma</span></li>
-<li class="flex items-center"><i class="fas fa-copyright text-cyan-500 text-xl mr-3"></i><span class="lato-regular">Canva</span></li>
+                    <div class="skill-card p-10 anim-up">
+                        <h4 class="text-xl font-black uppercase mb-8 border-b border-brand pb-2">Creative</h4>
+                        <ul class="space-y-4 font-bold text-sm">
+                            <li><i class="ri-movie-fill mr-3 text-blue-500"></i> Premiere Pro</li>
+                            <li><i class="ri-image-edit-fill mr-3 text-pink-500"></i> Photoshop</li>
+                            <li><i class="fab fa-figma mr-3 text-purple-600"></i> Figma</li>
+                            <li><i class="fas fa-copyright mr-3 text-cyan-500"></i> Canva</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            
-            <div class="mb-20">
-                <h2 class="text-3xl md:text-4xl lato-bold mb-8 anim-trigger">Education</h2>
-                
-                <div class="space-y-6">
-                    <div class="border-l-4 border-black pl-6 py-2 education-item anim-trigger">
-                        <h3 class="text-xl lato-bold">Vignan Institute of Technology and Management</h3>
-                        <p class="lato-regular text-gray-600">Berhampur | EEE - B.Tech | CGPA: 7.88</p>
-                    </div>
-                    
-                    <div class="border-l-4 border-black pl-6 py-2 education-item anim-trigger">
-                        <h3 class="text-xl lato-bold">Kalam Institute of Technology</h3>
-                        <p class="lato-regular text-gray-600">Berhampur | EE - Diploma | Grade: 80%</p>
-                    </div>
-                    
-                    <div class="border-l-4 border-black pl-6 py-2 education-item anim-trigger">
-                        <h3 class="text-xl lato-bold">AceIt - Web Development</h3>
-                        <p class="lato-regular text-gray-600">Berhampur | Grade: A++</p>
-                    </div>
-                </div>
-            </div>
+        </section>
 
-            <div class="mb-20">
-                <h2 class="text-3xl md:text-4xl lato-bold mb-10 relative inline-block anim-trigger">
-                    Contact Info
-                    <span class="absolute -bottom-2 left-0 w-1/3 h-1 bg-orange-400 rounded-full"></span>
-                </h2>
-            
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <a href="mailto:papubadatya355@gmail.com" class="contact-card group block bg-white border border-gray-200 p-6 hover:border-black hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 anim-trigger">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-black transition-colors duration-300">
-                                <i class="ri-mail-send-fill text-xl text-black group-hover:text-white transition-colors"></i>
-                            </div>
-                            <i class="ri-arrow-right-up-line text-gray-300 group-hover:text-orange-400 text-xl transition-colors"></i>
-                        </div>
-                        <h3 class="text-sm lato-bold text-gray-500 uppercase tracking-wider mb-1">Email</h3>
-                        <p class="text-lg md:text-xl lato-bold text-gray-900 break-all">papubadatya355@gmail.com</p>
-                    </a>
-            
-                    <a href="tel:+916370134774" class="contact-card group block bg-white border border-gray-200 p-6 hover:border-black hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 anim-trigger">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-green-600 transition-colors duration-300">
-                                <i class="ri-whatsapp-fill text-xl text-black group-hover:text-white transition-colors"></i>
-                            </div>
-                            <i class="ri-arrow-right-up-line text-gray-300 group-hover:text-orange-400 text-xl transition-colors"></i>
-                        </div>
-                        <h3 class="text-sm lato-bold text-gray-500 uppercase tracking-wider mb-1">Call / WhatsApp</h3>
-                        <p class="text-lg md:text-xl lato-bold text-gray-900">+91 6370134774</p>
-                    </a>
-            
-                    <div class="contact-card group block bg-white border border-gray-200 p-6 hover:border-black hover:shadow-xl transition-all duration-300 anim-trigger">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-red-500 transition-colors duration-300">
-                                <i class="ri-map-pin-fill text-xl text-black group-hover:text-white transition-colors"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-sm lato-bold text-gray-500 uppercase tracking-wider mb-1">Location</h3>
-                        <p class="text-lg md:text-xl lato-bold text-gray-900">India- Odisha, Berhampur, Ganjam</p>
+        <section id="education" class="py-32 md:py-56 bg-black text-white px-6 md:px-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="bebas-font text-7xl md:text-9xl mb-24 stroke-text">Education</h2>
+                <div class="space-y-24">
+                    <div class="border-l-2 border-brand pl-8 anim-up">
+                        <span class="text-brand text-xs font-black tracking-widest uppercase">B.Tech | 7.88 CGPA</span>
+                        <h3 class="text-3xl md:text-5xl font-black mt-4 uppercase leading-none">Vignan Institute of Tech.</h3>
+                        <p class="text-gray-500 font-bold mt-4">Electrical & Electronics Engineering</p>
                     </div>
-            
-                    <div class="contact-card group block bg-white border border-gray-200 p-6 hover:border-black hover:shadow-xl transition-all duration-300 anim-trigger">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
-                                <i class="ri-share-fill text-xl text-black group-hover:text-white transition-colors"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-sm lato-bold text-gray-500 uppercase tracking-wider mb-3">Social Profiles</h3>
-                        
-                        <div class="flex flex-wrap gap-3">
-                            
-                            <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-[#0077b5] hover:text-white hover:border-[#0077b5] transition-all">
-                                <i class="ri-linkedin-fill text-lg"></i>
-                            </a>
-                            
-                            <a href="https://github.com/pstarz7" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-[#333] hover:text-white hover:border-[#333] transition-all">
-                                <i class="ri-github-fill text-lg"></i>
-                            </a>
-                            
-                            <a href="https://www.instagram.com/_pstarz/" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-[#E1306C] hover:text-white hover:border-[#E1306C] transition-all">
-                                <i class="ri-instagram-line text-lg"></i>
-                            </a>
-
-                            <a href="https://x.com/_pstarz" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-black hover:text-white hover:border-black transition-all">
-                                <i class="ri-twitter-x-fill text-lg"></i>
-                            </a>
-
-                            <a href="https://www.behance.net/papubadatya1" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-[#1769ff] hover:text-white hover:border-[#1769ff] transition-all">
-                                <i class="ri-behance-fill text-lg"></i>
-                            </a>
-                        </div>
+                    <div class="border-l-2 border-brand pl-8 anim-up">
+                        <span class="text-brand text-xs font-black tracking-widest uppercase">Diploma | 80%</span>
+                        <h3 class="text-3xl md:text-5xl font-black mt-4 uppercase leading-none">Kalam Institute of Tech.</h3>
+                        <p class="text-gray-500 font-bold mt-4">Berhampur, Odisha</p>
+                    </div>
+                    <div class="border-l-2 border-brand pl-8 anim-up">
+                        <span class="text-brand text-xs font-black tracking-widest uppercase">Web Development | A++</span>
+                        <h3 class="text-3xl md:text-5xl font-black mt-4 uppercase leading-none">AceIt Learning Centre</h3>
+                        <p class="text-gray-500 font-bold mt-4">Professional Web Architecture Training</p>
                     </div>
                 </div>
             </div>
-            
-            <div class="text-center py-12 anim-trigger">
-                <h3 class="text-2xl lato-bold mb-4">Want to work together?</h3>
-                <p class="text-gray-600 lato-regular mb-6 max-w-2xl mx-auto">
-                    I'm always open to discussing new projects, creative ideas or opportunities to be part of your team.
-                </p>
-                <a href="contact.html" class="inline-block bg-black text-white px-8 py-3 rounded-full font-medium lato-bold hover:bg-gray-800 transition-colors hover:scale-105 transform duration-300">
-                    Get In Touch
-                </a>
-            </div>
-        </div>
-    </div>
+        </section>
 
-    <section class="w-full bg-white py-20 px-6 border-y border-gray-50 my-10">
-    <div class="max-w-4xl mx-auto text-center anim-reveal">
-        <div class="mb-6">
-            <i class="ri-double-quotes-l text-4xl md:text-5xl text-orange-400 opacity-80 inline-block"></i>
-        </div>
+        <section class="py-48 text-center px-6 bg-white overflow-hidden">
+            <i class="ri-double-quotes-l text-6xl text-brand opacity-30"></i>
+            <h2 class="quote-font text-3xl md:text-6xl md:leading-tight max-w-4xl mx-auto mt-10 uppercase font-black tracking-tighter text-skew">
+                "The only way to do great work is to love what you do."
+            </h2>
+            <p class="bebas-font text-2xl mt-8 tracking-widest text-gray-300">Steve Jobs</p>
+        </section>
 
-        <h2 class="quote-font text-3xl md:text-5xl md:leading-tight text-gray-900 mb-8">
-            "The only way to do great work is to love what you do."
-        </h2>
+        <footer id="contact" class="bg-black text-white px-6 md:px-12 py-32 md:py-56 overflow-hidden w-full">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="flex flex-col gap-10 mb-32 lg:mb-48">
+                    <h2 class="big-title text-brand leading-[0.75]">GET IN<br>TOUCH<span class="text-white">.</span></h2>
+                    <div class="w-full flex flex-col lg:flex-row lg:items-end justify-between gap-12 pt-16 border-t border-gray-900">
+                       <p class="text-2xl md:text-4xl font-black max-w-xl text-gray-500 leading-none uppercase tracking-tighter">Available for remote roles and collaborations worldwide, and on-site in India.</p>
+                        <a href="mailto:papubadatya355@gmail.com" class="text-2xl md:text-3xl font-black hover:text-brand transition-all border-b border-gray-800 pb-2 uppercase tracking-tighter">Let's Work Together</a>
+                     </div>
+                </div>
 
-        <div class="flex items-center justify-center gap-4">
-            <span class="h-[1px] w-8 bg-orange-400"></span>
-            <p class="lato-bold text-xs md:text-sm text-gray-500 uppercase tracking-[3px]">
-               Steve Jobs
-            </p>
-            <span class="h-[1px] w-8 bg-orange-400"></span>
-        </div>
-    </div>
-</section>
-
-<footer class="bg-black text-white py-16 lato-regular border-t border-gray-900">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-            
-            <div class="space-y-4">
-                <a href="#" class="text-2xl font-bold lato-black tracking-tighter flex items-center gap-2">
-                    <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-                </a>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
-                    I bridge the gap between design and technology, building responsive interfaces that leave a lasting impact. Focused on clean code, smooth motion, and seamless user experiences.
-                </p>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Quick Links</h3>
-                <ul class="space-y-2">
-                    <li><a href="/Pages/projects.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Work</a></li>
-                    <li><a href="/Pages/about.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">About Me</a></li>
-                    <li><a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" target="_blank" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Resume</a></li>
-                    <li><a href="/Pages/contact.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Contact Info</h3>
-                <div class="space-y-3">
-                    <a href="mailto:papubadatya355@gmail.com" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group">
-                        <i class="ri-mail-line text-lg group-hover:text-white transition-colors"></i>
-                        papubadatya355@gmail.com
-                    </a>
-                    <a href="tel:+916370134774" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group">
-                        <i class="ri-phone-line text-lg group-hover:text-white transition-colors"></i>
-                        +91 6370134774
-                    </a>
-                    <div class="flex items-start gap-3 text-gray-400 text-sm">
-                        <i class="ri-map-pin-line text-lg mt-0.5"></i>
-                        <span>Berhampur, Ganjam,<br>Odisha, India - 760010</span>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-20 lg:gap-12 border-t border-gray-900 pt-20">
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Connect</p>
+                        <div class="flex flex-col gap-4">
+                            <a href="mailto:papubadatya355@gmail.com" class="text-xl md:text-2xl lg:text-3xl font-black hover:text-brand transition-all break-all uppercase leading-none">papubadatya355@gmail.com</a>
+                            <a href="tel:+916370134774" class="text-xl md:text-2xl font-black text-gray-500 hover:text-white transition-all">+91 6370134774</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Social Network</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-black uppercase tracking-widest">
+                            <a href="https://github.com/pstarz7" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic">Github</a>
+                            <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic">LinkedIn</a>
+                            <a href="https://www.instagram.com/_pstarz/" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic">Instagram</a>
+                            <a href="https://x.com/_pstarz" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic">Twitter</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Navigation</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-black uppercase tracking-widest">
+                            <a href="about.html"class="hover:text-brand text-brand">about</a>
+                            <a href="projects.html" class="hover:text-brand">Works</a>
+                            <a href="contact.html" class="hover:text-brand">Contact</a>
+                            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="hover:text-brand">Resume</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Interested in connecting?</h3>
-                <div class="flex flex-wrap gap-4">
-                    <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300">
-                        <i class="ri-linkedin-fill text-lg"></i>
-                    </a>
-                    <a href="https://github.com/pstarz7" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all duration-300">
-                        <i class="ri-github-fill text-lg"></i>
-                    </a>
-                    <a href="https://www.instagram.com/_pstarz/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#E1306C] hover:text-white transition-all duration-300">
-                        <i class="ri-instagram-line text-lg"></i>
-                    </a>
-                    <a href="https://x.com/_pstarz" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all duration-300">
-                        <i class="ri-twitter-x-fill text-lg"></i>
-                    </a>
-                    <a href="https://www.behance.net/papubadatya1" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#1769ff] hover:text-white transition-all duration-300">
-                        <i class="ri-behance-fill text-lg"></i>
-                    </a>
+                <div class="mt-40 pt-12 border-t border-gray-900 flex flex-col md:flex-row justify-between text-[10px] font-black uppercase tracking-[0.5em] text-gray-800 gap-8">
+                   <p>© 2026 PAPU BADATYA. A Frontend UI Developer • INDIA</p>
+                    <p>Designed with rhyth • Built with logic • Driven by creativity.</p>
                 </div>
             </div>
-
-        </div>
-
-        <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-            <p>© 2025 Papu Badatya. All rights reserved.</p>
-            <p class="flex items-center gap-1">
-                Made with <i class="ri-heart-fill text-red-500 animate-pulse"></i> & <i class="ri-music-2-fill text-orange-400"></i>
-            </p>
-        </div>
-    </div>
-</footer>
-
+        </footer>
+    </main>
 
     <script>
-        // 1. Register ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger);
+        const lenis = new Lenis({ autoRaf: true, smooth: true, lerp: 0.1 });
+        gsap.registerPlugin(ScrollTrigger, Draggable);
 
-        // 2. Initialize Lenis (Smooth Scroll)
-        const lenis = new Lenis({
-            autoRaf: true,
-        });
+        // Skew on Scroll logic
+        let proxy = { skew: 0 },
+            skewSetter = gsap.quickSetter(".text-skew", "skewY", "deg"),
+            clampSkew = gsap.utils.clamp(-2, 2); 
 
-        // 3. Initialize Swiper
-        const swiper = new Swiper('.swiper', {
-            slidesPerView: 'auto',
-            spaceBetween: 20,
-            freeMode: true,
-            mousewheel: true,
-            grabCursor: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            breakpoints: {
-                640: { spaceBetween: 30 }
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                let skew = clampSkew(self.getVelocity() / -400);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, {skew: 0, duration: 0.8, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew)});
+                }
             }
         });
 
-        // 4. Universal GSAP Reveal Animation
-        // I added the class "anim-trigger" to all main sections so they animate in
-        gsap.utils.toArray(".anim-trigger").forEach(element => {
-            gsap.from(element, {
-                scrollTrigger: {
-                    trigger: element,
-                    start: "top 85%", // Triggers when top of element hits 85% of viewport height
-                    toggleActions: "play none none none"
-                },
-                opacity: 0,
-                y: 40,
-                duration: 0.8,
-                ease: "power2.out"
-            });
+        
+
+        // Swiper Gallery
+        const swiper = new Swiper('.swiper', {
+            slidesPerView: 'auto', spaceBetween: 40, freeMode: true, grabCursor: true,
+            autoplay: { delay: 3000, disableOnInteraction: false },
         });
 
-        // 5. Mobile Menu Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-            
-            hamburger.addEventListener('click', () => {
-                mobileMenu.classList.toggle('open');
+        // Magnetic Hover logic
+        document.querySelectorAll('.magnetic').forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(item, { x: x * 0.4, y: y * 0.4, duration: 0.3 });
             });
-            
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('#hamburger') && !e.target.closest('#mobileMenu')) {
-                    mobileMenu.classList.remove('open');
-                }
+            item.addEventListener('mouseleave', () => gsap.to(item, { x: 0, y: 0, duration: 0.5 }));
+        });
+
+        // Highlighter Underline logic
+        const textReveal = document.getElementById('text-reveal');
+        const words = textReveal.innerText.split(" ");
+        textReveal.innerHTML = words.map(w => `<span class="highlight-word">${w}</span>`).join(" "); 
+        gsap.to(".highlight-word", {
+            backgroundSize: "100% 30%", stagger: 0.05,
+            scrollTrigger: { trigger: "#text-reveal", start: "top 85%", end: "bottom 50%", scrub: 1 }
+        });
+
+        // Custom Cursor logic
+        const cursor = document.querySelector('#cursor');
+        if(window.matchMedia("(hover: hover)").matches) {
+            window.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
+            document.querySelectorAll('a, button, .skill-card, .swiper-slide').forEach(el => {
+                el.onmouseenter = () => { cursor.style.width = '100px'; cursor.style.height = '100px'; };
+                el.onmouseleave = () => { cursor.style.width = '12px'; cursor.style.height = '12px'; };
             });
+        }
+
+        // Overlay Menu logic
+        const overlay = document.getElementById('mobile-nav-overlay');
+        document.getElementById('open-menu').onclick = () => overlay.classList.add('active');
+        document.getElementById('close-menu').onclick = () => overlay.classList.remove('active');
+
+        // General Animations Reveal
+        document.querySelectorAll('.anim-up').forEach(el => {
+            gsap.from(el, { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 95%" } });
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
