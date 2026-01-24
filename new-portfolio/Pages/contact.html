@@ -3,323 +3,292 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Contact | Papu Badatya</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#ee373c' },
+                    fontFamily: { 'gilroy': ['Gilroy', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
-    
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Bebas+Neue&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Segoe UI', sans-serif; }
-        .lato-bold { font-family: "Lato", sans-serif; font-weight: 700; }
-        .lato-regular { font-family: "Lato", sans-serif; font-weight: 400; }
-        .lato-black { font-family: "Lato", sans-serif; font-weight: 900; }
-        .quote-font {  font-family: "Playfair Display", serif; }
-        /* Navbar & Menu Styles */
-        .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .mobile-menu.open { max-height: 300px; }
+        :root { --brand: #ee373c; --black: #0a0a0a; }
+
+        /* Universal Reset matching Landing Page */
+        * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
         
-        /* Input Focus Color */
-        .input-group:focus-within label, .input-group:focus-within i { color: #fb923c; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Regular.woff2') format('woff2'); font-weight: 400; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Bold.woff2') format('woff2'); font-weight: 700; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Heavy.woff2') format('woff2'); font-weight: 900; }
+
+        html, body { width: 100%; overflow-x: clip; background-color: #fff; color: var(--black); font-family: 'Gilroy', sans-serif; -webkit-font-smoothing: antialiased; }
+
+        /* Typography matching Landing Page */
+        .big-title { 
+            font-size: clamp(3.2rem, 13vw, 15rem); 
+            line-height: 0.8; 
+            font-weight: 900; 
+            letter-spacing: -0.06em; 
+            display: inline-block; 
+            white-space: nowrap; 
+        }
+        .bebas-font { font-family: 'Bebas Neue', sans-serif; }
+        .lobster-font { font-family: 'Lobster', cursive; }
+        .quote-font { font-family: "Playfair Display", serif; }
+
+        /* Custom Cursor */
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: var(--brand); border-radius: 50% !important;
+            pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); display: none;
+            mix-blend-mode: difference; transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+        @media (hover: hover) and (pointer: fine) { #cursor { display: block; } body { cursor: none; } }
+
+        /* Mobile Overlay */
+        #mobile-nav-overlay {
+            position: fixed; inset: 0; background: var(--black); z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; padding: 10%;
+            clip-path: circle(0% at 100% 0%); transition: clip-path 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        #mobile-nav-overlay.active { clip-path: circle(150% at 100% 0%); }
+
+        /* Image Mask for Creative Touch */
+        .image-reveal { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .image-container:hover .image-reveal { transform: scale(1.05); }
+
+        .contact-link { border-bottom: 2px solid transparent; transition: all 0.3s; width: fit-content; }
+        .contact-link:hover { border-color: var(--brand); color: var(--brand); }
+
+        .magnetic { display: inline-block; }
     </style>
 </head>
 
-<body class="overflow-x-hidden bg-white">
-    
-<nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white">
-        <div class="navo-logo pl-2">
-            <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
-                <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-            </a>
-        </div>
+<body class="overflow-x-hidden">
+    <div id="cursor"></div>
 
-        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px]">
-            <a href="projects.html" class="hover:text-orange-400 transition-colors">Work</a>
-            <a href="about.html" class="hover:text-orange-400 transition-colors">About</a>
-            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="hover:text-orange-400 transition-colors">Resume</a>
-            <a href="contact.html" class="text-orange-400">Contact</a>
-        </div>
+    <div id="mobile-nav-overlay">
+        <button id="close-menu" class="absolute top-10 right-10 text-white text-4xl font-light"><i class="ri-close-line"></i></button>
+        <div class="flex flex-col gap-6">
+         <a href="projects.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Work</a>
+            <a href="about.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">About ME</a>
+            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Resume</a>
+            <a href="contact.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Contact</a>
 
-        <div class="hamburger md:hidden pr-3 cursor-pointer" id="hamburger">
-            <i class="ri-menu-line text-2xl"></i>
         </div>
+    </div>
 
-        <div class="mobile-menu md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-100 z-40" id="mobileMenu">
-            <a href="projects.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">Work</a>
-            <a href="about.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">About</a>
-            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">Resume</a>
-            <a href="contact.html" class="block py-4 px-5 lato-bold text-orange-400 hover:bg-gray-50 transition-colors">Contact</a>
+
+    <nav class="fixed top-0 left-0 w-full z-[100] px-6 md:px-12 py-8 flex justify-between items-center mix-blend-difference text-white">
+        <a href="/index.html" class="font-black text-2xl tracking-tighter uppercase magnetic leading-none">Pstarz<span class="text-brand">.</span></a>
+        <div class="hidden lg:flex gap-12 font-bold text-[10px] uppercase tracking-[0.4em]">
+            <a href="projects.html" class="nav-item magnetic">Works</a>
+            <a href="about.html" class="nav-item magnetic">About Me</a>
+            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="nav-item magnetic">Resume</a>
+            <a href="contact.html" class="nav-item magnetic text-brand">Contact</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="mailto:papubadatya355@gmail.com" class="hidden sm:block text-[10px] font-black uppercase tracking-widest border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all magnetic">Get In Touch</a>
+            <div class="cursor-pointer text-4xl magnetic" id="open-menu"><i class="ri-menu-4-fill"></i></div>
         </div>
     </nav>
 
-    <div class="container mx-auto px-4 py-16 md:py-20">
-        <div class="max-w-6xl mx-auto">
-            <div class="mb-16">
-                <h1 class="text-5xl md:text-7xl font-bold lato-black mb-6">Let's Connect</h1>
-                <p class="text-xl md:text-2xl lato-regular text-gray-600 leading-relaxed max-w-2xl">
-                    I'm always open to discussing new projects, creative ideas or opportunities.
-                </p>
-            </div>
+    <main class="w-full">
+        <section class="pt-48 md:pt-64 px-6 md:px-12 mb-16 md:mb-24 overflow-hidden">
+            <h1 class="big-title text-gray-900 anim-up uppercase leading-none text-skew">
+                KEEP IN<br><span class="text-gray-200">TOUCH</span>
+            </h1>
+        </section>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                <div class="space-y-10">
-                    <div class="border-l-4 border-black pl-6 py-2 anim-item">
-                        <h3 class="text-2xl lato-bold mb-2">Email</h3>
-                        <a href="mailto:papubadatya355@gmail.com" class="text-xl lato-bold hover:text-orange-400 transition-colors">papubadatya355@gmail.com</a>
-                    </div>
-                    <div class="border-l-4 border-black pl-6 py-2 anim-item">
-                        <h3 class="text-2xl lato-bold mb-2">Phone</h3>
-                        <a href="tel:+916370134774" class="text-xl lato-bold hover:text-orange-400 transition-colors">+91 6370134774</a>
-                    </div>
-                    <div class="border-l-4 border-black pl-6 py-2 anim-item">
-                        <h3 class="text-2xl lato-bold mb-2">Connect</h3>
-                        <div class="flex gap-6 mt-4">
-                            <a href="https://www.linkedin.com/in/papu-badatya-759767254/" class="text-3xl hover:text-blue-600"><i class="ri-linkedin-fill"></i></a>
-                            <a href="https://github.com/pstarz7" class="text-3xl hover:text-black"><i class="ri-github-fill"></i></a>
-                            <a href="https://www.instagram.com/_pstarz/" class="text-3xl hover:text-pink-600"><i class="ri-instagram-line"></i></a>
-                            <a href="https://x.com/_pstarz" class="text-3xl hover:text-black"> <i class="ri-twitter-x-fill"></i></a>
-                            <a href="https://www.behance.net/papubadatya1" class="text-3xl hover:text-blue-600"> <i class="ri-behance-fill"></i> </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 p-8 md:p-10 rounded-2xl anim-item relative">
-                    <h3 class="text-2xl lato-bold mb-6">Send a Message</h3>
-                    
-                    <form id="firebaseForm" class="space-y-6">
-                        <div class="input-group space-y-2">
-                            <label class="text-sm lato-bold text-gray-600 uppercase tracking-wider">Name</label>
-                            <div class="flex items-center border-b-2 border-gray-300 focus-within:border-black py-2">
-                                <i class="ri-user-smile-line text-xl text-gray-400 mr-3"></i>
-                                <input type="text" id="name" class="w-full bg-transparent outline-none lato-regular text-lg" placeholder="Your Name" required>
-                            </div>
-                        </div>
-
-                        <div class="input-group space-y-2">
-                            <label class="text-sm lato-bold text-gray-600 uppercase tracking-wider">Email</label>
-                            <div class="flex items-center border-b-2 border-gray-300 focus-within:border-black py-2">
-                                <i class="ri-mail-line text-xl text-gray-400 mr-3"></i>
-                                <input type="email" id="email" class="w-full bg-transparent outline-none lato-regular text-lg" placeholder="your@email.com" required>
-                            </div>
-                        </div>
-
-                        <div class="input-group space-y-2">
-                            <label class="text-sm lato-bold text-gray-600 uppercase tracking-wider">Message</label>
-                            <div class="flex items-start border-b-2 border-gray-300 focus-within:border-black py-2">
-                                <i class="ri-chat-1-line text-xl text-gray-400 mr-3 mt-1"></i>
-                                <textarea id="message" rows="3" class="w-full bg-transparent outline-none lato-regular text-lg resize-none" placeholder="Tell me about your project..." required></textarea>
-                            </div>
-                        </div>
-
-                        <button type="submit" id="submitBtn" class="w-full bg-black text-white py-4 rounded-full lato-bold text-lg hover:bg-gray-800 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2 mt-4">
-                            Send Message <i class="ri-send-plane-fill"></i>
-                        </button>
-                    </form>
-                    
-                    <div id="successMessage" class="hidden absolute inset-0 bg-gray-50 rounded-2xl flex flex-col items-center justify-center text-center p-6 z-10">
-                        <i class="ri-checkbox-circle-fill text-6xl text-green-500 mb-4"></i>
-                        <h3 class="text-2xl lato-bold mb-2">Message Sent!</h3>
-                        <p class="text-gray-600">Thanks for reaching out. I'll get back to you soon.</p>
-                        <button onclick="location.reload()" class="mt-6 text-black underline font-bold">Send another</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-     
-    <section class="w-full bg-white py-20 px-6 border-y border-gray-50 my-10">
-    <div class="max-w-4xl mx-auto text-center anim-reveal">
-        <div class="mb-6">
-            <i class="ri-double-quotes-l text-4xl md:text-5xl text-orange-400 opacity-80 inline-block"></i>
-        </div>
-
-        <h2 class="quote-font text-3xl md:text-5xl md:leading-tight text-gray-900 mb-8">
-            "You can’t use up creativity. The more you use, the more you have."
-        </h2>
-
-        <div class="flex items-center justify-center gap-4">
-            <span class="h-[1px] w-8 bg-orange-400"></span>
-            <p class="lato-bold text-xs md:text-sm text-gray-500 uppercase tracking-[3px]">
-                Maya Angelou
-            </p>
-            <span class="h-[1px] w-8 bg-orange-400"></span>
-        </div>
-    </div>
-</section>
-    
-    
-<footer class="bg-black text-white py-16 lato-regular border-t border-gray-900">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-            
-            <div class="space-y-4">
-                <a href="#" class="text-2xl font-bold lato-black tracking-tighter flex items-center gap-2">
-                    <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-                </a>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
-                    I bridge the gap between design and technology, building responsive interfaces that leave a lasting impact. Focused on clean code, smooth motion, and seamless user experiences.
-                </p>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Quick Links</h3>
-                <ul class="space-y-2">
-                    <li><a href="/Pages/projects.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Work</a></li>
-                    <li><a href="/Pages/about.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">About Me</a></li>
-                    <li><a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" target="_blank" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Resume</a></li>
-                    <li><a href="/Pages/contact.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Contact Info</h3>
-                <div class="space-y-3">
-                    <a href="mailto:papubadatya355@gmail.com" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group">
-                        <i class="ri-mail-line text-lg group-hover:text-white transition-colors"></i>
-                        papubadatya355@gmail.com
-                    </a>
-                    <a href="tel:+916370134774" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group">
-                        <i class="ri-phone-line text-lg group-hover:text-white transition-colors"></i>
-                        +91 6370134774
-                    </a>
-                    <div class="flex items-start gap-3 text-gray-400 text-sm">
-                        <i class="ri-map-pin-line text-lg mt-0.5"></i>
-                        <span>Berhampur, Ganjam,<br>Odisha, India - 760010</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Interested in connecting?</h3>
-                <div class="flex flex-wrap gap-4">
-                    <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300">
-                        <i class="ri-linkedin-fill text-lg"></i>
-                    </a>
-                    <a href="https://github.com/pstarz7" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all duration-300">
-                        <i class="ri-github-fill text-lg"></i>
-                    </a>
-                    <a href="https://www.instagram.com/_pstarz/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#E1306C] hover:text-white transition-all duration-300">
-                        <i class="ri-instagram-line text-lg"></i>
-                    </a>
-                    <a href="https://x.com/_pstarz" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all duration-300">
-                        <i class="ri-twitter-x-fill text-lg"></i>
-                    </a>
-                    <a href="https://www.behance.net/papubadatya1" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#1769ff] hover:text-white transition-all duration-300">
-                        <i class="ri-behance-fill text-lg"></i>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-            <p>© 2025 Papu Badatya. All rights reserved.</p>
-            <p class="flex items-center gap-1">
-                Made with <i class="ri-heart-fill text-red-500 animate-pulse"></i> & <i class="ri-music-2-fill text-orange-400"></i>
-            </p>
-        </div>
-    </div>
-</footer>
-
-   <script type="module">
-        // 1. Import the Database functions (I fixed the imports here)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-
-        // 2. YOUR FIREBASE CONFIG
-        const firebaseConfig = {
-            apiKey: "AIzaSyDbZRcQnKyl-XAYCY_fnNK4Te6JIPq309M",
-            authDomain: "portfolio-contact-40520.firebaseapp.com",
-            projectId: "portfolio-contact-40520",
-            storageBucket: "portfolio-contact-40520.firebasestorage.app",
-            messagingSenderId: "437072191892",
-            appId: "1:437072191892:web:2c4ca469390f8ed05d2f81",
-            measurementId: "G-C7SHM8Y8K8"
-        };
-
-        // 3. Initialize Firebase & Database
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app); // <--- This line was missing!
-
-        // 4. Handle Form Submit
-        const form = document.getElementById('firebaseForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const successMsg = document.getElementById('successMessage');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Show loading state
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = 'Sending...';
-            submitBtn.disabled = true;
-
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-
-            try {
-                // Add data to Firestore Collection named "messages"
-                await addDoc(collection(db, "messages"), {
-                    name: name,
-                    email: email,
-                    message: message,
-                    timestamp: serverTimestamp()
-                });
-
-                // Show success message
-                form.reset();
-                successMsg.classList.remove('hidden');
-                successMsg.classList.add('flex'); // Flex to center content
+        <section class="px-6 md:px-12 pb-40 overflow-hidden">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
                 
-            } catch (error) {
-                console.error("Error adding document: ", error); // Check Console (F12) to see specific error
-                alert("Error: " + error.message); 
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-            }
-        });
-    </script>
+                <div class="flex flex-col gap-16 md:gap-24">
+                    <div class="anim-up">
+                        <span class="text-brand font-black text-xs uppercase tracking-[0.4em] mb-6 block">Ready to start</span>
+                        <h2 class="text-4xl md:text-7xl font-black leading-tight uppercase text-gray-900 tracking-tighter">
+                            Let's work together to make <span class="lobster-font text-brand capitalize">good things.</span>
+                        </h2>
+                        <p class="text-xl md:text-2xl font-bold text-gray-500 mt-8 leading-relaxed max-w-lg">
+                            I'm currently available for remote frontend roles, creative collaborations, and design experiments.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-16 gap-x-12 pt-16 border-t border-gray-100">
+                      <div class="anim-up">
+    <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">
+        Email Address
+    </p>
+    <a href="mailto:papubadatya355@gmail.com"
+       class="text-base md:text-lg font-black contact-link break-words uppercase">
+        papubadatya355@gmail.com
+    </a>
+</div>
+
+<div class="anim-up">
+    <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">
+        Call / WhatsApp
+    </p>
+    <a href="tel:+916370134774"
+       class="text-base md:text-lg font-black contact-link">
+        +91 6370134774
+    </a>
+</div>
+
+<div class="anim-up">
+    <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">
+        Location
+    </p>
+    <p class="text-base md:text-lg font-black uppercase">
+        Berhampur, Odisha, India
+    </p>
+</div>
+
+                        <div class="anim-up">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Follow Me</p>
+                            <div class="flex flex-wrap gap-8 text-2xl">
+                                <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic"><i class="ri-linkedin-fill"></i></a>
+                                <a href="https://github.com/pstarz7" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic"><i class="ri-github-fill"></i></a>
+                                <a href="https://www.instagram.com/_pstarz/" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic"><i class="ri-instagram-line"></i></a>
+                                <a href="https://x.com/_pstarz" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic"><i class="ri-twitter-x-fill"></i></a>
+                                <a href="https://www.behance.net/papubadatya1" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic"><i class="ri-behance-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full h-[60vh] md:h-[80vh] lg:h-[90vh] bg-gray-50 image-container overflow-hidden shadow-2xl anim-up">
+                    <img src="/images/ps6.jpg" alt="Papu Badatya Portrait" class="image-reveal">
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-48 text-center px-6 bg-white border-y border-gray-100 overflow-hidden">
+            <i class="ri-double-quotes-l text-6xl text-brand opacity-30"></i>
+            <h2 class="quote-font text-3xl md:text-6xl md:leading-tight max-w-4xl mx-auto mt-10 uppercase font-black tracking-tighter text-skew">
+                "You can’t use up creativity. The more you use, the more you have."
+            </h2>
+            <p class="bebas-font text-2xl mt-8 tracking-widest text-gray-300">Maya Angelou</p>
+        </section>
+
+        <footer id="contact" class="bg-black text-white px-6 md:px-12 py-32 md:py-56 overflow-hidden w-full">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="flex flex-col gap-10 mb-32 lg:mb-48">
+                    <h2 class="big-title text-brand leading-[0.75]">GET IN<br>TOUCH<span class="text-white">.</span></h2>
+                    <div class="w-full flex flex-col lg:flex-row lg:items-end justify-between gap-12 pt-16 border-t border-gray-900">
+                      <p class="text-2xl md:text-4xl font-black max-w-xl text-gray-500 leading-none uppercase tracking-tighter">Available for remote roles and collaborations worldwide, and on-site in India.</p>
+                        <a href="mailto:papubadatya355@gmail.com" class="text-2xl md:text-3xl font-black hover:text-brand transition-all border-b border-gray-800 pb-2 uppercase tracking-tighter">Let's Work Together</a>
+                     </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-20 lg:gap-12 border-t border-gray-900 pt-20">
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Connect</p>
+                        <div class="flex flex-col gap-4">
+                            <a href="mailto:papubadatya355@gmail.com" class="text-xl md:text-2xl lg:text-3xl font-black hover:text-brand transition-all break-all uppercase leading-none">papubadatya355@gmail.com</a>
+                            <a href="tel:+916370134774" class="text-xl md:text-2xl font-black text-gray-500 hover:text-white transition-all">+91 6370134774</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Social Network</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-black uppercase tracking-widest">
+                            <a href="https://github.com/pstarz7" target="_blank" class="hover:text-brand">Github</a>
+                            <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="hover:text-brand">LinkedIn</a>
+                            <a href="https://www.instagram.com/_pstarz/" target="_blank" class="hover:text-brand">Instagram</a>
+                            <a href="https://x.com/_pstarz" target="_blank" class="hover:text-brand">Twitter</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Navigation</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-black uppercase tracking-widest">
+                            <a href="about.html"class="hover:text-bran">about</a>
+                            <a href="projects.html" class="hover:text-brand">Works</a>
+                            <a href="contact.html" class="hover:text-brand text-brand">Contact</a>
+                            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="hover:text-brand">Resume</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-40 pt-12 border-t border-gray-900 flex flex-col md:flex-row justify-between text-[10px] font-black uppercase tracking-[0.5em] text-gray-800 gap-8">
+                   <p>© 2026 PAPU BADATYA. A Frontend UI Developer • INDIA</p>
+                    <p>Designed with rhyth • Built with logic • Driven by creativity.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-        const lenis = new Lenis({ autoRaf: true });
-        
-        gsap.utils.toArray(".anim-item").forEach((element, i) => {
-            gsap.from(element, {
-                scrollTrigger: { trigger: element, start: "top 85%" },
-                opacity: 0, y: 30, duration: 0.8, delay: i * 0.1, ease: "power2.out"
-            });
+        const lenis = new Lenis({ autoRaf: true, smooth: true, lerp: 0.1 });
+        gsap.registerPlugin(ScrollTrigger, Draggable);
+
+        // 100% Same Skew Effect Logic
+        let proxy = { skew: 0 },
+            skewSetter = gsap.quickSetter(".text-skew", "skewY", "deg"),
+            clampSkew = gsap.utils.clamp(-2, 2); 
+
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                let skew = clampSkew(self.getVelocity() / -400);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, {skew: 0, duration: 0.8, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew)});
+                }
+            }
         });
 
-        document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('mobileMenu').classList.toggle('open');
+        // 100% Same Preloader
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to("#loader-quote", { opacity: 1, y: 0, duration: 1 })
+              .to("#preloader", { yPercent: -100, duration: 1.2, ease: "power4.inOut", delay: 0.8 })
+              .to(".anim-hero", { y: 0, opacity: 1, stagger: 0.1, duration: 1, ease: "power4.out" });
+        });
+
+        // 100% Same Magnetic Logic
+        document.querySelectorAll('.magnetic').forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(item, { x: x * 0.4, y: y * 0.4, duration: 0.3 });
+            });
+            item.addEventListener('mouseleave', () => gsap.to(item, { x: 0, y: 0, duration: 0.5 }));
+        });
+
+        // 100% Same Custom Cursor
+        const cursor = document.querySelector('#cursor');
+        if(window.matchMedia("(hover: hover)").matches) {
+            window.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
+            document.querySelectorAll('a, button, .image-container').forEach(el => {
+                el.onmouseenter = () => { cursor.style.width = '100px'; cursor.style.height = '100px'; };
+                el.onmouseleave = () => { cursor.style.width = '12px'; cursor.style.height = '12px'; };
+            });
+        }
+
+        // Overlay Menu Logic
+        const overlay = document.getElementById('mobile-nav-overlay');
+        document.getElementById('open-menu').onclick = () => overlay.classList.add('active');
+        document.getElementById('close-menu').onclick = () => overlay.classList.remove('active');
+
+        // Reveal animations
+        document.querySelectorAll('.anim-up').forEach(el => {
+            gsap.from(el, { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 95%" } });
         });
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
