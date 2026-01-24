@@ -3,780 +3,461 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects | Papu Badatya</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Work | Papu Badatya</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#ee373c' },
+                    fontFamily: { 'gilroy': ['Gilroy', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
     <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
-    
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Bebas+Neue&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Segoe UI', sans-serif; }
-        .lato-bold { font-family: "Lato", sans-serif; font-weight: 700; }
-        .lato-regular { font-family: "Lato", sans-serif; font-weight: 400; }
-        .lato-black { font-family: "Lato", sans-serif; font-weight: 900; }
-        .quote-font {  font-family: "Playfair Display", serif; }
+        :root { --brand: #ee373c; --black: #0a0a0a; }
 
-        /* --- Navbar Logic --- */
-        .mobile-menu {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: all 0.4s ease-in-out;
-            visibility: hidden; /* Ensures it's not clickable when closed */
-        }
+        /* Universal Master Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
         
-        .mobile-menu.open {
-            max-height: 400px; /* Large enough to fit content */
-            opacity: 1;
-            visibility: visible;
-        }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Regular.woff2') format('woff2'); font-weight: 400; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Bold.woff2') format('woff2'); font-weight: 700; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Heavy.woff2') format('woff2'); font-weight: 900; }
 
-        /* --- Project Card Styling --- */
-        .project-card {
-            border-radius: 12px;
-            overflow: hidden;
-            background: white;
-            will-change: transform, opacity;
-            transform: translateZ(0); 
-        }
+        html, body { width: 100%; overflow-x: clip; background-color: #fff; color: var(--black); font-family: 'Gilroy', sans-serif; -webkit-font-smoothing: antialiased; }
 
-        .image-wrapper {
-            overflow: hidden;
-            height: 240px;
-            width: 100%;
-            position: relative;
-        }
+        /* Fluid Typography Clamps */
+        .big-title { font-size: clamp(3.2rem, 13vw, 15rem); line-height: 0.8; font-weight: 900; letter-spacing: -0.06em; display: inline-block; white-space: nowrap; }
+        .bebas-font { font-family: 'Bebas Neue', sans-serif; }
+        .lobster-font { font-family: 'Lobster', cursive; }
+        .quote-font { font-family: "Playfair Display", serif; }
 
-        .project-image {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* Micro Interactions */
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: var(--brand); border-radius: 50% !important;
+            pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); display: none;
+            mix-blend-mode: difference; transition: width 0.3s, height 0.3s;
         }
+        @media (hover: hover) and (pointer: fine) { #cursor { display: block; } body { cursor: none; } }
 
-        .project-card:hover .project-image {
-            transform: scale(1.1);
+        /* Navigation Overlay */
+        #mobile-nav-overlay {
+            position: fixed; inset: 0; background: var(--black); z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; padding: 10%;
+            clip-path: circle(0% at 100% 0%); transition: clip-path 0.8s cubic-bezier(0.85, 0, 0.15, 1);
         }
+        #mobile-nav-overlay.active { clip-path: circle(150% at 100% 0%); }
 
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
+        /* Project Card Awwwards UI */
+        .project-card { 
+            position: relative; overflow: hidden; background: #fff; 
+            border: 1px solid #f3f4f6; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .tech-item {
-            background-color: #f3f4f6;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: #4b5563;
-            transition: all 0.3s ease;
-        }
+        .project-card:hover { border-color: var(--brand); transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
         
-        .project-card:hover .tech-item {
-            background-color: #e5e7eb;
-            color: black;
-        }
+        .image-wrapper { width: 100%; height: 260px; overflow: hidden; position: relative; background: #f9f9f9; }
+        .project-image { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .project-card:hover .project-image { transform: scale(1.1); }
 
-        .project-category {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 10;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+        .tech-item { font-size: 10px; font-weight: 900; text-transform: uppercase; padding: 4px 10px; background: #f3f4f6; color: #4b5563; margin-right: 6px; margin-bottom: 6px; display: inline-block; transition: all 0.3s; }
+        .project-card:hover .tech-item { background: var(--brand); color: #000; }
 
-        /* Header Animation */
-        .section-header { position: relative; display: inline-block; }
-        .section-header::after {
-            content: ''; position: absolute; bottom: -8px; left: 0;
-            width: 0%; height: 3px; background-color: #000;
-            transition: width 0.6s ease;
-        }
-        .section-header.active::after { width: 60px; }
+        .project-category { position: absolute; top: 16px; right: 16px; background: #fff; padding: 4px 12px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; z-index: 10; border: 1px solid #eee; }
+
+        .section-header { position: relative; display: inline-block; padding-bottom: 10px; }
+        .section-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 3px; background: var(--brand); }
+        
+        .magnetic { display: inline-block; }
+        .stroke-text { -webkit-text-stroke: 1px #e2e8f0; color: transparent; }
+        #preloader { position: fixed; inset: 0; background: #fff; z-index: 10000; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 
-<body class="overflow-x-hidden bg-white">
+<body class="overflow-x-hidden">
+    <div id="cursor"></div>
 
-    <nav class="w-full h-[55px] flex items-center justify-between px-5 md:px-10 pb-2 pt-0 relative z-50 bg-white">
-        <div class="navo-logo pl-2">
-            <a href="/index.html" class="font-medium lato-regular text-[20px] leading-[20px] tracking-tighter">
-                <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-            </a>
+    <div id="mobile-nav-overlay">
+        <button id="close-menu" class="absolute top-10 right-10 text-white text-4xl font-light"><i class="ri-close-line"></i></button>
+        <div class="flex flex-col gap-6">
+         <a href="projects.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Work</a>
+            <a href="about.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">About ME</a>
+            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Resume</a>
+            <a href="contact.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Contact</a>
+
         </div>
+    </div>
 
-        <div class="nav-links hidden md:flex gap-7 pr-3 text-[16px] lato-bold leading-[22.4px]">
-            <a href="projects.html" class="text-orange-400">Work</a>
-            <a href="about.html" class="hover:text-orange-400 transition-colors">About</a>
-            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="hover:text-orange-400 transition-colors">Resume</a>
-            <a href="contact.html" class="hover:text-orange-400 transition-colors">Contact</a>
+
+
+    <nav class="fixed top-0 left-0 w-full z-[100] px-6 md:px-12 py-8 flex justify-between items-center mix-blend-difference text-white">
+        <a href="/index.html" class="font-black text-2xl tracking-tighter uppercase magnetic leading-none">Pstarz<span class="text-brand">.</span></a>
+        <div class="hidden lg:flex gap-12 font-bold text-[10px] uppercase tracking-[0.4em]">
+            <a href="projects.html" class="nav-item magnetic text-brand">Works</a>
+            <a href="about.html" class="nav-item magnetic">About Me</a>
+            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="nav-item magnetic">Resume</a>
+            <a href="contact.html" class="nav-item magnetic">Contact</a>
         </div>
-
-        <div class="hamburger md:hidden pr-3 cursor-pointer" id="hamburger">
-            <i class="ri-menu-line text-2xl"></i>
-        </div>
-
-        <div class="mobile-menu md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 z-40" id="mobileMenu">
-            <a href="projects.html" class="block py-4 px-5 lato-bold text-orange-400 border-b border-gray-100 bg-gray-50">Work</a>
-            <a href="about.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">About</a>
-            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors border-b border-gray-100">Resume</a>
-            <a href="contact.html" class="block py-4 px-5 lato-bold hover:bg-gray-50 hover:text-orange-400 transition-colors">Contact</a>
+        <div class="flex items-center gap-6">
+            <a href="mailto:papubadatya355@gmail.com" class="hidden sm:block text-[10px] font-black uppercase tracking-widest border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all magnetic">Get In Touch</a>
+            <div class="cursor-pointer text-4xl magnetic" id="open-menu"><i class="ri-menu-4-fill"></i></div>
         </div>
     </nav>
 
-<div class="container mx-auto px-4 py-16 md:py-24">
-        <div class="max-w-3xl mx-auto text-center mb-16 hero-content">
-            <h1 class="text-4xl md:text-7xl font-bold lato-black mb-6 overflow-hidden">
-                <span class="inline-block reveal-text">My Projects</span>
+    <main class="w-full">
+        <section class="pt-48 md:pt-64 px-6 md:px-12 mb-16 md:mb-24 overflow-hidden text-center">
+            <h1 class="big-title text-gray-900 anim-up uppercase leading-none text-skew">
+                PROJECTS<br><span class="text-gray-200">ARCHIVE</span>
             </h1>
-            <p class="text-lg md:text-2xl text-gray-600 lato-regular leading-relaxed reveal-text">
-                A collection of my work showcasing full-stack applications, frontend designs, and creative experiments.
+            <p class="text-lg md:text-2xl text-gray-500 font-bold max-w-2xl mx-auto mt-8 anim-up leading-tight">
+                A 100% complete collection of my work showcasing full-stack applications, high-end frontend designs, and interactive experiments.
             </p>
-        </div>
-    </div>
+        </section>
 
-    <div class="container mx-auto px-4 py-12">
-        <div class="mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">Full-Stack Projects</h2>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 project-grid">
+        <section class="px-6 md:px-12 py-20 overflow-hidden">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="mb-16 border-b border-gray-100 pb-8 flex justify-between items-end">
+                    <h2 class="bebas-font text-5xl md:text-7xl uppercase leading-none">Full-Stack</h2>
+                    <p class="text-[10px] font-black text-gray-300 uppercase tracking-widest">01 — 03</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <a href="https://diary-web-app-nine.vercel.app/stories" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/diary.gif" alt="Diary-Story Writer" class="project-image"><span class="project-category">Full-Stack - UI</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand transition-colors tracking-tighter">Diary-Story Writer</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A full-stack collaboration project. I built the frontend while my brother handled the backend.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">EJS</span><span class="tech-item">Express</span><span class="tech-item">MongoDB</span><span class="tech-item">Tailwind</span></div>
+                        </div>
+                    </a>
+                    <a href="https://resume-craft-three.vercel.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/resume.gif" alt="ResumeCraft" class="project-image"><span class="project-category">Full-Stack , EJS</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand transition-colors tracking-tighter">ResumeCraft</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A fully functional web app that allows users to create and download professional resumes.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">Node.js</span><span class="tech-item">Express</span><span class="tech-item">Tailwind</span></div>
+                        </div>
+                    </a>
+                    <a href="https://cureit-web-app-fyj5.vercel.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/cureit.gif" alt="CureIt Project" class="project-image"><span class="project-category">Full-Stack-AI</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand transition-colors tracking-tighter">CureIt</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A platform designed to help users easily understand their medications using Gemini AI.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">Node.js</span><span class="tech-item">GeminiAI</span><span class="tech-item">Express</span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-            <a href="https://diary-web-app-nine.vercel.app/stories" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                <div class="image-wrapper">
-                    <img src="/images/diary.gif" loading="lazy" decoding="async" alt="Diary-Story Writer" class="project-image">
-                    <span class="project-category">Full-Stack - UI</span>
+        <section class="bg-gray-50 px-6 md:px-12 py-32 overflow-hidden">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="mb-16 border-b border-gray-200 pb-8 flex justify-between items-end">
+                    <h2 class="bebas-font text-5xl md:text-7xl uppercase leading-none">Frontend UI</h2>
+                    <p class="text-[10px] font-black text-gray-300 uppercase tracking-widest">04 — 18</p>
                 </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Diary-Story Writer</h3>
-                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A full-stack collaboration project. I built the frontend while my brother handled the backend.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">EJS</span>
-                        <span class="tech-item">Express</span>
-                        <span class="tech-item">MongoDB</span>
-                        <span class="tech-item">Tailwind</span>
-                    </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <a href="https://pstarz7.github.io/leafy/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/Leafy.png" class="project-image"><span class="project-category">Frontend UI</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Leafy / Sanshop</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A beautiful frontend for a concept premium supplement shop, fully responsive.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">TailwindCSS</span><span class="tech-item">GSAP</span><span class="tech-item">ScrollTrigger</span><span class="tech-item">Javascript</span><span class="tech-item">JSON</span><span class="tech-item">Dashbord</span><span class="tech-item">Responsive Ui</span></div>
+                        </div>
+                    </a>
+                    <a href="https://sanveeflowers.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/sanveeFlower.png" class="project-image"><span class="project-category">Flower UI</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Sanvee Flowers</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Concept flower UI website with a fully aesthetic and responsive UI.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">TailwindCSS</span><span class="tech-item">GSAP</span><span class="tech-item">ScrollTrigger</span><span class="tech-item">JS</span></div>
+                        </div>
+                    </a>
+                    <a href="https://sanshop7.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/sanshop.png" class="project-image"><span class="project-category">Frontend UI</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Sanshop</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A beautiful frontend for a concept premium supplement shop, fully responsive.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">TailwindCSS</span><span class="tech-item">GSAP</span><span class="tech-item">JS</span></div>
+                        </div>
+                    </a>
+                    <a href="https://trackyo.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/banner.png" class="project-image"><span class="project-category">Frontend</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Trackyo</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Responsive job tracker built with JavaScript and Firebase integration.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">Firebase</span><span class="tech-item">JavaScript</span><span class="tech-item">Tailwind</span></div>
+                        </div>
+                    </a>
+                    <a href="https://sanimx-gsap-animations.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/sanimx.png" class="project-image"><span class="project-category">Library</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">SANimX Library</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A lightweight animation library of ready-to-use GSAP effects.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">GSAP</span><span class="tech-item">ScrollTrigger</span><span class="tech-item">JS</span></div>
+                        </div>
+                    </a>
+                    <a href="https://shinchan-kdg.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/kdg.png" class="project-image"><span class="project-category">Fan UI</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Shinchan Page</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A beautiful Shinchan fan page with aesthetic UI and GSAP animations.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">Tailwind</span><span class="tech-item">JS</span><span class="tech-item">GSAP</span></div>
+                        </div>
+                    </a>
+                    <a href="https://pstarz7.github.io/QuoteStudio/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/quotestudio.png" class="project-image"><span class="project-category">Vibe Coding</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Quote Maker</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Generate quotes and create quote posts on this AI-powered website.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">Tailwind</span><span class="tech-item">JS</span><span class="tech-item">GeminiAI</span></div>
+                        </div>
+                    </a>
+                    <a href="https://my-portfolio-pb7.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/react.png" class="project-image"><span class="project-category">React</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">React Portfolio</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Responsive portfolio website built with React and Tailwind architecture.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">React JS</span><span class="tech-item">Tailwind</span></div>
+                        </div>
+                    </a>
+                    <a href="https://cozy-sprinkles-67caf9.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/pstarz.png" class="project-image"><span class="project-category">UI Design</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">T-Shirt Page</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A clean, responsive frontend UI for a custom T-shirt landing page.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">Tailwind</span><span class="tech-item">JS</span></div>
+                        </div>
+                    </a>
+                    <a href="https://the-batman12.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/batman4.png" class="project-image"><span class="project-category">Animation</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">The Batman</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Franchise interactive website with immersive motion effects.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">GSAP</span><span class="tech-item">ScrollTrigger</span></div>
+                        </div>
+                    </a>
+                    <a href="https://aniwave7.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/aniwave7.png" class="project-image"><span class="project-category">Fan Page</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Naruto FanPage</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A dynamic and colorful fan page UI featuring high-impact visuals.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">CSS</span><span class="tech-item">JS</span></div>
+                        </div>
+                    </a>
+                    <a href="https://chimerical-tanuki-6fc385.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/antlacticui.png" class="project-image"><span class="project-category">UI/UX</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Property Page</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Beautifully designed landing page for premium property listings.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">GSAP</span><span class="tech-item">Tailwind</span></div>
+                        </div>
+                    </a>
+                    <a href="https://calm-entremet-634b3c.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/sanUi.png" class="project-image"><span class="project-category">UI Design</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Library UI</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A modern and minimalistic frontend UI for an online library system.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">CSS</span><span class="tech-item">JS</span></div>
+                        </div>
+                    </a>
+                    <a href="https://tangerine-bavarois-4789c0.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/piretedcoder.png" class="project-image"><span class="project-category">EdTech</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Piretcoder UI</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Sleek UI design for an online educational platform experience.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">Locomotive.js</span><span class="tech-item">CSS</span></div>
+                        </div>
+                    </a>
+                    <a href="https://sai-intellect-solution-ui.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/saiint.png" class="project-image"><span class="project-category">UI</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Assignment UI</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Academic assignment interface design focusing on usability.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">HTML/CSS</span><span class="tech-item">JS</span></div>
+                        </div>
+                    </a>
+                    <a href="https://nirakar-and-sons.netlify.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/nirakar-and-sons.png" class="project-image"><span class="project-category">Landing Page</span></div>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Furniture Page</h3>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Landing page UI for a local furniture shop branding.</p>
+                            <div class="flex flex-wrap"><span class="tech-item">GSAP</span><span class="tech-item">CSS</span></div>
+                        </div>
+                    </a>
                 </div>
-            </a>
-            
-            <a href="https://resume-craft-three.vercel.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                <div class="image-wrapper">
-                    <img src="/images/resume.gif" loading="lazy" decoding="async" alt="ResumeCraft" class="project-image">
-                    <span class="project-category">Full-Stack , EJS</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">ResumeCraft</h3>
-                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A fully functional web app that allows users to create and download professional resumes.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">Node.js</span>
-                        <span class="tech-item">Express</span>
-                        <span class="tech-item">Tailwind</span>
-                    </div>
-                </div>
-            </a>
+            </div>
+        </section>
 
-            <a href="https://cureit-web-app-fyj5.vercel.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                <div class="image-wrapper">
-                    <img src="/images/cureit.gif" loading="lazy" decoding="async" alt="CureIt Project" class="project-image">
-                    <span class="project-category">Full-Stack-AI</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">CureIt</h3>
-                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A platform designed to help users easily understand their medications using Gemini AI.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">Node.js</span>
-                        <span class="tech-item">GeminiAI</span>
-                        <span class="tech-item">Express</span>
-                    </div>
-                </div>
-            </a>
-
-        </div>
-    </div>
-
-<div class="bg-gray-50 py-16">
-        <div class="container mx-auto px-4">
-            <div class="mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">Frontend Projects</h2>
+        <section class="container mx-auto px-6 py-24 overflow-hidden">
+            <div class="mb-16 border-b border-gray-100 pb-8 flex justify-between items-end">
+                <h2 class="bebas-font text-5xl md:text-7xl uppercase leading-none">Other Works</h2>
+                <p class="text-[10px] font-black text-gray-300 uppercase tracking-widest">19 — 23</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 project-grid">
-
-
-                  <a href="https://sanveeflowers.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/sanveeFlower.png" loading="lazy" decoding="async" alt="SANimX" class="project-image">
-                        <span class="project-category">Flower UI</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Sanvee Flowers UI</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">It's a concept flower UI website with a fully aesthetic and responsive UI</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML</span>
-                            <span class="tech-item">TailwindCSS</span>
-                            <span class="tech-item">GSAP</span>
-                            <span class="tech-item">ScrollTrigger</span>
-                            <span class="tech-item">JS</span>
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <a href="https://cyclesync7.netlify.app/" target="_blank" class="project-card group anim-up">
+                    <div class="image-wrapper"><img src="/images/CycleSync.png" class="project-image"><span class="project-category">Planning</span></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">CycleSync</h3>
+                        <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Fertility app tracking cycle using temperature and probability logic.</p>
+                        <div class="flex flex-wrap"><span class="tech-item">HTML/CSS</span><span class="tech-item">JavaScript</span><span class="tech-item">vibe coding</span></div>
                     </div>
                 </a>
-
-                        <a href="https://sanshop7.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/sanshop.png" loading="lazy" decoding="async" alt="SANimX" class="project-image">
-                        <span class="project-category">Frontend UI</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Sanshop</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A beautiful frontend for the landing page of my concept premium supplement shop, fully responsive.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML</span>
-                            <span class="tech-item">TailwindCSS</span>
-                            <span class="tech-item">GSAP</span>
-                            <span class="tech-item">ScrollTrigger</span>
-                            <span class="tech-item">Javascript</span>
-                             <span class="tech-item">responsive Ui</span>
-                            
-                        </div>
+                <a href="https://weathapp17.netlify.app/" target="_blank" class="project-card group anim-up">
+                    <div class="image-wrapper"><img src="/images/weather-app.png" class="project-image"><span class="project-category">Web App</span></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Weather App</h3>
+                        <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A responsive web app displaying real-time weather forecasts via API.</p>
+                        <div class="flex flex-wrap"><span class="tech-item">JS</span><span class="tech-item">Weather API</span></div>
                     </div>
                 </a>
-
-                     <a href="https://pstarz7.github.io/leafy/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/Leafy.png" loading="lazy" decoding="async" alt="SANimX" class="project-image">
-                        <span class="project-category">Frontend UI</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">leafy</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A beautifully designed, feel-good plant guide website featuring a fully responsive dashboard with a thoughtfully crafted color palette and typography.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML</span>
-                            <span class="tech-item">TailwindCSS</span>
-                            <span class="tech-item">GSAP</span>
-                            <span class="tech-item">ScrollTrigger</span>
-                            <span class="tech-item">Javascript</span>
-                             <span class="tech-item">JSON</span>
-                            <span class="tech-item">Dashbord</span>
-                             <span class="tech-item">Responsive Ui</span>
-                            
-                            
-                        </div>
+                <a href="https://comfy-boba-7814ac.netlify.app/" target="_blank" class="project-card group anim-up">
+                    <div class="image-wrapper"><img src="/images/gsap-animtion.png" class="project-image"><span class="project-category">Experiment</span></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">GSAP Playground</h3>
+                        <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Testing complex motion using GSAP and Lenis.js physics.</p>
+                        <div class="flex flex-wrap"><span class="tech-item">GSAP</span><span class="tech-item">Lenis</span></div>
                     </div>
                 </a>
-
-                <a href="https://trackyo.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/banner.png" loading="lazy" decoding="async" alt="Trackyo" class="project-image">
-                        <span class="project-category">Frontend</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Trackyo</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Responsive job tracker built with JavaScript and Firebase.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">Firebase</span>
-                            <span class="tech-item">JavaScript</span>
-                            <span class="tech-item">Tailwind</span>
-                        </div>
+                <a href="https://bejewelled-rabanadas-6891a3.netlify.app/" target="_blank" class="project-card group anim-up">
+                    <div class="image-wrapper"><img src="/images/deskport.png" class="project-image"><span class="project-category">DOM</span></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Desktop Port</h3>
+                        <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">OS interface practice project focusing on advanced DOM manipulation.</p>
+                        <div class="flex flex-wrap"><span class="tech-item">DOM API</span><span class="tech-item">JS</span></div>
                     </div>
                 </a>
-
-                  <a href="https://sanimx-gsap-animations.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/sanimx.png" loading="lazy" decoding="async" alt="SANimX" class="project-image">
-                        <span class="project-category">Library</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">SANimX Library</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A lightweight animation library of ready-to-use GSAP effects.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">GSAP</span>
-                            <span class="tech-item">ScrollTrigger</span>
-                            <span class="tech-item">JS</span>
-                        </div>
+                <a href="https://vocal-peony-94abda.netlify.app/" target="_blank" class="project-card group anim-up">
+                    <div class="image-wrapper"><img src="/images/nab respons.png" class="project-image"><span class="project-category">Layout</span></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Navbar Logic</h3>
+                        <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Experimenting with complex responsive navigation and CSS Flexbox systems.</p>
+                        <div class="flex flex-wrap"><span class="tech-item">CSS Flex</span><span class="tech-item">GSAP</span></div>
                     </div>
                 </a>
-
-                         <a href="https://shinchan-kdg.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/kdg.png" loading="lazy" decoding="async" alt="React Portfolio" class="project-image">
-                        <span class="project-category">Fan Fun UI</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Shinchan Fan Page</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">It's a beautiful Shinchan fan page with an aesthetic UI.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML</span>
-                            <span class="tech-item">Tailwind CSS</span>
-                            <span class="tech-item">JavaScript</span>
-                            <span class="tech-item">GSAP</span>
-                            
-                        </div>
-                    </div>
-                </a>
-
-                         <a href="https://pstarz7.github.io/QuoteStudio/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/quotestudio.png" loading="lazy" decoding="async" alt="React Portfolio" class="project-image">
-                        <span class="project-category">Vibe Coding</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Quote Post Maker</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">You can generate quotes and also create quote posts on this website.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML</span>
-                            <span class="tech-item">Tailwind CSS</span>
-                            <span class="tech-item">JAvascript</span>
-                            <span class="tech-item">GemniAI</span>
-                            
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://my-portfolio-pb7.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/react.png" loading="lazy" decoding="async" alt="React Portfolio" class="project-image">
-                        <span class="project-category">React</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">React Portfolio</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Responsive portfolio website built with React.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">React Js</span>
-                            <span class="tech-item">Tailwind</span>
-                        </div>
-                    </div>
-                </a>
-
-              
-                <a href="https://cozy-sprinkles-67caf9.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/pstarz.png" loading="lazy" decoding="async" alt="T-Shirt UI" class="project-image">
-                        <span class="project-category">UI Design</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">T-Shirt Landing Page</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A clean, responsive frontend UI for a T-shirt landing page.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML</span>
-                            <span class="tech-item">Tailwind</span>
-                            <span class="tech-item">JS</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://the-batman12.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/batman4.png" loading="lazy" decoding="async" alt="Batman" class="project-image">
-                        <span class="project-category">Animation</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">The Batman</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Interactive website celebrating the Batman franchise.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">GSAP</span>
-                            <span class="tech-item">ScrollTrigger</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://aniwave7.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/aniwave7.png" loading="lazy" decoding="async" alt="Naruto UI" class="project-image">
-                        <span class="project-category">Fan Page</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Naruto FanPage UI</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A dynamic and colorful fan page UI featuring Naruto.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML</span>
-                            <span class="tech-item">CSS</span>
-                            <span class="tech-item">JS</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://chimerical-tanuki-6fc385.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/antlacticui.png" loading="lazy" decoding="async" alt="Property" class="project-image">
-                        <span class="project-category">UI/UX</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Property Landing Page</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Beautifully designed landing page for showcasing properties.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">GSAP</span>
-                            <span class="tech-item">Tailwind</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://calm-entremet-634b3c.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/sanUi.png" loading="lazy" decoding="async" alt="Library UI" class="project-image">
-                        <span class="project-category">UI Design</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Library Frontend UI</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A modern and minimalistic frontend UI for a library website.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML</span>
-                            <span class="tech-item">CSS</span>
-                            <span class="tech-item">JS</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://tangerine-bavarois-4789c0.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/piretedcoder.png" loading="lazy" decoding="async" alt="EdTech UI" class="project-image">
-                        <span class="project-category">EdTech</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Piretcoder EdTech UI</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A sleek and clean UI design for an online educational platform.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">Locomotive.js</span>
-                            <span class="tech-item">CSS</span>
-                        </div>
-                    </div>
-                </a>
-
-                 <a href="https://sai-intellect-solution-ui.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/saiint.png" loading="lazy" decoding="async" alt="Sai Intellect" class="project-image">
-                        <span class="project-category">UI</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Assignment UI</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">An academic assignment interface design.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">HTML/CSS</span>
-                            <span class="tech-item">JS</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="https://nirakar-and-sons.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                    <div class="image-wrapper">
-                        <img src="/images/nirakar-and-sons.png" loading="lazy" decoding="async" alt="Furniture UI" class="project-image">
-                        <span class="project-category">Landing Page</span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Furniture Landing Page</h3>
-                        <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A simple landing page UI for a local furniture shop.</p>
-                        <div class="tech-stack">
-                            <span class="tech-item">GSAP</span>
-                            <span class="tech-item">CSS</span>
-                        </div>
-                    </div>
-                </a>
-
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div class="container mx-auto px-4 py-12">
-        <div class="mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold lato-bold section-header">Other Projects</h2>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 project-grid">
+        <section class="py-48 text-center px-6 bg-white border-y border-gray-100 overflow-hidden">
+            <i class="ri-double-quotes-l text-6xl text-brand opacity-30"></i>
+            <h2 class="quote-font text-3xl md:text-6xl md:leading-tight max-w-4xl mx-auto mt-10 uppercase font-black tracking-tighter text-skew">
+                "The best way to predict the future is to invent it."
+            </h2>
+            <p class="bebas-font text-2xl mt-8 tracking-widest text-gray-300">Alan Kay</p>
+        </section>
 
-                  <a href="https://cyclesync7.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                <div class="image-wrapper">
-                    <img src="/images/CycleSync.png" loading="lazy" decoding="async" alt="Weather App" class="project-image">
-                    <span class="project-category">Planning & Experiment</span>
+        <footer id="contact" class="bg-black text-white px-6 md:px-12 py-32 md:py-56 overflow-hidden w-full">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="flex flex-col gap-10 mb-32 lg:mb-48">
+                    <h2 class="big-title text-brand leading-[0.75]">GET IN<br>TOUCH<span class="text-white">.</span></h2>
+                    <div class="w-full flex flex-col lg:flex-row lg:items-end justify-between gap-12 pt-16 border-t border-gray-900">
+                       <p class="text-2xl md:text-4xl font-black max-w-xl text-gray-500 leading-none uppercase tracking-tighter">Available for remote roles and collaborations worldwide, and on-site in India.</p>
+                        <a href="mailto:papubadatya355@gmail.com" class="text-2xl md:text-3xl font-black hover:text-brand transition-all border-b border-gray-800 pb-2 uppercase tracking-tighter">Let's Work Together</a>
+                     </div>
                 </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">CycleSync</h3>
-                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">CycleSync is a fertility app built with logic & vibe Coding, tracking your cycle using signals like temperature and mucus. It focuses on probability for more accurate results.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML/CSS</span>
-                        <span class="tech-item">JavaScript</span>
-                        <span class="tech-item">TailwindCSS</span>
-                         <span class="tech-item">vibe coding</span>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-20 lg:gap-12 border-t border-gray-900 pt-20">
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Connect</p>
+                        <div class="flex flex-col gap-4">
+                            <a href="mailto:papubadatya355@gmail.com" class="text-lg md:text-2xl font-black hover:text-brand transition-all break-all uppercase leading-none">papubadatya355@gmail.com</a>
+                            <a href="tel:+916370134774" class="text-xl md:text-2xl font-black text-gray-500 hover:text-white transition-all">+91 6370134774</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Social Network</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-black uppercase tracking-widest">
+                            <a href="https://github.com/pstarz7" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic">Github</a>
+                            <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic">LinkedIn</a>
+                            <a href="https://www.instagram.com/_pstarz/" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic">Instagram</a>
+                            <a href="https://x.com/_pstarz" target="_blank" class="hover:text-brand transition-transform hover:-translate-y-1 magnetic">Twitter</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <p class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Navigation</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm font-black uppercase tracking-widest">
+                            <a href="about.html"class="hover:text-brand">about</a>
+                            <a href="projects.html" class="hover:text-brand text-brand">Works</a>
+                            <a href="contact.html" class="hover:text-brand">Contact</a>
+                            <a href="https://drive.google.com/file/d/1s_6T8bdRPeZwNkyAlcV7Vx-Uo_4YazYw/view?usp=sharing" target="_blank" class="hover:text-brand">Resume</a>
+                       
+                        </div>
                     </div>
                 </div>
-            </a>
-            
-            <a href="https://weathapp17.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                <div class="image-wrapper">
-                    <img src="/images/weather-app.png" loading="lazy" decoding="async" alt="Weather App" class="project-image">
-                    <span class="project-category">Web App</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Weather App</h3>
-                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A responsive web app that displays real-time weather forecasts.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">HTML/CSS</span>
-                        <span class="tech-item">JS</span>
-                        <span class="tech-item">Weather API</span>
-                    </div>
-                </div>
-            </a>
 
-            <a href="https://comfy-boba-7814ac.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                <div class="image-wrapper">
-                    <img src="/images/gsap-animtion.png" loading="lazy" decoding="async" alt="GSAP" class="project-image">
-                    <span class="project-category">Experiment</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">GSAP Playground</h3>
-                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Animation playground using GSAP and Lenis.js.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">GSAP</span>
-                        <span class="tech-item">Lenis</span>
-                    </div>
-                </div>
-            </a>
-
-             <a href="https://bejewelled-rabanadas-6891a3.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                <div class="image-wrapper">
-                    <img src="/images/deskport.png" loading="lazy" decoding="async" alt="Desktop Portfolio" class="project-image">
-                    <span class="project-category">DOM</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Desktop Portfolio</h3>
-                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">A simple DOM manipulation practice project.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">DOM API</span>
-                        <span class="tech-item">JS</span>
-                    </div>
-                </div>
-            </a>
-            
-             <a href="https://vocal-peony-94abda.netlify.app/" target="_blank" class="project-card group shadow-sm hover:shadow-xl">
-                <div class="image-wrapper">
-                    <img src="/images/nab respons.png" loading="lazy" decoding="async" alt="Nav" class="project-image">
-                    <span class="project-category">Layout</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold lato-bold mb-2 group-hover:text-blue-600 transition-colors">Responsive Navbar</h3>
-                    <p class="text-gray-600 lato-regular mb-4 text-sm leading-relaxed">Responsive Navbar layout practice.</p>
-                    <div class="tech-stack">
-                        <span class="tech-item">CSS Flexbox</span>
-                        <span class="tech-item">GSAP</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <div class="bg-gray-100 py-16">
-        <div class="container mx-auto px-4 text-center anim-trigger">
-            <h3 class="text-2xl font-bold lato-bold mb-4">Want to see more?</h3>
-            <p class="text-gray-600 lato-regular mb-8 max-w-2xl mx-auto">
-                I'm constantly working on new projects and experiments. Feel free to reach out if you'd like to collaborate or just chat!
-            </p>
-            <a href="contact.html" class="inline-block bg-black text-white px-8 py-3 rounded-full font-medium lato-bold hover:bg-gray-800 transition-transform hover:scale-105 duration-300">
-                Get In Touch
-            </a>
-        </div>
-    </div>
-
-    <section class="w-full bg-white py-20 px-6 border-y border-gray-50 my-10">
-    <div class="max-w-4xl mx-auto text-center anim-reveal">
-        <div class="mb-6">
-            <i class="ri-double-quotes-l text-4xl md:text-5xl text-orange-400 opacity-80 inline-block"></i>
-        </div>
-
-        <h2 class="quote-font text-3xl md:text-5xl md:leading-tight text-gray-900 mb-8">
-            "The best way to predict the future is to invent it."
-        </h2>
-
-        <div class="flex items-center justify-center gap-4">
-            <span class="h-[1px] w-8 bg-orange-400"></span>
-            <p class="lato-bold text-xs md:text-sm text-gray-500 uppercase tracking-[3px]">
-                Alan Kay
-            </p>
-            <span class="h-[1px] w-8 bg-orange-400"></span>
-        </div>
-    </div>
-</section>
-
-<footer class="bg-black text-white py-16 lato-regular border-t border-gray-900">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-            
-            <div class="space-y-4">
-                <a href="#" class="text-2xl font-bold lato-black tracking-tighter flex items-center gap-2">
-                    <i class="ri-gemini-fill text-orange-400"></i> Pstarz
-                </a>
-                <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
-                    I bridge the gap between design and technology, building responsive interfaces that leave a lasting impact. Focused on clean code, smooth motion, and seamless user experiences.
-                </p>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Quick Links</h3>
-                <ul class="space-y-2">
-                    <li><a href="/Pages/projects.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Work</a></li>
-                    <li><a href="/Pages/about.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">About Me</a></li>
-                    <li><a href="https://drive.google.com/file/d/1r6SoLC_hzCh0dCNFO9o-MMhGoSLyOBlx/view?usp=sharing" target="_blank" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Resume</a></li>
-                    <li><a href="/Pages/contact.html" class="text-gray-400 hover:text-orange-400 transition-colors text-sm">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Contact Info</h3>
-                <div class="space-y-3">
-                    <a href="mailto:papubadatya355@gmail.com" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group">
-                        <i class="ri-mail-line text-lg group-hover:text-white transition-colors"></i>
-                        papubadatya355@gmail.com
-                    </a>
-                    <a href="tel:+916370134774" class="flex items-center gap-3 text-gray-400 hover:text-orange-400 transition-colors text-sm group">
-                        <i class="ri-phone-line text-lg group-hover:text-white transition-colors"></i>
-                        +91 6370134774
-                    </a>
-                    <div class="flex items-start gap-3 text-gray-400 text-sm">
-                        <i class="ri-map-pin-line text-lg mt-0.5"></i>
-                        <span>Berhampur, Ganjam,<br>Odisha, India - 760010</span>
-                    </div>
+                <div class="mt-40 pt-12 border-t border-gray-900 flex flex-col md:flex-row justify-between text-[10px] font-black uppercase tracking-[0.5em] text-gray-800 gap-8">
+                   <p>© 2026 PAPU BADATYA. A Frontend UI Developer • INDIA</p>
+                    <p>Designed with rhyth • Built with logic • Driven by creativity.</p>
                 </div>
             </div>
-
-            <div class="space-y-4">
-                <h3 class="text-lg lato-bold text-white mb-2">Interested in connecting?</h3>
-                <div class="flex flex-wrap gap-4">
-                    <a href="https://www.linkedin.com/in/papu-badatya-759767254/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#0077b5] hover:text-white transition-all duration-300">
-                        <i class="ri-linkedin-fill text-lg"></i>
-                    </a>
-                    <a href="https://github.com/pstarz7" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black transition-all duration-300">
-                        <i class="ri-github-fill text-lg"></i>
-                    </a>
-                    <a href="https://www.instagram.com/_pstarz/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#E1306C] hover:text-white transition-all duration-300">
-                        <i class="ri-instagram-line text-lg"></i>
-                    </a>
-                    <a href="https://x.com/_pstarz" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all duration-300">
-                        <i class="ri-twitter-x-fill text-lg"></i>
-                    </a>
-                    <a href="https://www.behance.net/papubadatya1" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#1769ff] hover:text-white transition-all duration-300">
-                        <i class="ri-behance-fill text-lg"></i>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-            <p>© 2025 Papu Badatya. All rights reserved.</p>
-            <p class="flex items-center gap-1">
-                Made with <i class="ri-heart-fill text-red-500 animate-pulse"></i> & <i class="ri-music-2-fill text-orange-400"></i>
-            </p>
-        </div>
-    </div>
-</footer>
-
+        </footer>
+    </main>
 
     <script>
-        // 1. Initialize Lenis (Smooth Scroll)
-        const lenis = new Lenis({
-            autoRaf: true,
-            smooth: true,
-            lerp: 0.1
-        });
+        const lenis = new Lenis({ autoRaf: true, smooth: true, lerp: 0.1 });
+        gsap.registerPlugin(ScrollTrigger, Draggable);
 
-        // 2. Register GSAP Plugins
-        gsap.registerPlugin(ScrollTrigger);
-
-        // 3. Hero Animation
-        const tl = gsap.timeline();
-        tl.from(".reveal-text", {
-            y: 100,
-            opacity: 0,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: "power4.out"
-        });
-
-        // 4. Section Headers Animation (Underline Effect)
-        gsap.utils.toArray(".section-header").forEach(header => {
-            ScrollTrigger.create({
-                trigger: header,
-                start: "top 80%",
-                onEnter: () => header.classList.add("active")
+        // Magnetic Hover
+        document.querySelectorAll('.magnetic').forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(item, { x: x * 0.4, y: y * 0.4, duration: 0.3 });
             });
+            item.addEventListener('mouseleave', () => gsap.to(item, { x: 0, y: 0, duration: 0.5 }));
         });
 
-        // 5. Optimized Card Stagger Animation (Batch)
-        ScrollTrigger.batch(".project-card", {
-            interval: 0.1, 
-            batchMax: 3, 
-            onEnter: batch => {
-                gsap.to(batch, {
-                    opacity: 1,
-                    y: 0,
-                    stagger: 0.15,
-                    overwrite: true,
-                    duration: 0.8,
-                    ease: "power3.out"
-                });
-            },
-        });
-        
-        gsap.set(".project-card", { y: 60, opacity: 0 });
+        // Skew Effect Logic
+        let proxy = { skew: 0 },
+            skewSetter = gsap.quickSetter(".text-skew", "skewY", "deg"),
+            clampSkew = gsap.utils.clamp(-2, 2); 
 
-        // 6. Footer Animation
-        gsap.from(".anim-trigger", {
-            scrollTrigger: {
-                trigger: ".anim-trigger",
-                start: "top 85%",
-            },
-            y: 40,
-            opacity: 0,
-            duration: 1,
-            ease: "power2.out"
-        });
-
-        // 7. Mobile Menu Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-            
-            hamburger.addEventListener('click', () => {
-                mobileMenu.classList.toggle('open');
-            });
-            
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('#hamburger') && !e.target.closest('#mobileMenu')) {
-                    mobileMenu.classList.remove('open');
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                let skew = clampSkew(self.getVelocity() / -400);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, {skew: 0, duration: 0.8, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew)});
                 }
-            });
+            }
         });
+
+        // Custom Cursor Logic
+        const cursor = document.querySelector('#cursor');
+        if(window.matchMedia("(hover: hover)").matches) {
+            window.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
+            document.querySelectorAll('a, button, .project-card').forEach(el => {
+                el.onmouseenter = () => { cursor.style.width = '100px'; cursor.style.height = '100px'; };
+                el.onmouseleave = () => { cursor.style.width = '12px'; cursor.style.height = '12px'; };
+            });
+        }
+
+        // Overlay Menu Logic
+        const overlay = document.getElementById('mobile-nav-overlay');
+        document.getElementById('open-menu').onclick = () => overlay.classList.add('active');
+        document.getElementById('close-menu').onclick = () => overlay.classList.remove('active');
+
+        // Reveal Animations for all cards
+        document.querySelectorAll('.anim-up').forEach(el => {
+            gsap.from(el, { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 95%" } });
+        });
+
+        // Preloader Logic
+       
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
