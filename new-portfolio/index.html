@@ -166,9 +166,9 @@
                     <video id="ui-video" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" muted playsinline loop>
                         <source src="/images/myuiintro.mp4" type="video/mp4">
                     </video>
-                    <div class="absolute bottom-6 right-6 md:bottom-12 md:right-12 bg-white/10 backdrop-blur-xl px-8 py-4 text-white">
+                    <!-- <div class="absolute bottom-6 right-6 md:bottom-12 md:right-12 bg-white/10 backdrop-blur-xl px-8 py-4 text-white">
                         <span class="text-xs font-mono font-bold tracking-widest" id="video-timer">00:00:00</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
@@ -393,8 +393,14 @@
                 }
             });
         } else {
-            Draggable.create(horizontalTrack, { type: "x", edgeResistance: 0.65, bounds: ".horizontal-section", inertia: true });
-        }
+// Mobile auto-nudge (subtle)
+gsap.to(horizontalTrack, {
+    x: "-300",
+    duration: 8,
+    ease: "none",
+    repeat: -1,
+    yoyo: false
+});        }
 
         // Magnetic Logic
         document.querySelectorAll('.magnetic').forEach(item => {
@@ -418,7 +424,7 @@
 
         // Timer and Video Logic - Smooth Scroll Based Play/Pause
         const vid = document.getElementById('ui-video');
-        const timer = document.getElementById('video-timer');
+        // const timer = document.getElementById('video-timer');
         if(vid) {
             vid.addEventListener('timeupdate', () => {
                 const mins = String(Math.floor(vid.currentTime / 60)).padStart(2, '0');
@@ -519,3 +525,4 @@ document.querySelectorAll('[data-animate="meta"]').forEach(el => {
     </script>
 </body>
 </html>
+
