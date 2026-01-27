@@ -380,27 +380,25 @@
         // Fixed Marquee
         gsap.to(".marquee-track", { xPercent: -50, repeat: -1, duration: 20, ease: "none" });
 
-        // Horizontal archive
-        const horizontalTrack = document.querySelector('.horizontal-track');
-        if(window.innerWidth > 1024) {
-            gsap.to(horizontalTrack, {
-                x: () => -(horizontalTrack.scrollWidth - window.innerWidth),
-                ease: "none",
-                scrollTrigger: {
-                    trigger: ".horizontal-section", start: "top 10%",
-                    end: () => `+=${horizontalTrack.scrollWidth}`,
-                    scrub: 1, pin: true, invalidateOnRefresh: true, anticipatePin: 1
-                }
-            });
-        } else {
-// Mobile auto-nudge (subtle)
-gsap.to(horizontalTrack, {
-    x: "-300",
-    duration: 8,
-    ease: "none",
-    repeat: -1,
-    yoyo: false
-});        }
+       // Horizontal archive – unified behavior (desktop + mobile)
+const horizontalTrack = document.querySelector('.horizontal-track');
+const horizontalSection = document.querySelector('.horizontal-section');
+
+if (horizontalTrack && horizontalSection) {
+    gsap.to(horizontalTrack, {
+        x: () => -(horizontalTrack.scrollWidth - window.innerWidth),
+        ease: "none",
+        scrollTrigger: {
+            trigger: horizontalSection,
+            start: "top 10%",
+            end: () => `+=${horizontalTrack.scrollWidth}`,
+            scrub: 1,
+            pin: true,
+            invalidateOnRefresh: true,
+            anticipatePin: 1
+        }
+    });
+}
 
         // Magnetic Logic
         document.querySelectorAll('.magnetic').forEach(item => {
@@ -525,4 +523,5 @@ document.querySelectorAll('[data-animate="meta"]').forEach(el => {
     </script>
 </body>
 </html>
+
 
