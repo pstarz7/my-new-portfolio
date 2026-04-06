@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rang.Lab | MERN Color Application Case Study</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Bebas+Neue&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brand: '#ee373c', dark: '#0a0a0a' },
+                    fontFamily: { 'gilroy': ['Gilroy', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root { --brand: #ee373c; --black: #0a0a0a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
+        body { background: #fff; color: var(--black); font-family: 'Gilroy', sans-serif; -webkit-font-smoothing: antialiased; }
+        .bebas-font { font-family: 'Bebas Neue', sans-serif; }
+        .lobster-font { font-family: 'Lobster', cursive; }
+        .big-title { font-size: clamp(3rem, 11vw, 14rem); line-height: 0.8; font-weight: 900; letter-spacing: -0.06em; }
+        .pstarz-card { background: #fcfcfc; border: 1px solid #eee; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; position: relative; }
+        .pstarz-card:hover { border-color: var(--brand); transform: translateY(-8px); box-shadow: 0 40px 80px -20px rgba(0,0,0,0.1); }
+        .ui-badge { padding: 4px 12px; background: #fff; border: 1px solid #eee; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        #cursor { position: fixed; width: 10px; height: 10px; background: var(--brand); border-radius: 50% !important; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+    <div id="cursor"></div>
+
+    <nav class="fixed top-0 w-full z-[100] bg-white/90 backdrop-blur-md h-[70px] flex items-center justify-between px-6 md:px-12 border-b border-gray-100">
+        <a href="/" class="font-black text-2xl tracking-tighter uppercase magnetic">Pstarz<span class="text-brand">.</span></a>
+        <div class="flex gap-8 text-[10px] font-black uppercase tracking-widest">
+            <a href="https://github.com/pstarz7/rang-frontend" target="_blank" class="text-brand hover:underline">Source Code</a>
+            <a href="/Pages/contact.html" class="hover:text-brand">Contact</a>
+        </div>
+    </nav>
+
+    <header class="pt-40 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="flex items-center gap-3 mb-6 anim-hero">
+            <span class="h-[1px] w-12 bg-brand"></span>
+            <h2 class="text-xs font-black tracking-[0.4em] uppercase text-gray-400">Project Overview / MERN Stack</h2>
+        </div>
+        <h1 class="big-title text-gray-900 mb-8 anim-hero uppercase text-skew">RANGLAB<br><span class="text-gray-200">STUDIO</span></h1>
+        <p class="text-xl md:text-3xl text-gray-500 max-w-4xl leading-tight font-bold anim-hero">
+            A high-performance <span class="text-gray-900 underline decoration-brand underline-offset-8">Color Systems Workstation</span> designed for artists and developers to build accessible, mathematically balanced design systems.
+        </p>
+    </header>
+
+    <div class="flex flex-wrap gap-4 px-6 max-w-7xl mx-auto mb-20 anim-hero">
+        <a href="https://ranglab.vercel.app/" target="_blank" class="px-10 py-5 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-brand transition-all shadow-2xl">Launch Production Site</a>
+        <a href="https://github.com/pstarz7/rang-frontend" target="_blank" class="px-10 py-5 border border-black text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all">GitHub Repository</a>
+    </div>
+
+    <section class="px-6 md:px-12 max-w-[1600px] mx-auto mb-32">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div class="md:col-span-8 h-[400px] md:h-[600px] pstarz-card anim-reveal">
+                <img src="https://github.com/pstarz7/rang-frontend/raw/main/ranglab.png?raw=true" class="w-full h-full object-cover">
+            </div>
+            
+            <div class="md:col-span-4 h-[400px] md:h-[600px] pstarz-card anim-reveal">
+                <div class="p-10 flex flex-col justify-center h-full">
+                    <h4 class="bebas-font text-5xl mb-6 text-brand">The Vision</h4>
+                    <p class="text-lg font-bold text-gray-700 leading-tight">
+                        Moving beyond random hex generators to bridge the gap between color theory and professional UI design systems.
+                    </p>
+                    <div class="mt-8 pt-8 border-t border-gray-100 flex flex-wrap gap-2">
+                        <span class="ui-badge">Accessible</span>
+                        <span class="ui-badge">Balanced</span>
+                        <span class="ui-badge">Production Ready</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-4 h-[400px] md:h-[600px] pstarz-card anim-reveal">
+                <img src="/images//ranglab-card.png" class="w-full h-full object-cover">
+            </div>
+
+            <div class="md:col-span-8 h-[400px] md:h-[600px] pstarz-card anim-reveal">
+                <img src="https://pstarz.vercel.app/images/ranglab.gif" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white px-6 md:px-12 border-t border-gray-100 overflow-hidden">
+        <div class="max-w-7xl mx-auto anim-reveal">
+            <h2 class="bebas-font text-7xl md:text-9xl mb-16 uppercase text-skew">Target Audience</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="border-l-2 border-brand pl-8">
+                    <p class="text-brand font-black text-xs uppercase mb-3 tracking-widest">01 / Artists</p>
+                    <h4 class="font-black text-2xl mb-4">Color Mastery</h4>
+                    <p class="text-gray-500 font-bold leading-relaxed">Focusing on tonal depth and visual harmony. Artists use Rang.Lab to explore complex palette interactions that standard tools simply miss.</p>
+                </div>
+                <div class="border-l-2 border-brand pl-8">
+                    <p class="text-brand font-black text-xs uppercase mb-3 tracking-widest">02 / UI Designers</p>
+                    <h4 class="font-black text-2xl mb-4">Contrast Validation</h4>
+                    <p class="text-gray-500 font-bold leading-relaxed">Testing design systems on real-world mockups. Rang.Lab handles the WCAG contrast math so designers can focus on aesthetics.</p>
+                </div>
+                <div class="border-l-2 border-brand pl-8">
+                    <p class="text-brand font-black text-xs uppercase mb-3 tracking-widest">03 / Developers</p>
+                    <h4 class="font-black text-2xl mb-4">Export Logic</h4>
+                    <p class="text-gray-500 font-bold leading-relaxed">Translating colors into code. Developers get clean CSS variables, JSON data, and HEX arrays ready for immediate production deployment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-gray-50 border-y border-gray-100 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="bebas-font text-7xl md:text-9xl mb-20 uppercase text-skew anim-reveal">Web App Flow</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 anim-reveal">
+                <div class="p-8 border border-gray-200 bg-white">
+                    <span class="text-brand font-black text-2xl">01</span>
+                    <h4 class="font-black mt-4 uppercase">Initialize</h4>
+                    <p class="text-sm text-gray-500 mt-2">Access as Guest or Register via JWT Auth to unlock cloud storage.</p>
+                </div>
+                <div class="p-8 border border-gray-200 bg-white">
+                    <span class="text-brand font-black text-2xl">02</span>
+                    <h4 class="font-black mt-4 uppercase">Generation</h4>
+                    <p class="text-sm text-gray-500 mt-2">Synthesize palettes using LCH math to maintain constant perceptual weight.</p>
+                </div>
+                <div class="p-8 border border-gray-200 bg-white">
+                    <span class="text-brand font-black text-2xl">03</span>
+                    <h4 class="font-black mt-4 uppercase">Validation</h4>
+                    <p class="text-sm text-gray-500 mt-2">Real-time contrast checking and live UI simulation on mockups.</p>
+                </div>
+                <div class="p-8 border border-gray-200 bg-white">
+                    <span class="text-brand font-black text-2xl">04</span>
+                    <h4 class="font-black mt-4 uppercase">Sync & Export</h4>
+                    <p class="text-sm text-gray-500 mt-2">Saving architecture to folders and exporting system-ready CSS/JSON files.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 md:px-12 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+            <div class="anim-reveal">
+                <h2 class="bebas-font text-7xl md:text-9xl uppercase leading-none text-skew">Core Capabilities</h2>
+                <p class="text-brand font-black text-[10px] uppercase tracking-[0.5em] mt-4">System Features & Functionality</p>
+            </div>
+            <div class="max-w-md anim-reveal">
+                <p class="text-gray-500 font-bold text-lg leading-tight">A suite of professional tools designed to handle the entire color workflow from extraction to production export.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+            
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-shield-check-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">Adaptive WCAG Generation</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">Dynamic color synthesis using LCH math to ensure every generated palette meets strict WCAG 2.1 accessibility standards out of the box.</p>
+            </div>
+
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-stack-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">1000+ Standard Palettes</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">A massive, curated library of accessible color systems. Artists can browse and implement pre-validated palettes for any project type.</p>
+            </div>
+
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-image-edit-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">Visual Color Extraction</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">Advanced extraction logic that samples real-world architecture and nature images to build harmonic palettes and custom image collages.</p>
+            </div>
+
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-cloud-sync-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">Cloud Sync</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">Integrated user accounts allow artists to save and manage their personal collections in a cloud-synced database for cross-device access.</p>
+            </div>
+
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-layout-4-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">Interactive Mockups</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">Test how palettes behave on real UI components. Live visualization provides a preview of typography, buttons, and layouts before deployment.</p>
+            </div>
+
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-eye-off-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">A11y & Blindness Labs</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">Comprehensive testing suite including a built-in WCAG contrast checker and vision simulation for inclusive design verification.</p>
+            </div>
+
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-file-download-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">Universal PNG Export</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">I implemented high-fidelity PNG rendering for palette cards and image collages, making it easy to download and share assets for design reviews.</p>
+            </div>
+
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-terminal-box-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">Dev-Friendly Formats</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">One-click export options for CSS Variables, JSON, and HEX data, bridging the gap between design systems and codebase implementation.</p>
+            </div>
+
+            <div class="anim-reveal group">
+                <div class="w-12 h-12 border border-black flex items-center justify-center mb-6 group-hover:bg-brand group-hover:border-brand transition-all">
+                    <i class="ri-global-line group-hover:text-white text-xl"></i>
+                </div>
+                <h4 class="font-black text-xl mb-4 uppercase tracking-tighter">Global Explorer</h4>
+                <p class="text-sm text-gray-500 font-bold leading-relaxed">Access a growing ecosystem of community-generated palettes to find inspiration and maintain modern design trends.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="px-6 md:px-12 max-w-[1600px] mx-auto mb-32">
+        <div class="mb-12 anim-reveal">
+            <h2 class="bebas-font text-6xl md:text-8xl uppercase leading-none text-skew">Palettes Showcase</h2>
+            <p class="text-brand font-black text-[10px] uppercase tracking-[0.5em] mt-4">WCAG Standard Color's</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div class="md:col-span-12 pstarz-card anim-reveal group overflow-hidden relative" 
+                 style="aspect-ratio: 1152 / 648; height: auto;">
+                
+                <img src="/images/ranglab.gif" 
+                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                     alt="RangLab Palette Interaction">
+                
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-32 px-6 md:px-12 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
+            
+            <div class="lg:col-span-5 anim-reveal">
+                <h2 class="bebas-font text-7xl md:text-8xl uppercase leading-none text-skew mb-10">The Engine</h2>
+                
+                <div class="space-y-10">
+                    <div>
+                        <h4 class="font-black text-xs uppercase text-brand tracking-[0.3em] mb-4">The Concept</h4>
+                        <p class="text-lg font-bold text-gray-700 leading-tight">
+                            Unlike standard generators that pick random RGB values, RangLab utilizes a <span class="text-black underline decoration-brand underline-offset-4">Perceptual LCH Matrix</span>. This ensures every palette is balanced and "Artist-Grade" based on how human eyes actually perceive lightness.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8 border-t border-gray-100">
+                        <div>
+                            <p class="font-black text-[10px] uppercase mb-2">01 / Perceptual Math</p>
+                            <p class="text-sm text-gray-500 font-bold">Calculates colors using LCH (Lightness, Chroma, Hue) rather than digital HEX pixels.</p>
+                        </div>
+                        <div>
+                            <p class="font-black text-[10px] uppercase mb-2">02 / Style Matrices</p>
+                            <p class="text-sm text-gray-500 font-bold">Specific mathematical ranges for Luxury, Retro, and Minimal aesthetics.</p>
+                        </div>
+                        <div>
+                            <p class="font-black text-[10px] uppercase mb-2">03 / Auto-A11y</p>
+                            <p class="text-sm text-gray-500 font-bold">Built-in Lightness logic that guarantees WCAG 2.1 accessibility compliance.</p>
+                        </div>
+                        <div>
+                            <p class="font-black text-[10px] uppercase mb-2">04 / Hue Variance</p>
+                            <p class="text-sm text-gray-500 font-bold">Dynamic complementary harmony calculation using modular arithmetic.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 anim-reveal">
+                <div class="bg-[#0a0a0a] rounded-2xl overflow-hidden shadow-2xl">
+                    <div class="flex items-center gap-2 px-6 py-4 bg-[#141414] border-b border-white/5">
+                        <div class="w-3 h-3 rounded-full bg-red-500/20"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/20"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500/20"></div>
+                        <span class="ml-4 text-[10px] font-mono text-gray-500 uppercase tracking-widest">ColorEngine.js</span>
+                    </div>
+                    
+                    <div class="p-8 font-mono text-[12px] md:text-[13px] leading-relaxed overflow-x-auto">
+<pre class="text-gray-400">
+<span class="text-brand">const</span> <span class="text-white">STYLE_MATRIX</span> = {
+  <span class="text-gray-500">LUXURY</span>: { l: [10, 15, 65, 85, 95], c: [5, 10, 30, 25, 5] },
+  <span class="text-gray-500">RETRO</span>:  { l: [90, 75, 65, 55, 15], c: [15, 40, 70, 80, 30] }
+};
+
+<span class="text-brand">export const</span> <span class="text-white">generatePalette</span> = () => {
+  <span class="text-gray-600">// 1. Pick artistic style anchor</span>
+  <span class="text-brand">const</span> baseHue = Math.random() * <span class="text-yellow-500">360</span>;
+
+  <span class="text-gray-600">// 2. Map LCH perceptual ranges</span>
+  <span class="text-brand">return</span> mode.l.map((lightness, index) => ({
+    hex: chroma.lch(
+      lightness, 
+      mode.c[index], 
+      (baseHue + index * <span class="text-yellow-500">20</span>) % <span class="text-yellow-500">360</span>
+    ).hex()
+  }));
+};
+</pre>
+                    </div>
+                    
+                    <div class="px-8 py-6 bg-brand/5 border-t border-white/5">
+                        <p class="text-[11px] font-bold text-brand leading-relaxed italic">
+                            "I moved away from arbitrary color picking. By implementing LCH mathematics, the engine maintains consistent perceptual brightness across all UI results."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-32 px-6 md:px-12 bg-gray-50 border-y border-gray-100 overflow-hidden">
+    <div class="max-w-[1600px] mx-auto">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 items-start">
+            
+            <div class="lg:col-span-7 anim-reveal">
+                <div class="mb-12">
+                    <h2 class="bebas-font text-7xl md:text-9xl uppercase leading-[0.8] text-skew">Design <br><span class="text-brand">Simulation</span></h2>
+                    <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.5em] mt-6">Perceptual Application / 2026</p>
+                </div>
+
+                <div class="pstarz-card overflow-hidden shadow-2xl group relative" 
+                     style="aspect-ratio: 1152 / 648; height: auto;">
+                    
+                    <img src="/images/ranglab-ui-visual.png" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" 
+                         alt="RangLab UI Mockup Visualization">
+                    
+                    <div class="absolute top-6 left-6">
+                        <div class="flex flex-col gap-2">
+                             <span class="ui-badge bg-black/80 text-white backdrop-blur-md border-none text-[8px] py-2 px-4 shadow-xl">Real-time Rendering</span>
+                             <span class="ui-badge bg-white/80 text-black backdrop-blur-md border-none text-[8px] py-2 px-4 shadow-xl">LCH Logic Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 pt-10 lg:pt-32">
+                <div class="space-y-16">
+                    <div class="anim-reveal">
+                        <h4 class="font-black text-xs uppercase text-brand tracking-[0.3em] mb-6">Validation Core</h4>
+                        <p class="text-xl font-bold text-gray-800 leading-tight">
+                            I engineered a system where color meets function. The <span class="underline decoration-brand underline-offset-4">Live Mockup Engine</span> transforms static palettes into production-ready UI components instantly.
+                        </p>
+                    </div>
+
+                    <div class="space-y-12 anim-reveal">
+                        
+                        <div class="group border-t border-gray-200 pt-8 hover:border-brand transition-colors">
+                            <div class="flex justify-between items-center mb-4">
+                                <h5 class="font-black text-lg uppercase tracking-tighter">WCAG 2.1 Validation</h5>
+                                <i class="ri-check-double-line text-brand text-xl"></i>
+                            </div>
+                            <p class="text-sm text-gray-500 font-bold leading-relaxed">
+                                Automated contrast checking against AA/AAA standards. Perceptual algorithms calculate the distance between text and background to ensure absolute readability.
+                            </p>
+                        </div>
+
+                        <div class="group border-t border-gray-200 pt-8 hover:border-brand transition-colors">
+                            <div class="flex justify-between items-center mb-4">
+                                <h5 class="font-black text-lg uppercase tracking-tighter">Vision Simulation</h5>
+                                <i class="ri-eye-off-line text-brand text-xl"></i>
+                            </div>
+                            <p class="text-sm text-gray-500 font-bold leading-relaxed">
+                                Built-in filters for Protanopia and Deuteranopia. I integrated vision simulation to verify that UX signals remain clear for colorblind users.
+                            </p>
+                        </div>
+
+                        <div class="group border-t border-gray-200 pt-8 hover:border-brand transition-colors">
+                            <div class="flex justify-between items-center mb-4">
+                                <h5 class="font-black text-lg uppercase tracking-tighter">Production Hand-off</h5>
+                                <i class="ri-terminal-box-line text-brand text-xl"></i>
+                            </div>
+                            <p class="text-sm text-gray-500 font-bold leading-relaxed">
+                                Beyond the screen. The engine generates dynamic CSS Variables and JSON schemas, bridging the gap between design theory and production code.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-32 px-6 md:px-12 bg-white border-t border-gray-100">
+    <div class="max-w-[1600px] mx-auto">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24 items-center">
+            
+            <div class="lg:col-span-5 anim-reveal">
+                <h2 class="bebas-font text-7xl md:text-9xl uppercase leading-[0.8] text-skew mb-10">1000+ <br><span class="text-brand">Palette's</span></h2>
+                
+                <div class="space-y-8">
+                    <p class="text-xl font-bold text-gray-800 leading-tight">
+                        I engineered an expansive library of <span class="text-black underline decoration-brand underline-offset-4">WCAG-compliant palettes</span>, giving artists immediate access to production-ready color systems for any creative purpose.
+                    </p>
+
+                    <div class="space-y-6 pt-8 border-t border-gray-100">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center">
+                                <i class="ri-check-line text-brand"></i>
+                            </div>
+                            <p class="text-sm font-bold text-gray-500">Every card is pre-validated for accessibility standards.</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center">
+                                <i class="ri-download-cloud-2-line text-brand"></i>
+                            </div>
+                            <p class="text-sm font-bold text-gray-500">Instant PNG generation for social sharing and design boards.</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-brand/10 flex items-center justify-center">
+                                <i class="ri-cursor-line text-brand"></i>
+                            </div>
+                            <p class="text-sm font-bold text-gray-500">Intuitive "One-Click" copy-to-clipboard functionality.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 anim-reveal">
+                <div class="pstarz-card overflow-hidden shadow-2xl group relative" 
+                     style="aspect-ratio: 1152 / 648; height: auto;">
+                    
+                    <img src="/images/ranglab-palts.gif" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" 
+                         alt="RangLab Palette Collection Interface">
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black/80 to-transparent">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="ui-badge bg-brand text-white border-none text-[8px] mb-2 inline-block">Artist Workspace</span>
+                                <!-- <h4 class="bebas-font text-4xl text-white uppercase tracking-widest">Library Explorer</h4> -->
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white"><i class="ri-image-line text-xs"></i></div>
+                                <!-- <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white"><i class="ri-file-download-line text-xs"></i></div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <section class="py-32 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-20">
+            <div class="anim-reveal">
+                <h3 class="text-xs font-black uppercase tracking-[0.4em] text-brand mb-10">Technical Specifications</h3>
+                <div class="space-y-12">
+                    <div>
+                        <h4 class="font-black text-xl mb-4 uppercase flex items-center gap-4"><i class="ri-code-box-line text-brand"></i> Perceptual Logic</h4>
+                        <p class="text-gray-500 font-bold">Most generators use RGB which is flawed for human eyes. I implemented LCH mapping using Chroma.js to ensure lightness is consistent across all generated hues.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-xl mb-4 uppercase flex items-center gap-4"><i class="ri-shield-flash-line text-brand"></i> Stateful UI</h4>
+                        <p class="text-gray-500 font-bold">Managing a design system requires complex state. I used React Context and custom hooks to ensure the palette updates across mockups and sliders instantly without lag.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-xl mb-4 uppercase flex items-center gap-4"><i class="ri-database-line text-brand"></i> Relational Storage</h4>
+                        <p class="text-gray-500 font-bold">Built a robust backend using Node and MongoDB to handle folder-based project organization, allowing designers to categorize work for different clients.</p>
+                    </div>
+                </div>
+            </div>
+
+           <div class="pstarz-card p-12 bg-gray-50 anim-reveal">
+    <h4 class="bebas-font text-5xl mb-10 uppercase tracking-tighter">Architecture</h4>
+    <div class="file-tree space-y-2 font-mono text-[11px] leading-relaxed">
+        <div class="flex items-center text-gray-400"><span>/</span> Rang-Lab-MERN</div>
+        
+        <div class="pl-5 flex items-center text-brand font-black"><span>/</span> client <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// Frontend Core</span></div>
+        <div class="pl-10 flex items-center"><span>/</span> public</div>
+        <div class="pl-10 flex items-center"><span>/</span> src</div>
+        <div class="pl-15 flex items-center text-gray-400"><span>/</span> assets</div>
+        <div class="pl-15 flex items-center"><span>/</span> components <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// Modular UI</span></div>
+        <div class="pl-15 flex items-center"><span>/</span> context <span class="ml-4 text-[9px] text-brand font-black uppercase tracking-widest">// State Mgmt</span></div>
+        <div class="pl-15 flex items-center"><span>/</span> data</div>
+        <div class="pl-15 flex items-center"><span>/</span> pages <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// View Layers</span></div>
+        <div class="pl-15 flex items-center"><span>/</span> utils <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// Color Logic</span></div>
+        <div class="pl-10 flex items-center pt-2"><span>-</span> package.json</div>
+        <div class="pl-10 flex items-center"><span>-</span> tailwind.config.js</div>
+
+        <div class="pl-5 flex items-center text-brand font-black pt-4"><span>/</span> server <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// Backend API</span></div>
+        <div class="pl-10 flex items-center"><span>/</span> config <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// DB & Env Logic</span></div>
+        <div class="pl-10 flex items-center"><span>/</span> controllers <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// Auth & Palette Logic</span></div>
+        <div class="pl-10 flex items-center"><span>/</span> models <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// Mongoose Schemas</span></div>
+        <div class="pl-10 flex items-center"><span>/</span> routes</div>
+        <div class="pl-10 flex items-center"><span>/</span> middleware <span class="ml-4 text-[9px] text-gray-300 font-normal uppercase tracking-widest">// JWT Verification</span></div>
+        <div class="pl-10 flex items-center font-black"><span>-</span> index.js <span class="ml-2 text-brand text-[9px]">[ENTRY]</span></div>
+
+        <div class="pl-5 pt-4 space-y-1 border-t border-gray-100 mt-4">
+            <div class="flex items-center text-gray-400"><span>-</span> .gitignore</div>
+            <div class="flex items-center"><span>-</span> README.md</div>
+        </div>
+    </div>
+    
+    <div class="mt-12 pt-8 border-t border-gray-200">
+        <p class="text-xs italic text-gray-400">"Separating client and server concerns ensures a highly maintainable and professional MERN architecture."</p>
+    </div>
+</div>
+    </section>
+
+
+<section class="py-32 px-6 md:px-12 bg-gray-50 border-y border-gray-100 overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+        
+        <div class="mb-20 anim-reveal">
+            <h2 class="bebas-font text-7xl md:text-9xl uppercase leading-[0.8] text-skew">Development <br><span class="text-brand">Strategy</span></h2>
+            <p class="text-gray-400 font-bold uppercase text-[10px] tracking-[0.5em] mt-6">Logic, Debugging & Workflow Efficiency</p>
+        </div>
+
+        <div class="anim-reveal mb-32">
+            <h4 class="font-black text-xs uppercase text-brand tracking-[0.3em] mb-10">Technical Debugging Log</h4>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b-2 border-black">
+                            <th class="py-6 bebas-font text-3xl uppercase tracking-widest w-1/3">The Challenge</th>
+                            <th class="py-6 bebas-font text-3xl uppercase tracking-widest">The Engineering Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="py-8 pr-10">
+                                <h5 class="font-black text-lg uppercase">Visual Bleeding</h5>
+                                <p class="text-sm text-gray-500 font-bold mt-2">Light hues often became invisible against the white application background.</p>
+                            </td>
+                            <td class="py-8">
+                                <p class="text-base font-bold text-gray-800">Developed a dynamic stroke logic. Every color pod receives a calculated 8% contrast border based on its luminance to ensure visibility across the UI.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-8 pr-10">
+                                <h5 class="font-black text-lg uppercase">Responsive Breakage</h5>
+                                <p class="text-sm text-gray-500 font-bold mt-2">Tablet viewports caused color pods to overflow and cut off the layout.</p>
+                            </td>
+                            <td class="py-8">
+                                <p class="text-base font-bold text-gray-800">Replaced static Flexbox with a fluid CSS Grid. Implemented min-w-0 constraints and dynamic column spans to keep the data container flexible.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-8 pr-10">
+                                <h5 class="font-black text-lg uppercase">Perceptual Variance</h5>
+                                <p class="text-sm text-gray-500 font-bold mt-2">Standard HEX math resulted in palettes with inconsistent visual weights.</p>
+                            </td>
+                            <td class="py-8">
+                                <p class="text-base font-bold text-gray-800">Migrated the engine to LCH color space. This ensures perceptual uniformity, meaning every shade in a palette feels equally bright to the eye.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-32">
+            <div class="lg:col-span-5 anim-reveal">
+                <h3 class="bebas-font text-6xl uppercase leading-none mb-8">Engineering <br>& <span class="text-brand">Workflow</span></h3>
+                <p class="text-lg font-bold text-gray-600 leading-relaxed">
+                    To maintain high standards of performance and design, I treat my development environment as an integrated workspace. I leverage modern tools and Generative AI as a <span class="text-black">senior pair-programmer</span> for expert guidance on complex logic and rapid error fixing.
+                </p>
+                <div class="mt-8 p-6 border-l-2 border-brand bg-white">
+                    <p class="text-sm font-bold text-gray-800 italic">"I don’t apply code directly. I treat smart guidance as a resource—analyzing the logic, scanning for edge cases, and then implementing the solution that fits the project architecture."</p>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6 anim-reveal">
+                <div class="pstarz-card p-8 bg-white">
+                    <h5 class="font-black text-[10px] uppercase text-gray-300 mb-4 tracking-widest">Time Management</h5>
+                    <p class="text-sm text-gray-500 font-bold">By using AI to handle boilerplate and standard logic, I freed up time to focus on complex UX interactions and custom animations.</p>
+                </div>
+                <div class="pstarz-card p-8 bg-white">
+                    <h5 class="font-black text-[10px] uppercase text-gray-300 mb-4 tracking-widest">Logic Optimization</h5>
+                    <p class="text-sm text-gray-500 font-bold">Collaborated with smart tools to refine HSL-to-HEX conversion math and improve the precision of the LCH color engine.</p>
+                </div>
+                <div class="pstarz-card p-8 bg-white">
+                    <h5 class="font-black text-[10px] uppercase text-gray-300 mb-4 tracking-widest">Error Fixing</h5>
+                    <p class="text-sm text-gray-500 font-bold">Utilized senior-level debugging guidance to identify complex race conditions in React hooks and nested CSS hierarchy conflicts.</p>
+                </div>
+                <div class="pstarz-card p-8 bg-white">
+                    <h5 class="font-black text-[10px] uppercase text-gray-300 mb-4 tracking-widest">Architectural Check</h5>
+                    <p class="text-sm text-gray-500 font-bold">Regularly cross-verified state management patterns to ensure the frontend remains scalable and follows the latest best practices.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-black text-white p-12 md:p-20 anim-reveal">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div>
+                    <h6 class="text-brand font-black text-[10px] uppercase tracking-widest mb-4">Precision</h6>
+                    <p class="font-bold text-xl leading-none">Balanced LCH Color Matrices.</p>
+                </div>
+                <div>
+                    <h6 class="text-brand font-black text-[10px] uppercase tracking-widest mb-4">Speed</h6>
+                    <p class="font-bold text-xl leading-none">Fast Iteration & Debugging cycles.</p>
+                </div>
+                <div>
+                    <h6 class="text-brand font-black text-[10px] uppercase tracking-widest mb-4">Standard</h6>
+                    <p class="font-bold text-xl leading-none">100% WCAG Verified A11y.</p>
+                </div>
+                <div>
+                    <h6 class="text-brand font-black text-[10px] uppercase tracking-widest mb-4">Mindset</h6>
+                    <p class="font-bold text-xl leading-none">Analyze, Refine, Implement.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+        <section class="py-24 bg-white border-t border-gray-100 px-6">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-center gap-3 anim-reveal">
+   <span class="ui-badge">MongoDB Atlas</span>
+                <span class="ui-badge">Express.js</span>
+                <span class="ui-badge">React.js</span>
+                <span class="ui-badge">Node.js</span>
+                <span class="ui-badge">Tailwind CSS</span>
+                <span class="ui-badge">GSAP Engine</span>
+                <span class="ui-badge">Chroma.js</span>
+                <span class="ui-badge">JWT Auth</span>
+                <span class="ui-badge">Google OAuth</span>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white py-40 px-6 text-center overflow-hidden">
+        <div class="max-w-4xl mx-auto">
+            <i class="ri-heart-fill text-brand text-4xl mb-8 inline-block anim-reveal"></i>
+            <h2 class="lobster-font text-5xl md:text-7xl mb-10 anim-reveal">Thanks for Reading.</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 anim-reveal">
+                <a href="/Pages/contact.html" class="px-12 py-5 bg-white text-black font-black text-[10px] uppercase tracking-widest hover:bg-brand hover:text-white transition-all shadow-xl">Contact the Developer</a>
+                <a href="/Pages/projects.html" class="text-[10px] font-black uppercase tracking-[0.5em] text-gray-500 hover:text-brand">View All Works</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const lenis = new Lenis({ autoRaf: true, smooth: true });
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Skew Effect Logic
+        let proxy = { skew: 0 },
+            skewSetter = gsap.quickSetter(".text-skew", "skewY", "deg"),
+            clampSkew = gsap.utils.clamp(-2, 2);
+
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                let skew = clampSkew(self.getVelocity() / -400);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, { skew: 0, duration: 0.8, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew) });
+                }
+            }
+        });
+
+        // Animations Reveal
+        gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power4.out" });
+        document.querySelectorAll('.anim-reveal').forEach(el => {
+            gsap.from(el, { y: 60, opacity: 0, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 90%" } });
+        });
+
+        // Custom Cursor
+        const cursor = document.querySelector('#cursor');
+        window.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
+        document.querySelectorAll('a, .pstarz-card').forEach(el => {
+            el.onmouseenter = () => { cursor.style.width = '80px'; cursor.style.height = '80px'; cursor.style.background = 'white'; };
+            el.onmouseleave = () => { cursor.style.width = '10px'; cursor.style.height = '10px'; cursor.style.background = '#ee373c'; };
+        });
+
+        // Magnetic Hover
+        document.querySelectorAll('.magnetic').forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+                const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+                gsap.to(item, { x, y, duration: 0.3 });
+            });
+            item.addEventListener('mouseleave', () => gsap.to(item, { x: 0, y: 0, duration: 0.5 }));
+        });
+    </script>
+</body>
+
+</html>
