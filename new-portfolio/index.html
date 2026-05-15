@@ -161,9 +161,59 @@
             </div>
         </section>
 
+
         <section id="about-details" class="py-32 md:py-48 px-6 md:px-12 bg-white text-black border-t border-gray-100 relative overflow-hidden">
             <div class="max-w-[1500px] mx-auto">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6 about-fade-up">
+=======
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+            
+            <!-- Left Column: Bio, Open Source & Stats -->
+            <div class="lg:col-span-7 flex flex-col gap-10">
+                
+                <!-- Main Bio -->
+                <div class="text-lg md:text-xl font-medium text-gray-600 leading-relaxed max-w-3xl about-fade-up">
+                    <p class="mb-6">
+                        I'm a junior <strong class="text-gray-900 font-bold">Frontend Developer</strong> with around <strong class="text-gray-900 font-bold">1+ year of experience</strong> building modern, responsive web applications through personal and collaborative projects. I specialize in bridging the gap between design and engineering, utilizing React.js, Tailwind CSS, and GSAP to craft engaging, high-performance user experiences.
+                    </p>
+                    <p>
+                        Beyond just writing code, I am passionate about building clean, WCAG-accessible, and well-structured interfaces. I am currently seeking opportunities with dynamic companies and am <strong class="text-gray-900 font-bold">available for both remote and on-site roles</strong>, where I can continuously grow and contribute to impactful projects.
+                    </p>
+                </div>
+
+                <!-- NEW: Open Source & Tools Cards -->
+                <div class="flex flex-col gap-6 about-fade-up border-t border-gray-200 pt-8 mt-2">
+                    <h3 class="text-xs font-black uppercase tracking-[0.3em] text-gray-900 mb-2 flex items-center gap-4">
+                        <span class="w-8 h-[2px] bg-brand"></span> Currently Building
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Easely.js Card -->
+                        <a href="https://pstarz7.github.io/Easely.js/" target="_blank" class="group block border border-gray-200 p-6 hover:border-brand transition-colors bg-gray-50/50 hover:bg-white">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="text-3xl font-black uppercase tracking-tighter group-hover:text-brand transition-colors leading-none">Easely.js</h4>
+                                <i class="ri-arrow-right-up-line text-2xl text-gray-400 group-hover:text-brand transition-colors"></i>
+                            </div>
+                            <p class="text-[10px] font-black uppercase tracking-widest text-brand mb-3">NPM v1.0.5</p>
+                            <p class="text-sm font-medium text-gray-600 leading-snug">An early-stage, <span class="relative z-10 font-bold text-gray-900 after:content-[''] after:absolute after:bottom-1 after:left-0 after:w-full after:h-[40%] after:bg-brand/30 after:-z-10">GSAP-powered animation library</span> designed to make complex UI motion effortless for modern web interfaces.</p>
+                        </a>
+
+                        <!-- RangLab Card -->
+                        <a href="https://pstarz.vercel.app/project-pvw/ranglab.html" target="_blank" class="group block border border-gray-200 p-6 hover:border-brand transition-colors bg-gray-50/50 hover:bg-white">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="text-3xl font-black uppercase tracking-tighter group-hover:text-brand transition-colors leading-none">RangLab</h4>
+                                <i class="ri-arrow-right-up-line text-2xl text-gray-400 group-hover:text-brand transition-colors"></i>
+                            </div>
+                            <p class="text-[10px] font-black uppercase tracking-widest text-brand mb-3">Color Studio</p>
+                            <p class="text-sm font-medium text-gray-600 leading-snug">A suite for creatives offering 1000+ <span class="relative z-10 font-bold text-gray-900 after:content-[''] after:absolute after:bottom-1 after:left-0 after:w-full after:h-[40%] after:bg-brand/30 after:-z-10">WCAG-standard palettes</span>, image color extraction, generation, and advanced a11y color-blind testing.</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mini Resume / Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8 border-t border-gray-200 pt-10 mt-2 about-fade-up">
+
                     <div>
                         <span class="text-brand font-black text-xs uppercase tracking-[0.5em] mb-4 block">Who I Am</span>
                         <h2 class="bebas-font text-6xl md:text-[8vw] uppercase leading-none tracking-tighter text-skew text-gray-900">Behind the <span class="text-brand capitalize text-5xl md:text-[6vw]">Code</span></h2>
