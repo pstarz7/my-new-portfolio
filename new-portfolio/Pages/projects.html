@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Work | Papu Badatya</title>
 
+    <!-- Speed Optimization: Preconnect to CDNs -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -32,9 +37,9 @@
         /* Universal Master Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
         
-        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Regular.woff2') format('woff2'); font-weight: 400; }
-        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Bold.woff2') format('woff2'); font-weight: 700; }
-        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Heavy.woff2') format('woff2'); font-weight: 900; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Heavy.woff2') format('woff2'); font-weight: 900; font-display: swap; }
 
         html, body { width: 100%; overflow-x: clip; background-color: #fff; color: var(--black); font-family: 'Gilroy', sans-serif; -webkit-font-smoothing: antialiased; }
 
@@ -49,6 +54,7 @@
             position: fixed; width: 10px; height: 10px; background: var(--brand); border-radius: 50% !important;
             pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); display: none;
             mix-blend-mode: difference; transition: width 0.3s, height 0.3s;
+            will-change: transform, width, height;
         }
         @media (hover: hover) and (pointer: fine) { #cursor { display: block; } body { cursor: none; } }
 
@@ -57,18 +63,20 @@
             position: fixed; inset: 0; background: var(--black); z-index: 2000;
             display: flex; flex-direction: column; justify-content: center; padding: 10%;
             clip-path: circle(0% at 100% 0%); transition: clip-path 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+            will-change: clip-path;
         }
         #mobile-nav-overlay.active { clip-path: circle(150% at 100% 0%); }
 
-        /* Project Card Awwwards UI */
+        /* Project Card Awwwards UI - Hardware Accelerated */
         .project-card { 
             position: relative; overflow: hidden; background: #fff; 
             border: 1px solid #f3f4f6; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, border-color, box-shadow;
         }
         .project-card:hover { border-color: var(--brand); transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
         
         .image-wrapper { width: 100%; height: 260px; overflow: hidden; position: relative; background: #f9f9f9; }
-        .project-image { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .project-image { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
         .project-card:hover .project-image { transform: scale(1.1); }
 
         .tech-item { font-size: 10px; font-weight: 900; text-transform: uppercase; padding: 4px 10px; background: #f3f4f6; color: #4b5563; margin-right: 6px; margin-bottom: 6px; display: inline-block; transition: all 0.3s; }
@@ -99,7 +107,11 @@
         </div>
     </div>
 
-
+    <div id="preloader">
+        <p class="quote-font text-2xl italic opacity-0 translate-y-4 text-center px-10" id="loader-quote">
+            "I have no special talent. I am only passionately curious."
+        </p>
+    </div>
 
     <nav class="fixed top-0 left-0 w-full z-[100] px-6 md:px-12 py-8 flex justify-between items-center mix-blend-difference text-white">
         <a href="/index.html" class="font-black text-2xl tracking-tighter uppercase magnetic leading-none">Pstarz<span class="text-brand">.</span></a>
@@ -134,7 +146,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <a href="/project-pvw/dairy.html" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/diary.gif" alt="Diary-Story Writer" class="project-image"><span class="project-category">Full-Stack - UI</span></div>
+                        <div class="image-wrapper"><img src="/images/diary.gif" loading="lazy" decoding="async" alt="Diary-Story Writer" class="project-image"><span class="project-category">Full-Stack - UI</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand transition-colors tracking-tighter">Diary-Story Writer</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A full-stack collaboration project. I built the frontend while my brother handled the backend.</p>
@@ -142,7 +154,7 @@
                         </div>
                     </a>
                     <a href="/project-pvw/ranglab.html" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/ranglab.png" alt="ResumeCraft" class="project-image"><span class="project-category">MERN Stack</span></div>
+                        <div class="image-wrapper"><img src="/images/ranglab.png" loading="lazy" decoding="async" alt="ResumeCraft" class="project-image"><span class="project-category">MERN Stack</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand transition-colors tracking-tighter">Ranglab Studio</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A high-end color workstation for creators to generate, visualize, and organize professional palettes. Features include LCH-based color math, image extraction, and live UI mockups with secure cloud storage for project assets.</p>
@@ -152,7 +164,7 @@
                         </div>
                     </a>
                     <a href="https://cureit-web-app-fyj5.vercel.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/cureit.gif" alt="CureIt Project" class="project-image"><span class="project-category">Full-Stack-AI</span></div>
+                        <div class="image-wrapper"><img src="/images/cureit.gif" loading="lazy" decoding="async" alt="CureIt Project" class="project-image"><span class="project-category">Full-Stack-AI</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand transition-colors tracking-tighter">CureIt</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A platform designed to help users easily understand their medications using Gemini AI.</p>
@@ -172,17 +184,15 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <a href="https://pstarz7.github.io/leafy/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/Leafy.png" class="project-image"><span class="project-category">Frontend UI</span></div>
+                        <div class="image-wrapper"><img src="/images/Leafy.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Frontend UI</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Leafy</h3>
-                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A beautifully designed, feel-good plant guide website featuring a fully responsive dashboard with a thoughtfully crafted color palette and typography.
-
-</p>
+                            <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A beautifully designed, feel-good plant guide website featuring a fully responsive dashboard with a thoughtfully crafted color palette and typography.</p>
                             <div class="flex flex-wrap"><span class="tech-item">HTML</span><span class="tech-item">TailwindCSS</span><span class="tech-item">GSAP</span><span class="tech-item">ScrollTrigger</span><span class="tech-item">Javascript</span><span class="tech-item">JSON</span><span class="tech-item">Dashbord</span><span class="tech-item">Responsive Ui</span></div>
                         </div>
                     </a>
                     <a href="https://sanveeflowers.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/sanveeFlower.png" class="project-image"><span class="project-category">Flower UI</span></div>
+                        <div class="image-wrapper"><img src="/images/sanveeFlower.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Flower UI</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Sanvee Flowers</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Concept flower UI website with a fully aesthetic and responsive UI.</p>
@@ -190,7 +200,7 @@
                         </div>
                     </a>
                     <a href="https://sanshop7.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/sanshop.png" class="project-image"><span class="project-category">Frontend UI</span></div>
+                        <div class="image-wrapper"><img src="/images/sanshop.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Frontend UI</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Sanshop</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A beautiful frontend for a concept premium supplement shop, fully responsive.</p>
@@ -198,8 +208,8 @@
                         </div>
                     </a>
 
-                       <a href="https://resume-craft-three.vercel.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/resume.gif" alt="ResumeCraft" class="project-image"><span class="project-category">Frontend & Backend</span></div>
+                    <a href="https://resume-craft-three.vercel.app/" target="_blank" class="project-card group anim-up">
+                        <div class="image-wrapper"><img src="/images/resume.gif" loading="lazy" decoding="async" alt="ResumeCraft" class="project-image"><span class="project-category">Frontend & Backend</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand transition-colors tracking-tighter">ResumeCraft</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A fully functional web app that allows users to create and download professional resumes.</p>
@@ -208,7 +218,7 @@
                     </a>
                     
                     <a href="https://trackyo.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/banner.png" class="project-image"><span class="project-category">Frontend</span></div>
+                        <div class="image-wrapper"><img src="/images/banner.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Frontend</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Trackyo</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Responsive job tracker built with JavaScript and Firebase integration.</p>
@@ -216,7 +226,7 @@
                         </div>
                     </a>
                     <a href="https://sanimx-gsap-animations.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/sanimx.png" class="project-image"><span class="project-category">Library</span></div>
+                        <div class="image-wrapper"><img src="/images/sanimx.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Library</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">SANimX Library</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A lightweight animation library of ready-to-use GSAP effects.</p>
@@ -224,7 +234,7 @@
                         </div>
                     </a>
                     <a href="https://shinchan-kdg.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/kdg.png" class="project-image"><span class="project-category">Fan UI</span></div>
+                        <div class="image-wrapper"><img src="/images/kdg.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Fan UI</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Shinchan Page</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A beautiful Shinchan fan page with aesthetic UI and GSAP animations.</p>
@@ -232,7 +242,7 @@
                         </div>
                     </a>
                     <a href="https://pstarz7.github.io/QuoteStudio/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/quotestudio.png" class="project-image"><span class="project-category">Vibe Coding</span></div>
+                        <div class="image-wrapper"><img src="/images/quotestudio.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Vibe Coding</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Quote Maker</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Generate quotes and create quote posts on this AI-powered website.</p>
@@ -240,7 +250,7 @@
                         </div>
                     </a>
                     <a href="https://my-portfolio-pb7.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/react.png" class="project-image"><span class="project-category">React</span></div>
+                        <div class="image-wrapper"><img src="/images/react.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">React</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">React Portfolio</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Responsive portfolio website built with React and Tailwind architecture.</p>
@@ -248,7 +258,7 @@
                         </div>
                     </a>
                     <a href="https://cozy-sprinkles-67caf9.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/pstarz.png" class="project-image"><span class="project-category">UI Design</span></div>
+                        <div class="image-wrapper"><img src="/images/pstarz.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">UI Design</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">T-Shirt Page</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A clean, responsive frontend UI for a custom T-shirt landing page.</p>
@@ -256,7 +266,7 @@
                         </div>
                     </a>
                     <a href="https://the-batman12.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/batman4.png" class="project-image"><span class="project-category">Animation</span></div>
+                        <div class="image-wrapper"><img src="/images/batman4.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Animation</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">The Batman</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Franchise interactive website with immersive motion effects.</p>
@@ -264,7 +274,7 @@
                         </div>
                     </a>
                     <a href="https://aniwave7.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/aniwave7.png" class="project-image"><span class="project-category">Fan Page</span></div>
+                        <div class="image-wrapper"><img src="/images/aniwave7.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Fan Page</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Naruto FanPage</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A dynamic and colorful fan page UI featuring high-impact visuals.</p>
@@ -272,7 +282,7 @@
                         </div>
                     </a>
                     <a href="https://chimerical-tanuki-6fc385.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/antlacticui.png" class="project-image"><span class="project-category">UI/UX</span></div>
+                        <div class="image-wrapper"><img src="/images/antlacticui.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">UI/UX</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Property Page</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Beautifully designed landing page for premium property listings.</p>
@@ -280,7 +290,7 @@
                         </div>
                     </a>
                     <a href="https://calm-entremet-634b3c.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/sanUi.png" class="project-image"><span class="project-category">UI Design</span></div>
+                        <div class="image-wrapper"><img src="/images/sanUi.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">UI Design</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Library UI</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A modern and minimalistic frontend UI for an online library system.</p>
@@ -288,7 +298,7 @@
                         </div>
                     </a>
                     <a href="https://tangerine-bavarois-4789c0.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/piretedcoder.png" class="project-image"><span class="project-category">EdTech</span></div>
+                        <div class="image-wrapper"><img src="/images/piretedcoder.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">EdTech</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Piretcoder UI</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Sleek UI design for an online educational platform experience.</p>
@@ -296,7 +306,7 @@
                         </div>
                     </a>
                     <a href="https://sai-intellect-solution-ui.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/saiint.png" class="project-image"><span class="project-category">UI</span></div>
+                        <div class="image-wrapper"><img src="/images/saiint.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">UI</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Assignment UI</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Academic assignment interface design focusing on usability.</p>
@@ -304,7 +314,7 @@
                         </div>
                     </a>
                     <a href="https://nirakar-and-sons.netlify.app/" target="_blank" class="project-card group anim-up">
-                        <div class="image-wrapper"><img src="/images/nirakar-and-sons.png" class="project-image"><span class="project-category">Landing Page</span></div>
+                        <div class="image-wrapper"><img src="/images/nirakar-and-sons.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Landing Page</span></div>
                         <div class="p-8">
                             <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Furniture Page</h3>
                             <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Landing page UI for a local furniture shop branding.</p>
@@ -323,8 +333,8 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
-                       <a href="#" target="_blank" class="project-card group anim-up">
-                    <div class="image-wrapper"><img src="/images/orbit.png" class="project-image"><span class="project-category">Mern Upcoming</span></div>
+                <a href="#" target="_blank" class="project-card group anim-up">
+                    <div class="image-wrapper"><img src="/images/orbit.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Mern Upcoming</span></div>
                     <div class="p-8">
                         <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Orbit for job hunters</h3>
                         <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A web app that aggregates HR and job listings from multiple sources in a clean, user-friendly format. Currently in development, with upcoming features like AI-powered resume optimization using the Gemini API, personalized recommendations, and a dashboard.</p>
@@ -332,8 +342,8 @@
                     </div>
                 </a>
 
-                    <a href="#" target="_blank" class="project-card group anim-up">
-                    <div class="image-wrapper"><img src="/images/savio.png" class="project-image"><span class="project-category">React Native upcoming</span></div>
+                <a href="#" target="_blank" class="project-card group anim-up">
+                    <div class="image-wrapper"><img src="/images/savio.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">React Native upcoming</span></div>
                     <div class="p-8">
                         <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Savio App</h3>
                         <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">An ongoing side project focused on learning and hands-on development.</p>
@@ -341,8 +351,8 @@
                     </div>
                 </a>
 
-                  <a href="https://imagify-landing-page.netlify.app/" target="_blank" class="project-card group anim-up">
-                    <div class="image-wrapper"><img src="/images/imagify-banner.gif" class="project-image"><span class="project-category">React Native</span></div>
+                <a href="https://imagify-landing-page.netlify.app/" target="_blank" class="project-card group anim-up">
+                    <div class="image-wrapper"><img src="/images/imagify-banner.gif" loading="lazy" decoding="async" class="project-image"><span class="project-category">React Native</span></div>
                     <div class="p-8">
                         <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Imgify</h3>
                         <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">It's a small React Native learning project, exploring app development.</p>
@@ -350,10 +360,8 @@
                     </div>
                 </a>
 
-
-                
                 <a href="https://cyclesync7.netlify.app/" target="_blank" class="project-card group anim-up">
-                    <div class="image-wrapper"><img src="/images/CycleSync.png" class="project-image"><span class="project-category">Planning</span></div>
+                    <div class="image-wrapper"><img src="/images/CycleSync.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Planning</span></div>
                     <div class="p-8">
                         <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">CycleSync</h3>
                         <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Fertility app tracking cycle using temperature and probability logic.</p>
@@ -361,7 +369,7 @@
                     </div>
                 </a>
                 <a href="https://weathapp17.netlify.app/" target="_blank" class="project-card group anim-up">
-                    <div class="image-wrapper"><img src="/images/weather-app.png" class="project-image"><span class="project-category">Web App</span></div>
+                    <div class="image-wrapper"><img src="/images/weather-app.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Web App</span></div>
                     <div class="p-8">
                         <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Weather App</h3>
                         <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">A responsive web app displaying real-time weather forecasts via API.</p>
@@ -369,7 +377,7 @@
                     </div>
                 </a>
                 <a href="https://comfy-boba-7814ac.netlify.app/" target="_blank" class="project-card group anim-up">
-                    <div class="image-wrapper"><img src="/images/gsap-animtion.png" class="project-image"><span class="project-category">Experiment</span></div>
+                    <div class="image-wrapper"><img src="/images/gsap-animtion.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Experiment</span></div>
                     <div class="p-8">
                         <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">GSAP Playground</h3>
                         <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Testing complex motion using GSAP and Lenis.js physics.</p>
@@ -377,7 +385,7 @@
                     </div>
                 </a>
                 <a href="https://bejewelled-rabanadas-6891a3.netlify.app/" target="_blank" class="project-card group anim-up">
-                    <div class="image-wrapper"><img src="/images/deskport.png" class="project-image"><span class="project-category">DOM</span></div>
+                    <div class="image-wrapper"><img src="/images/deskport.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">DOM</span></div>
                     <div class="p-8">
                         <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Desktop Port</h3>
                         <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">OS interface practice project focusing on advanced DOM manipulation.</p>
@@ -385,7 +393,7 @@
                     </div>
                 </a>
                 <a href="https://vocal-peony-94abda.netlify.app/" target="_blank" class="project-card group anim-up">
-                    <div class="image-wrapper"><img src="/images/nab respons.png" class="project-image"><span class="project-category">Layout</span></div>
+                    <div class="image-wrapper"><img src="/images/nab respons.png" loading="lazy" decoding="async" class="project-image"><span class="project-category">Layout</span></div>
                     <div class="p-8">
                         <h3 class="text-2xl font-black uppercase mb-3 group-hover:text-brand tracking-tighter">Navbar Logic</h3>
                         <p class="text-gray-500 font-bold text-sm leading-relaxed mb-6">Experimenting with complex responsive navigation and CSS Flexbox systems.</p>
@@ -500,12 +508,12 @@
             gsap.from(el, { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 95%" } });
         });
 
-        // Preloader Logic
-       
+        // Preloader Logic (Fast Load Fix)
+        document.addEventListener("DOMContentLoaded", () => {
+            const tl = gsap.timeline();
+            tl.to("#loader-quote", { opacity: 1, y: 0, duration: 0.8 })
+              .to("#preloader", { yPercent: -100, duration: 1, ease: "power4.inOut", delay: 0.3 });
+        });
     </script>
 </body>
 </html>
-
-
-
-

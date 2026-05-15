@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>About | Papu Badatya</title>
 
+    <!-- Speed Optimization: Preconnect to CDNs -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,9 +40,10 @@
         /* Universal Reset matching Master System */
         * { margin: 0; padding: 0; box-sizing: border-box; border-radius: 0 !important; }
         
-        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Regular.woff2') format('woff2'); font-weight: 400; }
-        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Bold.woff2') format('woff2'); font-weight: 700; }
-        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Heavy.woff2') format('woff2'); font-weight: 900; }
+        /* Font display swap for instant text rendering */
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+        @font-face { font-family: 'Gilroy'; src: url('/fonts/Gilroy-Heavy.woff2') format('woff2'); font-weight: 900; font-display: swap; }
 
         html, body { width: 100%; overflow-x: clip; background-color: #fff; color: var(--black); font-family: 'Gilroy', sans-serif; -webkit-font-smoothing: antialiased; }
 
@@ -53,11 +60,12 @@
         .lobster-font { font-family: 'Lobster', cursive; }
         .quote-font { font-family: "Playfair Display", serif; }
 
-        /* Custom Cursor */
+        /* Custom Cursor - Hardware Accelerated */
         #cursor {
             position: fixed; width: 10px; height: 10px; background: var(--brand); border-radius: 50% !important;
             pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); display: none;
             mix-blend-mode: difference; transition: width 0.3s, height 0.3s, background 0.3s;
+            will-change: transform, width, height, background;
         }
         @media (hover: hover) and (pointer: fine) { #cursor { display: block; } body { cursor: none; } }
 
@@ -66,6 +74,7 @@
             position: fixed; inset: 0; background: var(--black); z-index: 2000;
             display: flex; flex-direction: column; justify-content: center; padding: 10%;
             clip-path: circle(0% at 100% 0%); transition: clip-path 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+            will-change: clip-path;
         }
         #mobile-nav-overlay.active { clip-path: circle(150% at 100% 0%); }
 
@@ -74,6 +83,7 @@
         .swiper-slide img {
             width: 280px; height: 380px; object-fit: cover;
             filter: grayscale(100%); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, filter;
         }
         .swiper-slide:hover img { filter: grayscale(0%); transform: scale(1.05); }
 
@@ -88,7 +98,7 @@
             transition: background-size 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .skill-card { border: 1px solid #f1f1f1; transition: all 0.4s ease; }
+        .skill-card { border: 1px solid #f1f1f1; transition: all 0.4s ease; will-change: border-color, background; }
         .skill-card:hover { border-color: var(--brand); background: #fafafa; }
         
         .magnetic { display: inline-block; }
@@ -106,11 +116,8 @@
             <a href="about.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">About ME</a>
             <a href="https://drive.google.com/file/d/1APWnAnjammw-NeIvOT-bOlUuu7AARkcH/view?usp=sharing" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Resume</a>
             <a href="contact.html" class="menu-link text-white text-6xl md:text-8xl font-black uppercase hover:text-brand tracking-tighter">Contact</a>
-
         </div>
     </div>
-
-   
 
     <nav class="fixed top-0 left-0 w-full z-[100] px-6 md:px-12 py-8 flex justify-between items-center mix-blend-difference text-white">
         <a href="/index.html" class="font-black text-2xl tracking-tighter uppercase magnetic leading-none">Pstarz<span class="text-brand">.</span></a>
@@ -158,7 +165,7 @@
                     </div>
                 </div>
                 <div class="relative h-[65vh] bg-gray-100 overflow-hidden shadow-2xl anim-up">
-                    <img src="/images/ps5.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+                    <img src="/images/ps5.jpg" loading="lazy" decoding="async" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
                 </div>
             </div>
         </section>
@@ -170,16 +177,16 @@
             </div>
             <div class="swiper px-6 md:px-12">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="/images/pstar-wtrfl.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/IMG-20250329-WA0015.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-32.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-36.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-07.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-13.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/IMG_20250330_121828.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/IMG-20250329-WA0037.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/shiro with me.jpg"></div>
-                    <div class="swiper-slide"><img src="/images/IMG_20250712_223124.jpg"></div>
+                    <div class="swiper-slide"><img src="/images/pstar-wtrfl.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/IMG-20250329-WA0015.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-32.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-36.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-07.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/photo_2025-07-12_23-04-13.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/IMG_20250330_121828.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/IMG-20250329-WA0037.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/shiro with me.jpg" loading="lazy" decoding="async"></div>
+                    <div class="swiper-slide"><img src="/images/IMG_20250712_223124.jpg" loading="lazy" decoding="async"></div>
                 </div>
             </div>
         </section>
@@ -327,8 +334,6 @@
                 }
             }
         });
-
-        
 
         // Swiper Gallery
         const swiper = new Swiper('.swiper', {
